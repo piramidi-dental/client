@@ -1,0 +1,40 @@
+
+/*
+* Media queries
+*/
+
+// 576px
+@mixin mediaXs {
+  @media (min-width: $breakpoint-200) {
+    @content;
+  }
+}
+
+// 768px
+@mixin mediaSm {
+  @media (min-width: $breakpoint-300) {
+    @content;
+  }
+}
+
+// 1024px
+@mixin mediaMd {
+  @media (min-width: $breakpoint-400) {
+    @content;
+  }
+}
+
+// 1200px
+@mixin mediaLg {
+  @media (min-width: $breakpoint-500) {
+    @content;
+  }
+}
+
+// 1360px
+@mixin mediaXl {
+  @media (min-width: $breakpoint-600) {
+    @content;
+  }
+}
+

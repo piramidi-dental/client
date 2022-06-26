@@ -2,7 +2,7 @@
 div.first-test
   h1 hola
   p {{ title }} 
-  //- img(src="~/assets/images/client_logo-circle.svg")
+  img(src="/images/client_logo-circle.svg")
   button(@click="addTitle('Lara')") press button
 </template>
 
@@ -17,8 +17,10 @@ const addTitle = (name: string) => {
 
 <style lang="scss" scoped>
 .first-test {
+  margin: $space-400;
   h1 {
-    font-size: 32px;
+    @include txt-title-400;
+    color: $color-primary;
   }
 }
 </style>

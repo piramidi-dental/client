@@ -14,10 +14,20 @@ export default defineNuxtConfig({
     ]
   },
 
-  css: [
-    'reset-css',
-    '~/assets/scss/main.scss'
-  ],
+  css: ['~/assets/scss/main.scss'],
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+            additionalData: `
+              @import "@/assets/scss/tokens/index.scss"; 
+              @import "@/assets/scss/utils/index.scss";
+            `
+        }
+      }
+    }
+  },
 
   typescript: {
     strict: true
