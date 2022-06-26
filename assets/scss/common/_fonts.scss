@@ -1,0 +1,126 @@
+
+/* 
+ * Font-face generator file.
+*/
+ 
+$--font-path: '~/assets/fonts' !default;
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-Bold.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Bold.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Bold.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-Bold.ttf') format('truetype');
+
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-BoldItalic.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-BoldItalic.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-BoldItalic.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-BoldItalic.ttf') format('truetype');
+
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-Medium.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Medium.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Medium.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-Medium.ttf') format('truetype');
+
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-MediumItalic.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-MediumItalic.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-MediumItalic.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-MediumItalic.ttf') format('truetype');
+
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-Regular.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Regular.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Regular.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-Regular.ttf') format('truetype');
+
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-RegularItalic.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-RegularItalic.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-RegularItalic.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-RegularItalic.ttf') format('truetype');
+
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-Light.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Light.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Light.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-Light.ttf') format('truetype');
+
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-LightItalic.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-LightItalic.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-LightItalic.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-LightItalic.ttf') format('truetype');
+
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-Thin.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Thin.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-Thin.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-Thin.ttf') format('truetype');
+
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Okta Neue';
+    src: url('#{$--font-path}/okta-neue/OktaNeue-ThinItalic.woff2') format('woff2'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-ThinItalic.woff') format('woff'), 
+         url('#{$--font-path}/okta-neue/OktaNeue-ThinItalic.eot?#iefix') format('embedded-opentype'),
+         url('#{$--font-path}/okta-neue/OktaNeue-ThinItalic.ttf') format('truetype');
+
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}

@@ -1,0 +1,21 @@
+
+/* 
+ * general base styles.
+*/
+
+html,
+body {
+  font-family: $font-family-100, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: none;
+  color: var(--color-txt-primary);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: $font-family-100, Helvetica, Arial, sans-serif;
+}
+ 

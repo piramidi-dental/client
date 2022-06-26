@@ -1,6 +1,6 @@
 <template lang="pug">
 div.first-test
-  h1 hola
+  h1 Out-of-the-box, Nuxt provides good default values for charset and viewport meta tags, but you can override these if you need to, as well as customize other meta tags for your site in several different ways.
   p {{ title }} 
   img(src="/images/client_logo-circle.svg")
   button(@click="addTitle('Lara')") press button
@@ -19,7 +19,7 @@ const addTitle = (name: string) => {
 .first-test {
   margin: $space-400;
   h1 {
-    @include txt-title-400;
+    @include txt-body-600;
     color: $color-primary;
   }
 }
