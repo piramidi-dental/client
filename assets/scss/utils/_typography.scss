@@ -1,0 +1,135 @@
+
+/*
+* Title blocks
+*/
+
+@mixin txt-title-100 {
+  font-size: $txt-title-100-size;
+  font-weight: $txt-title-100-weight;
+  font-style: $txt-title-100-style;
+  line-height: $txt-title-100-line-height;
+}
+
+@mixin txt-title-150 {
+  font-size: $txt-title-150-size;
+  font-weight: $txt-title-150-weight;
+  font-style: $txt-title-150-style;
+  line-height: $txt-title-150-line-height;
+}
+
+@mixin txt-title-200 {
+  font-size: $txt-title-200-size;
+  font-weight: $txt-title-200-weight;
+  font-style: $txt-title-200-style;
+  line-height: $txt-title-200-line-height;
+}
+
+@mixin txt-title-300 {
+  font-size: $txt-title-300-size;
+  font-weight: $txt-title-300-weight;
+  font-style: $txt-title-300-style;
+  line-height: $txt-title-300-line-height;
+}
+
+@mixin txt-title-400 {
+  font-size: $txt-title-400-size;
+  font-weight: $txt-title-400-weight;
+  font-style: $txt-title-400-style;
+  line-height: $txt-title-400-line-height;
+}
+
+@mixin txt-title-500 {
+  font-size: $txt-title-500-size;
+  font-weight: $txt-title-500-weight;
+  font-style: $txt-title-500-style;
+  line-height: $txt-title-500-line-height;
+}
+
+/*
+* SubTitle blocks
+*/
+
+@mixin txt-subtitle-100 {
+  font-size: $txt-subtitle-100-size;
+  font-weight: $txt-subtitle-100-weight;
+  font-style: $txt-subtitle-100-style;
+  line-height: $txt-subtitle-100-line-height;
+}
+
+@mixin txt-subtitle-200 {
+  font-size: $txt-subtitle-200-size;
+  font-weight: $txt-subtitle-200-weight;
+  font-style: $txt-subtitle-200-style;
+  line-height: $txt-subtitle-200-line-height;
+}
+
+@mixin txt-subtitle-300 {
+  font-size: $txt-subtitle-300-size;
+  font-weight: $txt-subtitle-300-weight;
+  font-style: $txt-subtitle-300-style;
+  line-height: $txt-subtitle-300-line-height;
+}
+
+@mixin txt-subtitle-400 {
+  font-size: $txt-subtitle-400-size;
+  font-weight: $txt-subtitle-400-weight;
+  font-style: $txt-subtitle-400-style;
+  line-height: $txt-subtitle-400-line-height;
+}
+
+/*
+* body blocks
+*/
+
+@mixin txt-body-100 {
+  font-size: $txt-body-100-size;
+  font-weight: $txt-body-100-weight;
+  font-style: $txt-body-100-style;
+  line-height: $txt-body-100-line-height;
+}
+
+@mixin txt-body-200 {
+  font-size: $txt-body-200-size;
+  font-weight: $txt-body-200-weight;
+  font-style: $txt-body-200-style;
+  line-height: $txt-body-200-line-height;
+}
+
+@mixin txt-body-300 {
+  font-size: $txt-body-300-size;
+  font-weight: $txt-body-300-weight;
+  font-style: $txt-body-300-style;
+  line-height: $txt-body-300-line-height;
+}
+
+@mixin txt-body-400 {
+  font-size: $txt-body-400-size;
+  font-weight: $txt-body-400-weight;
+  font-style: $txt-body-400-style;
+  line-height: $txt-body-400-line-height;
+}
+
+@mixin txt-body-500 {
+  font-size: $txt-body-500-size;
+  font-weight: $txt-body-500-weight;
+  font-style: $txt-body-500-style;
+  line-height: $txt-body-500-line-height;
+}
+@mixin txt-body-600 {
+  font-size: $txt-body-600-size;
+  font-weight: $txt-body-600-weight;
+  font-style: $txt-body-600-style;
+  line-height: $txt-body-600-line-height;
+}
+
+/*
+* Input placeholders
+*/
+
+@mixin txt-placeholder {
+  font-size: $txt-placeholder-size;
+  font-weight: $txt-placeholder-weight;
+  font-style: $txt-placeholder-style;
+  line-height: $txt-placeholder-line-height;
+}
+
