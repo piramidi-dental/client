@@ -1,26 +1,56 @@
 <template lang="pug">
-div.first-test
-  h1 Out-of-the-box, Nuxt provides good default values for charset and viewport meta tags, but you can override these if you need to, as well as customize other meta tags for your site in several different ways.
-  p {{ title }} 
-  img(src="/images/client_logo-circle.svg")
-  button(@click="addTitle('Lara')") press button
+#home-page
+  .tool-plx(ref="toolPlx")
+    img(src="/images/dental-tool.svg" alt="dental-tool")
+  section.home(ref="homeSection")
+  section.terapies
 </template>
 
 <script setup lang="ts">
-const title = ref('')
+import { DEFAULT_VALUES } from '@/constants'
 
-const addTitle = (name: string) => {
-  title.value = name
+const toolPlx = ref<HTMLElement | null>(null)
+const homeSection = ref<HTMLElement | null>(null)
+const windowWidth = useWindowWidth()
+const { parallax } = useScrollmagic()
+
+const toolAnimationHandler = () : void => {
+  if (toolPlx.value && homeSection.value) {
+    const toolHeight:number = toolPlx.value.offsetHeight
+    const homeHeight:number = homeSection.value.offsetHeight
+    const toValue:number = (toolHeight - homeHeight) + DEFAULT_VALUES.PADOING_400
+
+    const plxOption = ({
+      dataTween: {
+        fn: 'fromTo',
+        el: '.tool-plx',
+        from: { y: DEFAULT_VALUES.PADOING_400, duration: 1, ease: 'linear' },
+        to: { y: -toValue, duration: 1, ease: 'linear' }
+      }
+    })
+
+    parallax(plxOption)
+  }
 }
+
+watch(windowWidth, toolAnimationHandler)
 </script>
 
-
 <style lang="scss" scoped>
-.first-test {
-  margin: $space-400;
-  h1 {
-    @include txt-body-600;
-    color: $color-primary;
+.tool-plx {
+  position: absolute;
+  height: 130vmax;
+  left: $space-200;
+  img {
+    height: 100%;
+    filter: drop-shadow($shadow-200);
   }
+}
+.home {
+  height: 100vmax;
+  background-color: $color-secondary;
+}
+.terapies {
+  height: 100vmax;
 }
 </style>
