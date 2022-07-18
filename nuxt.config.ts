@@ -15,7 +15,32 @@ export default defineNuxtConfig({
     ]
   },
 
+  publicRuntimeConfig: {
+    baseUrl: process.env.BASE_URL
+  },
+
+  buildModules: [
+    '@nuxt3/graphql-codegen-module',
+    '@nuxt3/apollo-module'
+  ],
+
+  graphqlCodegen: {
+    schema: [process.env.BASE_URL]
+  },
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        uri: process.env.BASE_URL
+      }
+    }
+  },
+
   css: ['~/assets/scss/main.scss'],
+
+  typescript: {
+    strict: true
+  },
 
   vite: {
     css: {
@@ -24,14 +49,11 @@ export default defineNuxtConfig({
           additionalData: `
             @import "@/assets/scss/tokens/index.scss"; 
             @import "@/assets/scss/utils/index.scss";
+            @import "@/assets/scss/common/_var.scss";
           `
         }
       }
     },
     plugins: [eslintPlugin()]
-  },
-
-  typescript: {
-    strict: true
   }
 })
