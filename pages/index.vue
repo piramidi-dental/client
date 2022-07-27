@@ -95,6 +95,7 @@ watch(windowWidth, scrollAnimationsHandler)
 
 onMounted(scrollAnimationsHandler)
 
+await usePageDelay()
 await retriveRestaurants()
 await retriveRestaurant()
 </script>

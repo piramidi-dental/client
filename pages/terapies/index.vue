@@ -10,13 +10,18 @@ import { useRestaurantsQuery } from '@/generated/operations'
 useHead({
   title: 'Servizi e terapie'
 })
+definePageMeta({
+  title: 'Terapies',
+  pageTransition: {
+    mode: 'default'
+  }
+})
 
 const restaurants = ref([])
 
 const retriveData = async () => {
   try {
     const { result } = await useRestaurantsQuery()
-    await new Promise(resolve => setTimeout(resolve, 2000))
 
     restaurants.value = result.value?.restaurants?.data || []
     console.log(restaurants.value)
@@ -25,6 +30,6 @@ const retriveData = async () => {
   }
 }
 
+await usePageDelay()
 await retriveData()
-
 </script>

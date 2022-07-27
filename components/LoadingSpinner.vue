@@ -1,24 +1,33 @@
 <template lang="pug">
-.loading-spinner(v-if="getIsLoading")
-  .loading-spinner__wrapper
-    .loading-spinner__triangle
+.loading-spinner
+  svg.loading-spinner__wave(viewBox="0 0 100 100" preserveAspectRatio="none")
+    path(id="wave-svg" :fill="stylesColors.hardDark" vector-effect="non-scaling-stroke" :d="svgShapes[0]")
+  .loading-spinner__triangle-wrapper
+    .loading-spinner__triangle-svg
       svg(viewBox="0 0 86 80")
         polygon(points="43 8 79 72 7 72")
-    h1.loading-spinner__text Loading text...
-  .loading-spinner__wave-wrapper
-    .loading-spinner__wave-svg
-      svg(viewBox="0 0 1440 120" aria-hidden="true")
-        path(d="M1440,21.2101911 L1440,120 L0,120 L0,21.2101911 C120,35.0700637 240,42 360,42 C480,42 600,35.0700637 720,21.2101911 C808.32779,12.416393 874.573633,6.87702029 918.737528,4.59207306 C972.491685,1.8109458 1026.24584,0.420382166 1080,0.420382166 C1200,0.420382166 1320,7.35031847 1440,21.2101911 Z")
+    h1.loading-spinner__text Servizi e terapie
 </template>
 
 <script setup lang="ts">
+const nuxtApp = useNuxtApp()
+const { $gsap, $globalUtils } = useNuxtApp()
+
 const indicator = useLoadingIndicator({
   duration: 2000,
   throttle: 200
 })
+const svgShapes = [
+  'M 0 100 V 100 Q 50 100 100 100 V 100 z',
+  'M 0 100 V 50 Q 50 0 100 50 V 100 z',
+  'M 0 100 V 0 Q 50 0 100 0 V 100 z'
+]
+
+const tweenController = ref<GSAPTimeline | null>(null)
+const stylesColors = reactive<{ softDark: string, hardDark: string }>({ softDark: '', hardDark: '' })
 
 const getIsLoading = computed<boolean>(() => indicator.isLoading.value)
-const bodyClass = computed<string>(() => getIsLoading.value ? 'overflow-hidden' : '')
+const bodyClass = computed<string>(() => `main-body${getIsLoading.value ? ' overflow-hidden' : ''}`)
 
 useHead({
   bodyAttrs: {
@@ -26,10 +35,8 @@ useHead({
   }
 })
 
-const nuxtApp = useNuxtApp()
 nuxtApp.hook('page:start', indicator.start)
 nuxtApp.hook('page:finish', indicator.finish)
-onBeforeUnmount(() => indicator.clear)
 
 function useLoadingIndicator (opts: {
   duration: number,
@@ -39,15 +46,14 @@ function useLoadingIndicator (opts: {
   const isLoading = ref(false)
   const step = computed(() => 10000 / opts.duration)
 
-  // eslint-disable-next-line
-  let _timer: any = null
-  // eslint-disable-next-line
-  let _throttle: any = null
+  let _timer: any = null // eslint-disable-line
+  let _throttle: any = null // eslint-disable-line
 
   function start () {
     clear()
     progress.value = 0
     isLoading.value = true
+    animationActionsHandler('play')
     if (opts.throttle) {
       if (process.client) {
         _throttle = setTimeout(_startTimer, opts.throttle)
@@ -78,6 +84,7 @@ function useLoadingIndicator (opts: {
     if (process.client) {
       setTimeout(() => {
         isLoading.value = false
+        animationActionsHandler('reverse')
         setTimeout(() => { progress.value = 0 }, 400)
       }, 500)
     }
@@ -97,51 +104,65 @@ function useLoadingIndicator (opts: {
     clear
   }
 }
+
+const animationActionsHandler = (action: string) : void => {
+  if (tweenController.value) { tweenController.value[action]() }
+}
+
+const animationHandler = () : void => {
+  nextTick(() => {
+    const _tween = $gsap.timeline()
+    const style = getComputedStyle(document.body)
+
+    for (const color in stylesColors) {
+      (stylesColors as { [key: string]: string })[color] = style.getPropertyValue(`--color-secondary-${$globalUtils.kebabToDashesConverter(color)}`)
+    }
+
+    _tween.fromTo('.loading-spinner', { display: 'none' }, { display: 'block' })
+
+    _tween.to('#wave-svg', { attr: { d: svgShapes[1] }, ease: 'easeIn', duration: 0.5 }, '<')
+    _tween.to('#wave-svg', { attr: { d: svgShapes[2] }, ease: 'easeOut', duration: 0.5, fill: stylesColors.softDark })
+    _tween.to('.loading-spinner__triangle-wrapper', { opacity: 1, ease: 'easeOut', duration: 0.5 }, '<')
+    _tween.to('.loading-spinner', { fill: stylesColors.softDark })
+
+    _tween.pause()
+    tweenController.value = _tween
+  })
+}
+
+onMounted(animationHandler)
+onBeforeUnmount(() => indicator.clear)
 </script>
 
 <style lang="scss" scoped>
 .loading-spinner {
   $self: &;
 
-  background: $color-secondary-hard-dark;
+  overflow: hidden;
   width: 100%;
   height: 100%;
   position: fixed;
   z-index: 999999;
 
   &__wave {
-    &-wrapper {
-      z-index: -1;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 35%;
-      width: 100%;
-      background-color: $color-secondary-soft-dark;
-    }
-    &-svg {
-      transform: translateY(-50%);
-      width: 140%;
-      color: $color-secondary-soft-dark;
-      margin-left: -20%;
-      animation: 3s ease-in-out infinite alternate waveAnimateA;
-      svg {
-        fill: currentColor;
-        width: 102%;
-        margin-left: -1%;
-        height: auto;
-      }
-    }
+    position: absolute;
+    width: 150%;
+    height: 100%;
+    left: -25%;
+    top: 0;
+    transform: rotate(180deg);
   }
 
-  &__wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-
-    #{$self}__triangle {
+  &__triangle {
+    &-wrapper {
+      opacity: 0;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    &-svg {
       $duration: 3s;
 
       width: rem(48);
@@ -178,22 +199,12 @@ function useLoadingIndicator (opts: {
         }
       }
     }
-
-    #{$self}__text {
-      color: $color-white;
-      @include txt-body-600;
-      margin-top: $space-200;
-    }
-  }
-}
-
-@keyframes waveAnimateA {
-  0% {
-    transform: translate(-80px,-52%);
   }
 
-  100% {
-    transform: translate(80px,-50%);
+  &__text {
+    color: $color-white;
+    @include txt-body-600;
+    margin-top: $space-200;
   }
 }
 
