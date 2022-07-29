@@ -15,6 +15,7 @@ $color-hard-neutral: #D7DADC;
 
 $color-primary: #1B663D;
 $color-secondary: #2F3938;
-$color-secondary-dark: #232B2A;
+$color-secondary-soft-dark: darken($color-secondary, 6%); // #212828
+$color-secondary-hard-dark: #232B2A;
 $color-tertiary: #F3D527;
 
