@@ -1,33 +1,42 @@
 <template lang="pug">
-.loading-spinner
+.loading-spinner(:class="{ 'loading-spinner--before-mount': !appIsMounted }")
   svg.loading-spinner__wave(viewBox="0 0 100 100" preserveAspectRatio="none")
-    path(id="wave-svg" :fill="stylesColors.hardDark" vector-effect="non-scaling-stroke" :d="svgShapes[0]")
+    path(id="wave-svg" :fill="svgValues.fill" vector-effect="non-scaling-stroke" :d="svgValues.shape")
   .loading-spinner__triangle-wrapper
     .loading-spinner__triangle-svg
       svg(viewBox="0 0 86 80")
         polygon(points="43 8 79 72 7 72")
-    h1.loading-spinner__text Servizi e terapie
+    h1.loading-spinner__text {{ animationText }}
 </template>
 
 <script setup lang="ts">
+import { useLoadingStore } from '@/stores/loading'
+import { LOADING } from '@/constants'
+
 const nuxtApp = useNuxtApp()
 const { $gsap, $globalUtils } = useNuxtApp()
+const loadingStore = useLoadingStore()
 
-const indicator = useLoadingIndicator({
-  duration: 2000,
-  throttle: 200
-})
 const svgShapes = [
   'M 0 100 V 100 Q 50 100 100 100 V 100 z',
   'M 0 100 V 50 Q 50 0 100 50 V 100 z',
   'M 0 100 V 0 Q 50 0 100 0 V 100 z'
 ]
 
+const isLoadingActive = ref<boolean>(false)
+const tweenControllerInit = ref<GSAPTimeline | null>(null)
 const tweenController = ref<GSAPTimeline | null>(null)
+const appIsMounted = ref<boolean>(false)
 const stylesColors = reactive<{ softDark: string, hardDark: string }>({ softDark: '', hardDark: '' })
 
-const getIsLoading = computed<boolean>(() => indicator.isLoading.value)
-const bodyClass = computed<string>(() => `main-body${getIsLoading.value ? ' overflow-hidden' : ''}`)
+const bodyClass = computed<string>(() => `main-body${isLoadingActive.value ? ' overflow-hidden' : ''}`)
+const svgValues = computed<{ [key: string]: string }>(() => appIsMounted.value // eslint-disable-line
+  ? { shape: svgShapes[0], fill: svgColor('hardDark') }
+  : { shape: svgShapes[2], fill: svgColor('softDark') }
+)
+const animationText = computed<string>(() => { // eslint-disable-line
+  return appIsMounted.value ? loadingStore.text : 'piramidi.dental'
+})
 
 useHead({
   bodyAttrs: {
@@ -35,25 +44,33 @@ useHead({
   }
 })
 
-nuxtApp.hook('page:start', indicator.start)
-nuxtApp.hook('page:finish', indicator.finish)
+const setStyledColors = () : void => {
+  const style = getComputedStyle(document.body)
 
-function useLoadingIndicator (opts: {
+  for (const color in stylesColors) {
+    (stylesColors as { [key: string]: string })[color] = style.getPropertyValue(`--color-secondary-${$globalUtils.kebabToDashesConverter(color)}`)
+  }
+}
+
+const svgColor = (colorName: string) : string => {
+  return (stylesColors as { [key: string]: string })[colorName] || 'transparent'
+}
+
+const useLoadingIndicator = (opts: {
   duration: number,
   throttle: number
-}) {
+}) => {
   const progress = ref(0)
-  const isLoading = ref(false)
   const step = computed(() => 10000 / opts.duration)
 
   let _timer: any = null // eslint-disable-line
   let _throttle: any = null // eslint-disable-line
 
-  function start () {
+  const start = () => {
     clear()
     progress.value = 0
-    isLoading.value = true
-    animationActionsHandler('play')
+    isLoadingActive.value = true
+    if (appIsMounted.value) { animationActionsHandler([tweenController.value, 'play']) }
     if (opts.throttle) {
       if (process.client) {
         _throttle = setTimeout(_startTimer, opts.throttle)
@@ -63,34 +80,38 @@ function useLoadingIndicator (opts: {
     }
   }
 
-  function finish () {
+  const finish = () => {
     progress.value = 100
     _hide()
   }
 
-  function clear () {
+  const clear = () => {
     clearInterval(_timer)
     clearTimeout(_throttle)
     _timer = null
     _throttle = null
   }
 
-  function _increase (num: number) {
+  const _increase = (num: number) => {
     progress.value = Math.min(100, progress.value + num)
   }
 
-  function _hide () {
+  const _hide = () => {
     clear()
     if (process.client) {
       setTimeout(() => {
-        isLoading.value = false
-        animationActionsHandler('reverse')
+        const _action = appIsMounted.value
+          ? [tweenController.value, 'reverse'] as [(GSAPTimeline | null), string]
+          : [tweenControllerInit.value, 'play'] as [(GSAPTimeline | null), string]
+        animationActionsHandler(_action)
+
         setTimeout(() => { progress.value = 0 }, 400)
+        handleAnimationComplete()
       }, 500)
     }
   }
 
-  function _startTimer () {
+  const _startTimer = () => {
     if (process.client) {
       _timer = setInterval(() => { _increase(step.value) }, 100)
     }
@@ -98,51 +119,94 @@ function useLoadingIndicator (opts: {
 
   return {
     progress,
-    isLoading,
     start,
     finish,
     clear
   }
 }
 
-const animationActionsHandler = (action: string) : void => {
-  if (tweenController.value) { tweenController.value[action]() }
+const animationActionsHandler = (actions: [(GSAPTimeline | null), string]) : void => {
+  const [_controller, actionType] = actions
+  if (_controller) { _controller[actionType]() }
+}
+
+const handleAnimationComplete = () => {
+  setTimeout(() => {
+    isLoadingActive.value = false
+    if (!appIsMounted.value) { appIsMounted.value = true }
+  }, LOADING.ANIMATION_DELAY)
 }
 
 const animationHandler = () : void => {
   nextTick(() => {
-    const _tween = $gsap.timeline()
-    const style = getComputedStyle(document.body)
+    const _tween = $gsap.timeline({ paused: true })
 
-    for (const color in stylesColors) {
-      (stylesColors as { [key: string]: string })[color] = style.getPropertyValue(`--color-secondary-${$globalUtils.kebabToDashesConverter(color)}`)
-    }
-
-    _tween.fromTo('.loading-spinner', { display: 'none' }, { display: 'block' })
+    _tween.to('.loading-spinner', { display: 'block' })
 
     _tween.to('#wave-svg', { attr: { d: svgShapes[1] }, ease: 'easeIn', duration: 0.5 }, '<')
     _tween.to('#wave-svg', { attr: { d: svgShapes[2] }, ease: 'easeOut', duration: 0.5, fill: stylesColors.softDark })
     _tween.to('.loading-spinner__triangle-wrapper', { opacity: 1, ease: 'easeOut', duration: 0.5 }, '<')
-    _tween.to('.loading-spinner', { fill: stylesColors.softDark })
+    _tween.to('.loading-spinner', { css: { backgroundColor: stylesColors.softDark } })
 
-    _tween.pause()
     tweenController.value = _tween
   })
 }
 
-onMounted(animationHandler)
+const initAnimationHandler = () => {
+  nextTick(() => {
+    const _tween = $gsap.timeline({ paused: true })
+
+    _tween.to('.loading-spinner', { css: { backgroundColor: 'transparent' } })
+    _tween.to('#wave-svg', { attr: { d: svgShapes[1] }, ease: 'easeOut', duration: 0.5 })
+    _tween.to('.loading-spinner__triangle-wrapper', { opacity: 0, ease: 'easeOut', duration: 0.5 }, '<')
+    _tween.to('#wave-svg', { attr: { d: svgShapes[0] }, ease: 'easeIn', duration: 0.5, fill: stylesColors.hardDark })
+    _tween.to('.loading-spinner', { display: 'none' })
+
+    tweenControllerInit.value = _tween
+  })
+}
+
+const indicator = useLoadingIndicator({
+  duration: 2000,
+  throttle: 200
+})
+
+onMounted(async () => {
+  await setStyledColors()
+  await initAnimationHandler()
+  await animationHandler()
+
+  indicator.start()
+})
 onBeforeUnmount(() => indicator.clear)
+
+watch(() => loadingStore.isActive, (val: boolean) => {
+  indicator[val ? 'start' : 'finish']()
+})
+
+nuxtApp.hook('page:start', indicator.start)
+nuxtApp.hook('page:finish', indicator.finish)
+
 </script>
 
 <style lang="scss" scoped>
 .loading-spinner {
   $self: &;
 
+  display: none;
   overflow: hidden;
   width: 100%;
   height: 100%;
   position: fixed;
   z-index: 999999;
+
+  &--before-mount {
+    display: block;
+    background-color: $color-secondary-soft-dark;
+    #{$self}__triangle-wrapper {
+      opacity: 1;
+    }
+  }
 
   &__wave {
     position: absolute;

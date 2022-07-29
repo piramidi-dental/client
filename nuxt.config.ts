@@ -9,7 +9,8 @@ export default defineNuxtConfig({
 
   buildModules: [
     '@nuxt3/graphql-codegen-module',
-    '@nuxt3/apollo-module'
+    '@nuxt3/apollo-module',
+    '@pinia/nuxt'
   ],
 
   graphqlCodegen: {
@@ -29,6 +30,10 @@ export default defineNuxtConfig({
   typescript: {
     strict: true
   },
+
+  types: [
+    '@pinia/nuxt'
+  ],
 
   vite: {
     css: {

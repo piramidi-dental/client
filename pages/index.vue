@@ -9,7 +9,7 @@
   section.home-page__main(ref="mainSection")
   section.home-page__terapies
     div(style="background-color: red; width: 100%; height: 200px;")
-    NuxtLink(to="/terapies") Terapies
+    button(@click="navigateToTerapies") Terapies
   footer
 
 </template>
@@ -24,17 +24,19 @@ useHead({
 
 definePageMeta({
   title: 'Home',
+  loadingText: 'Home',
   pageTransition: {
     mode: 'default'
-  }
+  },
+  middleware: ['loading-text']
 })
+
+const windowWidth = useWindowWidth()
+const { parallax, stylesEffect } = useScrollmagic()
 
 const dentalTool = ref<HTMLElement | null>(null)
 const mainSection = ref<HTMLElement | null>(null)
 const scrollEffects = ref<(HTMLElement | void)[]>([])
-
-const windowWidth = useWindowWidth()
-const { parallax, stylesEffect } = useScrollmagic()
 
 const restaurants = ref<(object | void)[]>([])
 const restaurant = ref<object>({})
@@ -89,6 +91,11 @@ const retriveRestaurant = async () => {
 // eslint-disable-next-line
 const openMobileMenu = () => {
   // console.log('mobile menu')
+}
+
+// eslint-disable-next-line
+const navigateToTerapies = () => {
+  navigateTo({ path: '/terapies' })
 }
 
 watch(windowWidth, scrollAnimationsHandler)
