@@ -27,14 +27,14 @@ const isLoadingActive = ref<boolean>(false)
 const tweenControllerInit = ref<GSAPTimeline | null>(null)
 const tweenController = ref<GSAPTimeline | null>(null)
 const appIsMounted = ref<boolean>(false)
-const stylesColors = reactive<{ softDark: string, hardDark: string }>({ softDark: '', hardDark: '' })
+const stylesColors = reactive<IStringItem>({ softDark: '', hardDark: '' })
 
 const bodyClass = computed<string>(() => `main-body${isLoadingActive.value ? ' overflow-hidden' : ''}`)
-const svgValues = computed<{ [key: string]: string }>(() => appIsMounted.value // eslint-disable-line
+const svgValues = computed<IStringItem>(() => appIsMounted.value
   ? { shape: svgShapes[0], fill: svgColor('hardDark') }
   : { shape: svgShapes[2], fill: svgColor('softDark') }
 )
-const animationText = computed<string>(() => { // eslint-disable-line
+const animationText = computed<string>(() => {
   return appIsMounted.value ? loadingStore.text : 'piramidi.dental'
 })
 
@@ -48,12 +48,12 @@ const setStyledColors = () : void => {
   const style = getComputedStyle(document.body)
 
   for (const color in stylesColors) {
-    (stylesColors as { [key: string]: string })[color] = style.getPropertyValue(`--color-secondary-${$globalUtils.kebabToDashesConverter(color)}`)
+    stylesColors[color] = style.getPropertyValue(`--color-secondary-${$globalUtils.kebabToDashesConverter(color)}`)
   }
 }
 
 const svgColor = (colorName: string) : string => {
-  return (stylesColors as { [key: string]: string })[colorName] || 'transparent'
+  return stylesColors[colorName] || 'transparent'
 }
 
 const useLoadingIndicator = (opts: {
@@ -61,6 +61,7 @@ const useLoadingIndicator = (opts: {
   throttle: number
 }) => {
   const progress = ref(0)
+  const dateStart = ref<Date>(new Date())
   const step = computed(() => 10000 / opts.duration)
 
   let _timer: any = null // eslint-disable-line
@@ -70,6 +71,7 @@ const useLoadingIndicator = (opts: {
     clear()
     progress.value = 0
     isLoadingActive.value = true
+    dateStart.value = new Date()
     if (appIsMounted.value) { animationActionsHandler([tweenController.value, 'play']) }
     if (opts.throttle) {
       if (process.client) {
@@ -81,8 +83,12 @@ const useLoadingIndicator = (opts: {
   }
 
   const finish = () => {
+    const _diffDate = LOADING.PAGE_DELAY - ((new Date()).getTime() - (dateStart.value as Date).getTime())
+    const _timeoutValue = _diffDate > 0 ? _diffDate : 0
+
     progress.value = 100
-    _hide()
+
+    setTimeout(() => { _hide() }, _timeoutValue)
   }
 
   const clear = () => {

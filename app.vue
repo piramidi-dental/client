@@ -19,4 +19,6 @@ useHead({
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
   ]
 })
+const { setPreferredLanguage } = useLocale()
+setPreferredLanguage()
 </script>

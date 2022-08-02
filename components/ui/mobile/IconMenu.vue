@@ -11,7 +11,6 @@ ul.menu-icon(
 const mobileMenu = ref<boolean>(false)
 const emit = defineEmits<{(e: 'open-mobile-menu', mobileMenu: boolean): void}>()
 
-// eslint-disable-next-line
 const toggleMenu = () : void => {
   mobileMenu.value = !mobileMenu.value
   emit('open-mobile-menu', mobileMenu.value)

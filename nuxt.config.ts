@@ -3,24 +3,35 @@ import eslintPlugin from 'vite-plugin-eslint'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  publicRuntimeConfig: {
-    baseUrl: process.env.BASE_URL
+  runtimeConfig: {
+    public: {
+      apiBase: ''
+    }
   },
 
   buildModules: [
     '@nuxt3/graphql-codegen-module',
     '@nuxt3/apollo-module',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@intlify/nuxt3'
   ],
 
+  intlify: {
+    localeDir: 'locales',
+    vueI18n: {}
+  },
+
   graphqlCodegen: {
-    schema: [process.env.BASE_URL]
+    schema: [`${process.env.NUXT_PUBLIC_API_BASE}/graphql`]
   },
 
   apollo: {
     clientConfigs: {
       default: {
-        uri: process.env.BASE_URL
+        uri: `${process.env.NUXT_PUBLIC_API_BASE}/graphql`
+      },
+      cookieAttributes: {
+        expires: 14
       }
     }
   },
@@ -30,10 +41,6 @@ export default defineNuxtConfig({
   typescript: {
     strict: true
   },
-
-  types: [
-    '@pinia/nuxt'
-  ],
 
   vite: {
     css: {
