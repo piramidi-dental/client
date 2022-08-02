@@ -7,19 +7,14 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.8.1",
-    "@graphql-codegen/typescript": "^2.7.1",
-    "@graphql-codegen/typescript-operations": "^2.5.1",
-    "@graphql-codegen/typescript-vue-apollo": "^3.3.1",
     "@intlify/nuxt3": "^0.2.3",
-    "@nuxt/kit": "^3.0.0-rc.5",
     "@nuxtjs/eslint-config-typescript": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
     "eslint": "^8.18.0",
     "eslint-plugin-nuxt": "^3.2.0",
     "gsap": "^3.10.4",
-    "nuxt": "3.0.0-rc.5",
+    "nuxt": "3.0.0-rc.6",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "sass": "^1.52.3",
@@ -30,10 +25,6 @@
     "vite-plugin-eslint": "^1.6.1"
   },
   "dependencies": {
-    "@nuxt3/apollo-module": "^0.1.1",
-    "@nuxt3/graphql-codegen-module": "^0.0.7",
-    "@pinia/nuxt": "^0.3.1",
-    "@vue/composition-api": "^1.7.0",
-    "graphql": "^16.5.0"
+    "@pinia/nuxt": "^0.3.1"
   }
 }

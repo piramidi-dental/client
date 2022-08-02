@@ -10,8 +10,6 @@ export default defineNuxtConfig({
   },
 
   buildModules: [
-    '@nuxt3/graphql-codegen-module',
-    '@nuxt3/apollo-module',
     '@pinia/nuxt',
     '@intlify/nuxt3'
   ],
@@ -19,21 +17,6 @@ export default defineNuxtConfig({
   intlify: {
     localeDir: 'locales',
     vueI18n: {}
-  },
-
-  graphqlCodegen: {
-    schema: [`${process.env.NUXT_PUBLIC_API_BASE}/graphql`]
-  },
-
-  apollo: {
-    clientConfigs: {
-      default: {
-        uri: `${process.env.NUXT_PUBLIC_API_BASE}/graphql`
-      },
-      cookieAttributes: {
-        expires: 14
-      }
-    }
   },
 
   css: ['~/assets/scss/main.scss'],
