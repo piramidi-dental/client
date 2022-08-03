@@ -7,6 +7,7 @@
   .home-page__dental-tool(ref="dentalTool")
     img(src="/images/dental-tool.svg" alt="dental-tool")
   section.home-page__main(ref="mainSection")
+    p {{ $t('welcome') }}
   section.home-page__terapies
     div(style="background-color: red; width: 100%; height: 200px;")
     button(@click="navigateToTerapies") Terapies
@@ -15,8 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { DEFAULT_VALUES } from '@/constants'
-import { useRestaurantsQuery, useRestaurantQuery } from '@/generated/operations'
+import { DEFAULT_VALUES, LOADING } from '@/constants'
 
 useHead({
   title: 'Home'
@@ -26,7 +26,8 @@ definePageMeta({
   title: 'Home',
   loadingText: 'Home',
   pageTransition: {
-    mode: 'default'
+    mode: 'default',
+    duration: LOADING.ANIMATION_DELAY
   },
   middleware: ['loading-text']
 })
@@ -78,22 +79,23 @@ const scrollAnimationsHandler = () : void => {
   })
 }
 
-const retriveRestaurants = async () => {
-  const { result } = await useRestaurantsQuery()
-  restaurants.value = result.value?.restaurants?.data || []
-}
+// const retriveRestaurants = async () => {
+//   const { result } = await useRestaurantsQuery()
+//   restaurants.value = result.value?.restaurants?.data || []
+// }
 
 const retriveRestaurant = async () => {
-  const { result } = await useRestaurantQuery({ id: '1' })
-  restaurant.value = result.value?.restaurant?.data || {}
+  // const { data: restaurant } = await useFetch(`http://localhost:1337/api/restaurants/${1}`)
+  const { data: restaurant } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
+  // const { result } = await useRestaurantQuery({ id: '1' })
+  // restaurant.value = result.value?.restaurant?.data || {}
+  console.log(restaurant.value)
 }
 
-// eslint-disable-next-line
 const openMobileMenu = () => {
   // console.log('mobile menu')
 }
 
-// eslint-disable-next-line
 const navigateToTerapies = () => {
   navigateTo({ path: '/terapies' })
 }
@@ -102,8 +104,8 @@ watch(windowWidth, scrollAnimationsHandler)
 
 onMounted(scrollAnimationsHandler)
 
-await usePageDelay()
-await retriveRestaurants()
+// await usePageDelay()
+// await retriveRestaurants()
 await retriveRestaurant()
 </script>
 
