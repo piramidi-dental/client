@@ -83,7 +83,7 @@ const useLoadingIndicator = (opts: {
   }
 
   const finish = () => {
-    const _diffDate = LOADING.PAGE_DELAY - ((new Date()).getTime() - (dateStart.value as Date).getTime())
+    const _diffDate = LOADING.PAGE_DELAY - ((new Date()).getTime() - dateStart.value.getTime())
     const _timeoutValue = _diffDate > 0 ? _diffDate : 0
 
     progress.value = 100
