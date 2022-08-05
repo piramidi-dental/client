@@ -6,5 +6,5 @@ export default (path: string, opts?: FetchOptions | { key: string }) => {
 
   if (!baseURL) { throw new Error('baseURL is not defined') }
 
-  return useFetch(() => path, { baseURL, ...(opts && { ...opts }) })
+  return useFetch(path, { baseURL, ...(opts && { ...opts }) })
 }

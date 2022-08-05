@@ -79,21 +79,24 @@ const scrollAnimationsHandler = () : void => {
   })
 }
 
-// const retriveRestaurants = async () => {
-//   const { result } = await useRestaurantsQuery()
-//   restaurants.value = result.value?.restaurants?.data || []
-// }
+const retriveData = async () => {
+  try {
+    const { data: restaurants, error: errorFirst } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
+    const { data: restaurant, error: errorSecond } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
 
-const retriveRestaurant = async () => {
-  // const { data: restaurant } = await useFetch(`http://localhost:1337/api/restaurants/${1}`)
-  const { data: restaurant } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
-  // const { result } = await useRestaurantQuery({ id: '1' })
-  // restaurant.value = result.value?.restaurant?.data || {}
-  console.log(restaurant.value)
+    if (errorFirst.value || errorSecond.value) {
+      throw createError({})
+    }
+
+    console.log(restaurants.value)
+    console.log(restaurant.value)
+  } catch (error) {
+    throwError(error as Error)
+  }
 }
 
 const openMobileMenu = () => {
-  // console.log('mobile menu')
+  console.log('mobile menu')
 }
 
 const navigateToTerapies = () => {
@@ -104,9 +107,7 @@ watch(windowWidth, scrollAnimationsHandler)
 
 onMounted(scrollAnimationsHandler)
 
-// await usePageDelay()
-// await retriveRestaurants()
-await retriveRestaurant()
+await retriveData()
 </script>
 
 <style lang="scss" scoped>

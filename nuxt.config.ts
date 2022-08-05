@@ -10,7 +10,6 @@ export default defineNuxtConfig({
   },
 
   buildModules: [
-    '@pinia/nuxt',
     '@intlify/nuxt3'
   ],
 

@@ -10,12 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import { useLoadingStore } from '@/stores/loading'
 import { LOADING } from '@/constants'
 
 const nuxtApp = useNuxtApp()
 const { $gsap, $globalUtils } = useNuxtApp()
-const loadingStore = useLoadingStore()
+const { loadingText, loadingIsActive } = useLoading()
 
 const svgShapes = [
   'M 0 100 V 100 Q 50 100 100 100 V 100 z',
@@ -35,7 +34,7 @@ const svgValues = computed<IStringItem>(() => appIsMounted.value
   : { shape: svgShapes[2], fill: svgColor('softDark') }
 )
 const animationText = computed<string>(() => {
-  return appIsMounted.value ? loadingStore.text : 'piramidi.dental'
+  return appIsMounted.value ? loadingText.value : 'piramidi.dental'
 })
 
 useHead({
@@ -186,7 +185,7 @@ onMounted(async () => {
 })
 onBeforeUnmount(() => indicator.clear)
 
-watch(() => loadingStore.isActive, (val: boolean) => {
+watch(() => loadingIsActive.value, (val: boolean) => {
   indicator[val ? 'start' : 'finish']()
 })
 
@@ -221,6 +220,10 @@ nuxtApp.hook('page:finish', indicator.finish)
     left: -25%;
     top: 0;
     transform: rotate(180deg);
+    @include mediaMd {
+      width: 100%;
+      left: 0;
+    }
   }
 
   &__triangle {
