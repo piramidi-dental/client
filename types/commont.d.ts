@@ -10,3 +10,8 @@ declare interface IStringItem {
 declare interface IStringNumberItem {
   [key: string]: string | number
 }
+
+declare interface ILoading {
+  isActive: boolean,
+  text: string
+}

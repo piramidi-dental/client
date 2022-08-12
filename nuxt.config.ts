@@ -1,5 +1,12 @@
 import { defineNuxtConfig } from 'nuxt'
+import { IntlifyModuleOptions } from '@intlify/nuxt3'
 import eslintPlugin from 'vite-plugin-eslint'
+
+declare module '@nuxt/schema' {
+  interface NuxtConfig {
+    intlify?: IntlifyModuleOptions
+  }
+}
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -15,7 +22,11 @@ export default defineNuxtConfig({
 
   intlify: {
     localeDir: 'locales',
-    vueI18n: {}
+    vueI18n: {
+      locale: 'it',
+      fallbackLocale: 'it',
+      availableLocales: ['it', 'en']
+    }
   },
 
   css: ['~/assets/scss/main.scss'],

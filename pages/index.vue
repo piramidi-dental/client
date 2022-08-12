@@ -79,16 +79,28 @@ const scrollAnimationsHandler = () : void => {
   })
 }
 
-const retriveData = async () => {
+const retriveRestaurants = async () => {
   try {
-    const { data: restaurants, error: errorFirst } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
-    const { data: restaurant, error: errorSecond } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
+    const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
 
-    if (errorFirst.value || errorSecond.value) {
+    if (error.value) {
       throw createError({})
     }
 
     console.log(restaurants.value)
+  } catch (error) {
+    throwError(error as Error)
+  }
+}
+
+const retriveRestaurant = async () => {
+  try {
+    const { data: restaurant, error } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
+
+    if (error.value) {
+      throw createError({})
+    }
+
     console.log(restaurant.value)
   } catch (error) {
     throwError(error as Error)
@@ -107,7 +119,8 @@ watch(windowWidth, scrollAnimationsHandler)
 
 onMounted(scrollAnimationsHandler)
 
-await retriveData()
+await retriveRestaurants()
+await retriveRestaurant()
 </script>
 
 <style lang="scss" scoped>
