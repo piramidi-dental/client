@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { createError } from 'h3'
 import { DEFAULT_VALUES, LOADING } from '@/constants'
 
 useHead({
@@ -79,21 +80,36 @@ const scrollAnimationsHandler = () : void => {
   })
 }
 
-// const retriveRestaurants = async () => {
-//   const { result } = await useRestaurantsQuery()
-//   restaurants.value = result.value?.restaurants?.data || []
-// }
+const retriveRestaurants = async () => {
+  try {
+    const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
+
+    if (error.value) {
+      throw createError({})
+    }
+
+    console.log(restaurants.value)
+  } catch (error) {
+    throwError(error as Error)
+  }
+}
 
 const retriveRestaurant = async () => {
-  // const { data: restaurant } = await useFetch(`http://localhost:1337/api/restaurants/${1}`)
-  const { data: restaurant } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
-  // const { result } = await useRestaurantQuery({ id: '1' })
-  // restaurant.value = result.value?.restaurant?.data || {}
-  console.log(restaurant.value)
+  try {
+    const { data: restaurant, error } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
+
+    if (error.value) {
+      throw createError({})
+    }
+
+    console.log(restaurant.value)
+  } catch (error) {
+    throwError(error as Error)
+  }
 }
 
 const openMobileMenu = () => {
-  // console.log('mobile menu')
+  console.log('mobile menu')
 }
 
 const navigateToTerapies = () => {
@@ -104,8 +120,7 @@ watch(windowWidth, scrollAnimationsHandler)
 
 onMounted(scrollAnimationsHandler)
 
-// await usePageDelay()
-// await retriveRestaurants()
+await retriveRestaurants()
 await retriveRestaurant()
 </script>
 

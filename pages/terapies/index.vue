@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 // import { useRestaurantsQuery, useRestaurantQuery } from '@/generated/operations'
-import { useLoadingStore } from '@/stores/loading'
+import { createError } from 'h3'
 import { LOADING } from '@/constants'
 
 useHead({
@@ -26,33 +26,31 @@ definePageMeta({
 
 // const restaurants = ref<object[]>([])
 // const restaurant = ref<object>({})
-const loadingStore = useLoadingStore()
+const { setLoadingText, handleLoadingActivation } = useLoading()
 
 const retriveData = async () => {
   try {
-    // const { result } = await useRestaurantsQuery()
+    const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
+    if (error.value) {
+      throw createError({})
+    }
 
-    // restaurants.value = result.value?.restaurants?.data || []
-    // console.log(restaurants.value)
-    // const { data: restaurants } = await useFetch('http://localhost:1337/api/restaurants')
-    const { data: restaurants } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
     console.log(restaurants.value)
   } catch (error) {
-    console.log('catch')
-    console.error(error)
+    throwError(error as Error)
   }
 }
 
 const retriveRestaurant = async () => {
   try {
-    const { data: restaurant } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
-    // const { result: restaurantResult } = await useRestaurantQuery({ id: '1' })
-    // await usePageDelay()
-    // restaurant.value = restaurantResult.value?.restaurant?.data || {}
+    const { data: restaurant, error } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
+
+    if (error.value) {
+      throw createError({})
+    }
     console.log(restaurant.value)
   } catch (error) {
-    console.log('catch')
-    console.error(error)
+    throwError(error as Error)
   }
 }
 
@@ -61,11 +59,11 @@ const navigateToHome = () => {
 }
 
 const mockAction = async () => {
-  loadingStore.activationHandler(true)
-  loadingStore.setTextHandler('Caricando...')
+  handleLoadingActivation(true)
+  setLoadingText('Caricando...')
 
   await usePageDelay()
-  loadingStore.activationHandler(false)
+  handleLoadingActivation(false)
 }
 
 // await usePageDelay()

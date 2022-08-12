@@ -10,38 +10,33 @@
 </template>
 
 <script setup lang="ts">
-import { useLoadingStore } from '@/stores/loading'
 import { LOADING } from '@/constants'
 
 const nuxtApp = useNuxtApp()
 const { $gsap, $globalUtils } = useNuxtApp()
-const loadingStore = useLoadingStore()
+const { addRemoveBodyClass } = useBodyClass()
 
 const svgShapes = [
   'M 0 100 V 100 Q 50 100 100 100 V 100 z',
   'M 0 100 V 50 Q 50 0 100 50 V 100 z',
   'M 0 100 V 0 Q 50 0 100 0 V 100 z'
 ]
+const overFlowClass = 'overflow-hidden'
 
-const isLoadingActive = ref<boolean>(false)
+const app = useState<IApp>('app')
+const loadingView = useState<ILoading>('loading-view')
+
 const tweenControllerInit = ref<GSAPTimeline | null>(null)
 const tweenController = ref<GSAPTimeline | null>(null)
 const appIsMounted = ref<boolean>(false)
 const stylesColors = reactive<IStringItem>({ softDark: '', hardDark: '' })
 
-const bodyClass = computed<string>(() => `main-body${isLoadingActive.value ? ' overflow-hidden' : ''}`)
 const svgValues = computed<IStringItem>(() => appIsMounted.value
   ? { shape: svgShapes[0], fill: svgColor('hardDark') }
   : { shape: svgShapes[2], fill: svgColor('softDark') }
 )
 const animationText = computed<string>(() => {
-  return appIsMounted.value ? loadingStore.text : 'piramidi.dental'
-})
-
-useHead({
-  bodyAttrs: {
-    class: bodyClass
-  }
+  return appIsMounted.value ? loadingView.value.text : app.value.name
 })
 
 const setStyledColors = () : void => {
@@ -70,9 +65,11 @@ const useLoadingIndicator = (opts: {
   const start = () => {
     clear()
     progress.value = 0
-    isLoadingActive.value = true
+    addRemoveBodyClass(overFlowClass)
     dateStart.value = new Date()
+
     if (appIsMounted.value) { animationActionsHandler([tweenController.value, 'play']) }
+
     if (opts.throttle) {
       if (process.client) {
         _throttle = setTimeout(_startTimer, opts.throttle)
@@ -138,7 +135,7 @@ const animationActionsHandler = (actions: [(GSAPTimeline | null), string]) : voi
 
 const handleAnimationComplete = () => {
   setTimeout(() => {
-    isLoadingActive.value = false
+    addRemoveBodyClass(overFlowClass, true)
     if (!appIsMounted.value) { appIsMounted.value = true }
   }, LOADING.ANIMATION_DELAY)
 }
@@ -184,9 +181,9 @@ onMounted(async () => {
 
   indicator.start()
 })
-onBeforeUnmount(() => indicator.clear)
+onBeforeUnmount(indicator.clear)
 
-watch(() => loadingStore.isActive, (val: boolean) => {
+watch(() => loadingView.value.isActive, (val: boolean) => {
   indicator[val ? 'start' : 'finish']()
 })
 
@@ -221,6 +218,10 @@ nuxtApp.hook('page:finish', indicator.finish)
     left: -25%;
     top: 0;
     transform: rotate(180deg);
+    @include mediaMd {
+      width: 100%;
+      left: 0;
+    }
   }
 
   &__triangle {
