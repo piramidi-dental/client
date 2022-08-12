@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { createError } from 'h3'
 import { DEFAULT_VALUES, LOADING } from '@/constants'
 
 useHead({
