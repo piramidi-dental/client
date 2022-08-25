@@ -1,7 +1,7 @@
 <template>
   <Html :lang="locale">
     <Body>
-      <LoadingSpinner />
+      <WaveTemplate />
       <NuxtPage />
     </Body>
   </Html>
