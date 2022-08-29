@@ -1,5 +1,5 @@
 <template lang="pug">
-.loading-spinner(:class="{ 'loading-spinner--before-mount': !appIsMounted }")
+.loading-spinner
   .loading-spinner__triangle-svg
     svg(viewBox="0 0 86 80")
       polygon(points="43 8 79 72 7 72")
@@ -7,36 +7,20 @@
 </template>
 
 <script setup lang="ts">
-const loadingProps = defineProps({
+import { AppSetup } from '@/utils/app'
+
+const props = defineProps({
   appIsMounted: {
     type: Boolean,
     required: true
   }
-  // triggerCounter: {
-  //   type: String,
-  //   required: true
-  // }
 })
 
-// const { $gsap } = useNuxtApp()
-const loadingView = useState<ILoading>('loading-view')
-const app = useState<IApp>('app')
+const { app } = AppSetup()
+const waveController = useState<IWaveController>('wave-controller')
 
-const { appIsMounted } = toRefs(loadingProps)
-// const { appIsMounted, triggerCounter } = toRefs(loadingProps)
+const animationText = computed<string>(() => props.appIsMounted ? waveController.value.loadingText : app.name)
 
-const animationText = computed<string>(() => appIsMounted.value ? loadingView.value.text : app.value.name)
-
-// const handleAnimation = () => {
-//   const _opacityValue = !appIsMounted.value || triggerCounter.value === 'reverse' ? 0 : 1
-//   const _delayValue = appIsMounted.value && triggerCounter.value === 'play' ? 0.3 : 0.7
-
-//   $gsap.to('.loading-spinner', { opacity: _opacityValue, ease: 'easeOut', duration: 0.5, delay: _delayValue })
-// }
-
-// watch(triggerCounter, (val) => {
-//   if (val) { handleAnimation() }
-// })
 </script>
 
 <style lang="scss" scoped>
@@ -65,15 +49,11 @@ const animationText = computed<string>(() => appIsMounted.value ? loadingView.va
 }
 
 .loading-spinner {
-  opacity: 0;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  &--before-mount {
-    opacity: 1;
-  }
   &__triangle-svg {
     $duration: 3s;
 

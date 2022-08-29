@@ -1,5 +1,13 @@
 import { LanguageManager } from './lang'
 
+interface IApp {
+  name: string
+  author: {
+    name: string
+    link: string
+  }
+}
+
 const AppSetup = () => {
   // declare app information
   const app: IApp = {

@@ -11,7 +11,8 @@ declare interface IStringNumberItem {
   [key: string]: string | number
 }
 
-declare interface ILoading {
+declare interface IWaveController {
   isActive: boolean,
-  text: string
+  isLoading: boolean,
+  loadingText: string
 }

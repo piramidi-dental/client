@@ -1,0 +1,56 @@
+<template lang="pug">
+.nav-menu
+  ul.nav-menu__list
+    li(v-for="item in pagesList" :key="item.name") {{ item.name }}
+</template>
+
+<script setup lang="ts">
+const pagesList = [
+  {
+    name: 'Home',
+    link: ''
+  },
+  {
+    name: 'Servizi e terapie',
+    link: ''
+  },
+  {
+    name: 'Lo studio',
+    link: ''
+  },
+  {
+    name: 'Contatti',
+    link: ''
+  }
+]
+</script>
+
+<style lang="scss" scoped>
+.nav-menu {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  padding: $space-200;
+  &__list {
+    display: grid;
+    row-gap: $space-200;
+    width: fit-content;
+    &::after {
+      content: "";
+      height: $border-size-200;
+      width: 100%;
+      display: block;
+      background: $color-soft-neutral;
+      grid-row: 4;
+    }
+    li {
+      @include txt-title-400;
+      color: $color-white;
+      &:last-child {
+        color: $color-tertiary;
+      }
+    }
+  }
+}
+</style>

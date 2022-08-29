@@ -1,9 +1,5 @@
 <template lang="pug">
 .home-page
-  header.header
-    h4.header__title(ref="headerTitle") piramidi.dental
-    UiMobileIconMenu(
-      @open-mobile-menu="openMobileMenu")
   .home-page__dental-tool(ref="dentalTool")
     img(src="/images/dental-tool.svg" alt="dental-tool")
   section.home-page__main(ref="mainSection")
@@ -33,8 +29,10 @@ definePageMeta({
   middleware: ['loading-text']
 })
 
-const windowWidth = useWindowWidth()
+const { windowWidth } = useWindowWidth()
 const { parallax, stylesEffect } = useScrollmagic()
+
+const waveController = useState<IWaveController>('wave-controller')
 
 const dentalTool = ref<HTMLElement | null>(null)
 const mainSection = ref<HTMLElement | null>(null)
@@ -44,7 +42,7 @@ const restaurants = ref<(object | void)[]>([])
 const restaurant = ref<object>({})
 
 const scrollAnimationsHandler = () : void => {
-  for (const effect of scrollEffects.value) { if (effect) { effect.remove() } }
+  resetAnimation()
 
   nextTick(() => {
     if (dentalTool.value && mainSection.value) {
@@ -64,9 +62,9 @@ const scrollAnimationsHandler = () : void => {
       const stlOption = ({
         dataTween: {
           fn: 'fromTo',
-          el: '.header__title',
-          from: { css: { opacity: 0 }, ease: 'linear' },
-          to: { css: { opacity: 1 }, ease: 'linear' }
+          el: '.nav-bar__title',
+          from: { opacity: 0, ease: 'linear' },
+          to: { opacity: 1, ease: 'linear' }
         },
         offset: _mainHeight - DEFAULT_VALUES.MOBILE_HEADER,
         duration: DEFAULT_VALUES.MOBILE_HEADER
@@ -78,6 +76,10 @@ const scrollAnimationsHandler = () : void => {
       ]
     }
   })
+}
+
+const resetAnimation = () => {
+  for (const effect of scrollEffects.value) { if (effect) { effect.remove() } }
 }
 
 const retriveRestaurants = async () => {
@@ -108,41 +110,25 @@ const retriveRestaurant = async () => {
   }
 }
 
-const openMobileMenu = () => {
-  console.log('mobile menu')
-}
-
 const navigateToTerapies = () => {
   navigateTo({ path: '/terapies' })
 }
 
-watch(windowWidth, scrollAnimationsHandler)
+watch(windowWidth, () => {
+  if (waveController.value.isLoading) { scrollAnimationsHandler() }
+})
+watch(() => waveController.value.isLoading, (val) => {
+  if (val) { scrollAnimationsHandler() }
+})
 
 onMounted(scrollAnimationsHandler)
+onUnmounted(resetAnimation)
 
 await retriveRestaurants()
 await retriveRestaurant()
 </script>
 
 <style lang="scss" scoped>
-.header {
-  position: fixed;
-  height: $-mobile-header-height;
-  width: 100%;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: $space-200;
-  mix-blend-mode: difference;
-  z-index: 1;
-  &__title {
-    @include txt-title-300;
-    color: $color-white;
-    line-height: 0;
-    opacity: 0;
-  }
-}
 .home-page {
   &__dental-tool {
     position: absolute;

@@ -1,6 +1,6 @@
 <template lang="pug">
 ul.menu-icon(
-  :class="{ 'menu-icon--open': mobileMenu }"
+  :class="getIconModifiers"
   @click="toggleMenu")
   li
   li
@@ -8,12 +8,25 @@ ul.menu-icon(
 </template>
 
 <script setup lang="ts">
+import { LOADING } from '@/constants'
+
+const { handleWaveActivation } = useWaveController()
+
 const mobileMenu = ref<boolean>(false)
-const emit = defineEmits<{(e: 'open-mobile-menu', mobileMenu: boolean): void}>()
+const isDisable = ref<boolean>(false)
+// const emit = defineEmits<{(e: 'open-mobile-menu', mobileMenu: boolean): void}>()
+
+const getIconModifiers = computed(() => [{ 'menu-icon--open': mobileMenu.value, 'menu-icon--is-disabled': isDisable.value }])
 
 const toggleMenu = () : void => {
   mobileMenu.value = !mobileMenu.value
-  emit('open-mobile-menu', mobileMenu.value)
+  isDisable.value = true
+  handleWaveActivation({ value: mobileMenu.value, isLoading: false })
+
+  setTimeout(() => {
+    isDisable.value = false
+  }, LOADING.WAVE_DURATION)
+  // emit('open-mobile-menu', mobileMenu.value)
 }
 </script>
 
@@ -25,11 +38,14 @@ const toggleMenu = () : void => {
   justify-content: space-around;
   width: $space-400;
   height: $space-400;
+  &--is-disabled {
+    pointer-events: none;
+  }
   li {
     width: $space-400;
     height: $space-050;
     background: $color-white;
-    transition: all 0.3s linear;
+    transition: all 0.5s linear;
     transform-origin: 1px;
   }
   li:nth-child(odd) {

@@ -1,41 +1,38 @@
 <template lang="pug">
 .wave-template(ref="testRef" :class="{ 'wave-template--before-mount': !appIsMounted }")
-  svg.wave-template__svg(viewBox="0 0 100 100" preserveAspectRatio="none")
-    path(id="wave-svg" :fill="svgValues.fill" vector-effect="non-scaling-stroke" :d="svgValues.shape")
-  component.wave-template__inner(
-    :is="getDynamicComponent"
-    :app-is-mounted="appIsMounted")
-    //- :trigger-counter="triggerCounter")
+  .wave-template__wrapper
+    .wave-template__shape-divider
+    svg.wave-template__svg(viewBox="0 0 1200 120" preserveAspectRatio="none")
+      path(id="wave-svg" :fill="svgFillColor" vector-effect="non-scaling-stroke" :d="svgShape")
+  .wave-template__inner
+    component(
+      :is="dynamicComponent"
+      :app-is-mounted="appIsMounted")
 </template>
 
 <script setup lang="ts">
-import { LOADING } from '@/constants'
+import { LOADING, DEFAULT_VALUES } from '@/constants'
 
 const nuxtApp = useNuxtApp()
 const { $gsap, $globalUtils } = useNuxtApp()
 const { addRemoveBodyClass } = useBodyClass()
+const { isResponsiveSm } = useWindowWidth()
 
-const svgShapes = [
-  'M 0 100 V 100 Q 50 100 100 100 V 100 z',
-  'M 0 100 V 50 Q 50 0 100 50 V 100 z',
-  'M 0 100 V 0 Q 50 0 100 0 V 100 z'
-]
+const svgShape = 'M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z'
 const overFlowClass = 'overflow-hidden'
 
-const loadingView = useState<ILoading>('loading-view')
+const waveController = useState<IWaveController>('wave-controller')
+const waveTemplate = useState<boolean>('wave-template')
 
 const tweenControllerInit = ref<GSAPTimeline | null>(null)
 const tweenController = ref<GSAPTimeline | null>(null)
 const appIsMounted = ref<boolean>(false)
-// const triggerCounter = ref<string>('')
+const finishTimeout = ref<number>(500)
+const dynamicComponent = shallowRef(resolveComponent('LoadingSpinner'))
 const stylesColors = reactive<IStringItem>({ softDark: '', hardDark: '' })
 
-const svgValues = computed<IStringItem>(() => appIsMounted.value
-  ? { shape: svgShapes[0], fill: svgColor('hardDark') }
-  : { shape: svgShapes[2], fill: svgColor('softDark') }
-)
-
-const getDynamicComponent = computed(() => resolveComponent('LoadingSpinner'))
+const svgFillColor = computed<string>(() => appIsMounted.value ? svgColor('hardDark') : svgColor('softDark'))
+const getWaveHeight = computed<string>(() => `${(!isResponsiveSm.value ? 150 : 200) / DEFAULT_VALUES.REM}rem`)
 
 const setStyledColors = () : void => {
   const style = getComputedStyle(document.body)
@@ -63,6 +60,7 @@ const useLoadingIndicator = (opts: {
     progress.value = 0
     addRemoveBodyClass(overFlowClass)
     dateStart.value = new Date()
+    waveTemplate.value = true
 
     if (appIsMounted.value) { animationActionsHandler([tweenController.value, 'play']) }
 
@@ -76,12 +74,13 @@ const useLoadingIndicator = (opts: {
   }
 
   const finish = () => {
-    const _diffDate = LOADING.PAGE_DELAY - ((new Date()).getTime() - dateStart.value.getTime())
-    const _timeoutValue = _diffDate > 0 ? _diffDate : 0
+    const _diffDate = LOADING.ANIMATION_DELAY - ((new Date()).getTime() - dateStart.value.getTime())
+    const _timeoutValue = _diffDate > 0 && waveController.value.isLoading ? _diffDate : 0
 
-    progress.value = 100
-
-    setTimeout(() => { _hide() }, _timeoutValue)
+    setTimeout(() => {
+      progress.value = 100
+      _hide()
+    }, _timeoutValue)
   }
 
   const clear = () => {
@@ -106,7 +105,7 @@ const useLoadingIndicator = (opts: {
 
         setTimeout(() => { progress.value = 0 }, 400)
         handleAnimationComplete()
-      }, 500)
+      }, finishTimeout.value)
     }
   }
 
@@ -126,32 +125,29 @@ const useLoadingIndicator = (opts: {
 
 const animationActionsHandler = (actions: [(GSAPTimeline | null), string]) : void => {
   const [_controller, actionType] = actions
-  if (_controller) {
-    _controller[actionType]()
-    // triggerCounter.value = actionType
-  }
+  if (_controller) { _controller[actionType]() }
 }
 
 const handleAnimationComplete = () => {
   setTimeout(() => {
     addRemoveBodyClass(overFlowClass, true)
-    if (!appIsMounted.value) {
-      appIsMounted.value = true
-      // triggerCounter.value = ''
-    }
-  }, LOADING.ANIMATION_DELAY)
+    waveTemplate.value = false
+    if (!appIsMounted.value) { appIsMounted.value = true }
+  }, LOADING.WAVE_DURATION)
 }
 
 const animationHandler = () : void => {
   nextTick(() => {
     const _tween = $gsap.timeline({ paused: true })
 
-    _tween.to('.wave-template', { display: 'block' })
+    _tween.to('.wave-template', { display: 'block', duration: 0 })
 
-    _tween.to('#wave-svg', { attr: { d: svgShapes[1] }, ease: 'easeIn', duration: 0.5 }, '<')
-    _tween.to('#wave-svg', { attr: { d: svgShapes[2] }, ease: 'easeOut', duration: 0.5, fill: stylesColors.softDark })
-    _tween.to('.wave-template__inner', { opacity: 1, ease: 'easeOut', duration: 0.5 }, '<-0.3')
-    _tween.to('.wave-template', { css: { backgroundColor: stylesColors.softDark } })
+    _tween.to('.wave-template__shape-divider', { css: { height: '100%' }, ease: 'easeIn', duration: 0.5 })
+    _tween.to('.wave-template__svg', { css: { height: getWaveHeight.value }, ease: 'easeIn', duration: 0.3 }, '<')
+    _tween.to('.wave-template__svg', { css: { height: 0 }, ease: 'easeOut', duration: 0.2 }, '-=0.2')
+    _tween.to('.wave-template__shape-divider', { css: { backgroundColor: stylesColors.softDark }, duration: 0.2 }, '<')
+    _tween.to('#wave-svg', { fill: stylesColors.softDark, duration: 0.2 }, '<')
+    _tween.to('.wave-template__inner', { opacity: 1, ease: 'easeOut', duration: 0.3 }, '-=0.3')
 
     tweenController.value = _tween
   })
@@ -161,11 +157,14 @@ const initAnimationHandler = () => {
   nextTick(() => {
     const _tween = $gsap.timeline({ paused: true })
 
-    _tween.to('.wave-template', { css: { backgroundColor: 'transparent' } })
-    _tween.to('#wave-svg', { attr: { d: svgShapes[1] }, ease: 'easeOut', duration: 0.5 })
-    _tween.to('#wave-svg', { attr: { d: svgShapes[0] }, ease: 'easeIn', duration: 0.5, fill: stylesColors.hardDark })
-    _tween.to('.wave-template__inner', { opacity: 0, ease: 'easeOut', duration: 0.5 }, '<-0.3')
-    _tween.to('.wave-template', { display: 'none' })
+    _tween.to('.wave-template__shape-divider', { css: { height: 0 }, ease: 'easeIn', duration: 0.5 })
+    _tween.to('.wave-template__svg', { css: { height: getWaveHeight.value }, ease: 'easeIn', duration: 0.2 }, '<')
+    _tween.to('.wave-template__shape-divider', { css: { backgroundColor: stylesColors.hardDark }, duration: 0.2 }, '<')
+    _tween.to('#wave-svg', { fill: stylesColors.hardDark, duration: 0.2 }, '<')
+    _tween.to('.wave-template__svg', { css: { height: 0 }, ease: 'easeOut', duration: 0.3 }, '-=0.3')
+    _tween.to('.wave-template__inner', { opacity: 0, ease: 'easeOut', duration: 0.3 }, '-=0.3')
+
+    _tween.to('.wave-template', { display: 'none', duration: 0 })
 
     tweenControllerInit.value = _tween
   })
@@ -185,11 +184,23 @@ onMounted(async () => {
 })
 onBeforeUnmount(indicator.clear)
 
-watch(() => loadingView.value.isActive, (val: boolean) => {
+watch(() => waveController.value.isActive, (val: boolean) => {
+  if (waveController.value.isLoading) {
+    dynamicComponent.value = resolveComponent('LoadingSpinner')
+    finishTimeout.value = 500
+  } else {
+    dynamicComponent.value = resolveComponent('UiMobileNavMenu')
+    finishTimeout.value = 0
+  }
+
   indicator[val ? 'start' : 'finish']()
 })
 
-nuxtApp.hook('page:start', indicator.start)
+nuxtApp.hook('page:start', () => {
+  dynamicComponent.value = resolveComponent('LoadingSpinner')
+  finishTimeout.value = 500
+  indicator.start()
+})
 nuxtApp.hook('page:finish', indicator.finish)
 
 </script>
@@ -203,24 +214,44 @@ nuxtApp.hook('page:finish', indicator.finish)
   width: 100%;
   height: 100%;
   position: fixed;
-  z-index: 999999;
+  z-index: 2;
 
   &--before-mount {
     display: block;
-    background-color: $color-secondary-soft-dark;
+    #{$self}__shape-divider {
+      background-color: $color-secondary-soft-dark;
+      height: 100%;
+    }
+    #{$self}__inner {
+      opacity: 1;
+    }
+  }
+
+  &__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  &__shape-divider {
+    height: 0;
+    position: relative;
   }
 
   &__svg {
-    position: absolute;
-    width: 150%;
-    height: 100%;
-    left: -25%;
-    top: 0;
-    transform: rotate(180deg);
-    @include mediaMd {
-      width: 100%;
-      left: 0;
-    }
+    position: relative;
+    display: block;
+    height: 0;
+    margin-top: rem(-1);
+    width: calc(201% + 1.3px);
+  }
+
+  &__inner {
+    opacity: 0;
   }
 }
 </style>
