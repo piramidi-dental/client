@@ -1,18 +1,21 @@
 <template lang="pug">
 .nav-menu
   ul.nav-menu__list
-    li(v-for="item in pagesList" :key="item.name") {{ item.name }}
+    li(
+      v-for="item in pagesList"
+      :key="item.name"
+      @click="navigateTo({ path: item.link })") {{ item.name }}
 </template>
 
 <script setup lang="ts">
 const pagesList = [
   {
     name: 'Home',
-    link: ''
+    link: '/'
   },
   {
     name: 'Servizi e terapie',
-    link: ''
+    link: '/terapies'
   },
   {
     name: 'Lo studio',

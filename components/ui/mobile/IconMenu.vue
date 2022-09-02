@@ -11,7 +11,9 @@ ul.menu-icon(
 import { LOADING } from '@/constants'
 
 const { handleWaveActivation } = useWaveController()
+const { isResponsiveMd } = useWindowWidth()
 
+const waveController = useState<IWaveController>('wave-controller')
 const mobileMenu = ref<boolean>(false)
 const isDisable = ref<boolean>(false)
 // const emit = defineEmits<{(e: 'open-mobile-menu', mobileMenu: boolean): void}>()
@@ -28,6 +30,12 @@ const toggleMenu = () : void => {
   }, LOADING.WAVE_DURATION)
   // emit('open-mobile-menu', mobileMenu.value)
 }
+
+watch(isResponsiveMd, (val) => {
+  if (val && waveController.value.isActive && !waveController.value.isLoading) {
+    toggleMenu()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
