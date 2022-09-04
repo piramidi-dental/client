@@ -4,10 +4,13 @@
     li(
       v-for="item in pagesList"
       :key="item.name"
-      @click="navigateTo({ path: item.link })") {{ item.name }}
+      @click="handleNavigation(item.link)") {{ item.name }}
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
+const emit = defineEmits<{(e: 'handle-mobile-menu'): void}>()
+
 const pagesList = [
   {
     name: 'Home',
@@ -26,6 +29,12 @@ const pagesList = [
     link: ''
   }
 ]
+
+const handleNavigation = (link: string): void => {
+  if (route.path === link) {
+    emit('handle-mobile-menu')
+  } else { navigateTo({ path: link }) }
+}
 </script>
 
 <style lang="scss" scoped>

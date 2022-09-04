@@ -1,11 +1,17 @@
 
-import { LOADING } from '@/constants'
+// import { LOADING } from '@/constants'
+type IWavetypes = 'loading' | 'menu'
+
+interface IWaveController {
+  isActive: boolean,
+  type?: IWavetypes,
+  loadingText?: string
+}
 
 export default () => {
-  const waveTemplate = useState<boolean>('wave-template')
-  const waveController = useState<IWaveController>('wave-controller', () => ({
+  const waveController = useState('wave-controller', () => ({
     isActive: false,
-    isLoading: true,
+    type: 'loading',
     loadingText: ''
   }))
 
@@ -13,25 +19,25 @@ export default () => {
     waveController.value.loadingText = text
   }
 
-  const handleWaveActivation = (data: { value: boolean, isLoading?: boolean }) => {
-    const { value, isLoading = true } = data
+  const setWaveType = (type: IWavetypes) => {
+    waveController.value.type = type
+  }
+
+  const handleWaveActivation = (data: IWaveController) => {
+    const { isActive, type = 'loading', loadingText = waveController.value.loadingText } = data
 
     waveController.value = {
       ...waveController.value,
-      isActive: value,
-      isLoading
+      isActive,
+      type,
+      loadingText
     }
   }
-
-  watch(waveTemplate, (val) => {
-    if (!val && !waveController.value.isLoading) {
-      waveController.value.isLoading = true
-    }
-  })
 
   return {
     waveController,
     setLoadingText,
+    setWaveType,
     handleWaveActivation
   }
 }

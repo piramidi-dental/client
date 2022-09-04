@@ -2,3 +2,7 @@
 .overflow-hidden {
   overflow: hidden;
 }
+
+a:-webkit-any-link {
+  color: inherit;
+}

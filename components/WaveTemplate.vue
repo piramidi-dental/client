@@ -3,11 +3,13 @@
   .wave-template__wrapper
     .wave-template__shape-divider
     svg.wave-template__svg(viewBox="0 0 1200 120" preserveAspectRatio="none")
-      path(id="wave-svg" :fill="svgFillColor" vector-effect="non-scaling-stroke" :d="svgShape")
+      path(id="wave-svg" :fill="svgFillColor" vector-effect="non-scaling-stroke" :d="SVG_SHAPE")
   .wave-template__inner
-    component(
-      :is="dynamicComponent"
-      :app-is-mounted="appIsMounted")
+    transition(:name="componentTransition" mode="out-in")
+      component(
+        :is="dynamicComponent"
+        :app-is-mounted="appIsMounted"
+        @handle-mobile-menu="toggleMenu")
 </template>
 
 <script setup lang="ts">
@@ -17,17 +19,22 @@ const nuxtApp = useNuxtApp()
 const { $gsap, $globalUtils } = useNuxtApp()
 const { addRemoveBodyClass } = useBodyClass()
 const { isResponsiveSm } = useWindowWidth()
+const { mobileMenu, toggleMenu } = useMobileMenu()
+const { setWaveType, waveController } = useWaveController()
 
-const svgShape = 'M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z'
-const overFlowClass = 'overflow-hidden'
+const SVG_SHAPE = 'M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z'
+const OVER_FLOW_CLASS = 'overflow-hidden'
+const DEF_FINISH_TIMEOUT_VALUE = 500
 
-const waveController = useState<IWaveController>('wave-controller')
 const waveTemplate = useState<boolean>('wave-template')
 
-const tweenControllerInit = ref<GSAPTimeline | null>(null)
 const tweenController = ref<GSAPTimeline | null>(null)
+const tweenControllerInit = ref<GSAPTimeline | null>(null)
+const tweenControllerNavBar = ref<GSAPTimeline | null>(null)
+
 const appIsMounted = ref<boolean>(false)
-const finishTimeout = ref<number>(500)
+const finishTimeout = ref<number>(DEF_FINISH_TIMEOUT_VALUE)
+const componentTransition = ref<string>('')
 const dynamicComponent = shallowRef(resolveComponent('LoadingSpinner'))
 const stylesColors = reactive<IStringItem>({ softDark: '', hardDark: '' })
 
@@ -58,7 +65,7 @@ const useLoadingIndicator = (opts: {
   const start = () => {
     clear()
     progress.value = 0
-    addRemoveBodyClass(overFlowClass)
+    addRemoveBodyClass(OVER_FLOW_CLASS)
     dateStart.value = new Date()
     waveTemplate.value = true
 
@@ -75,7 +82,7 @@ const useLoadingIndicator = (opts: {
 
   const finish = () => {
     const _diffDate = LOADING.ANIMATION_DELAY - ((new Date()).getTime() - dateStart.value.getTime())
-    const _timeoutValue = _diffDate > 0 && waveController.value.isLoading ? _diffDate : 0
+    const _timeoutValue = _diffDate > 0 && waveController.value.type === 'loading' ? _diffDate : 0
 
     setTimeout(() => {
       progress.value = 100
@@ -130,9 +137,16 @@ const animationActionsHandler = (actions: [(GSAPTimeline | null), string]) : voi
 
 const handleAnimationComplete = () => {
   setTimeout(() => {
-    addRemoveBodyClass(overFlowClass, true)
+    addRemoveBodyClass(OVER_FLOW_CLASS, true)
     waveTemplate.value = false
     if (!appIsMounted.value) { appIsMounted.value = true }
+    if (waveController.value.type === 'menu') {
+      animationActionsHandler([tweenControllerNavBar.value, 'reverse'])
+    }
+    if (mobileMenu.value.isOpen) {
+      toggleMenu()
+      componentTransition.value = ''
+    }
   }, LOADING.WAVE_DURATION)
 }
 
@@ -170,6 +184,21 @@ const initAnimationHandler = () => {
   })
 }
 
+const navBarAnimation = () => {
+  nextTick(() => {
+    const _tween = $gsap.timeline({ paused: true })
+
+    _tween.to('.nav-bar', { css: { zIndex: 3 }, ease: 'easeIn', duration: 0.3 })
+
+    tweenControllerNavBar.value = _tween
+  })
+}
+
+const setLoadingConfig = () => {
+  dynamicComponent.value = resolveComponent('LoadingSpinner')
+  finishTimeout.value = DEF_FINISH_TIMEOUT_VALUE
+}
+
 const indicator = useLoadingIndicator({
   duration: 2000,
   throttle: 200
@@ -178,6 +207,7 @@ const indicator = useLoadingIndicator({
 onMounted(async () => {
   await setStyledColors()
   await initAnimationHandler()
+  await navBarAnimation()
   await animationHandler()
 
   indicator.start()
@@ -185,20 +215,27 @@ onMounted(async () => {
 onBeforeUnmount(indicator.clear)
 
 watch(() => waveController.value.isActive, (val: boolean) => {
-  if (waveController.value.isLoading) {
-    dynamicComponent.value = resolveComponent('LoadingSpinner')
-    finishTimeout.value = 500
+  if (waveController.value.type === 'loading') {
+    setLoadingConfig()
   } else {
     dynamicComponent.value = resolveComponent('UiMobileNavMenu')
     finishTimeout.value = 0
+    $gsap.to('.nav-bar__logo-box', { opacity: 1, duration: 0 })
+    animationActionsHandler([tweenControllerNavBar.value, 'play'])
   }
 
   indicator[val ? 'start' : 'finish']()
 })
 
 nuxtApp.hook('page:start', () => {
-  dynamicComponent.value = resolveComponent('LoadingSpinner')
-  finishTimeout.value = 500
+  setLoadingConfig()
+  setWaveType('loading')
+
+  if (mobileMenu.value.isOpen) {
+    componentTransition.value = 'fade'
+    animationActionsHandler([tweenControllerNavBar.value, 'reverse'])
+  }
+
   indicator.start()
 })
 nuxtApp.hook('page:finish', indicator.finish)

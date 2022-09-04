@@ -17,7 +17,7 @@ const props = defineProps({
 })
 
 const { app } = AppSetup()
-const waveController = useState<IWaveController>('wave-controller')
+const { waveController } = useWaveController()
 
 const animationText = computed<string>(() => props.appIsMounted ? waveController.value.loadingText : app.name)
 

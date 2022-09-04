@@ -59,11 +59,10 @@ const navigateToHome = () => {
 }
 
 const mockAction = async () => {
-  handleWaveActivation({ value: true })
-  setLoadingText('Caricando...')
+  handleWaveActivation({ isActive: true, loadingText: 'Caricando...' })
 
   await usePageDelay()
-  handleWaveActivation({ value: false })
+  handleWaveActivation({ isActive: false })
 }
 
 // await usePageDelay()

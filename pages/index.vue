@@ -36,7 +36,7 @@ definePageMeta({
 const { windowWidth } = useWindowWidth()
 const { parallax, stylesEffect } = useScrollmagic()
 
-const waveController = useState<IWaveController>('wave-controller')
+const waveTemplate = useState<boolean>('wave-template')
 
 const pageIsMounted = ref<boolean>(false)
 const dentalTool = ref<HTMLElement | null>(null)
@@ -121,10 +121,10 @@ const navigateToTerapies = () => {
 }
 
 watch(windowWidth, () => {
-  if (waveController.value.isLoading && pageIsMounted.value) { scrollAnimationsHandler() }
+  if (pageIsMounted.value && !waveTemplate.value) { scrollAnimationsHandler() }
 })
-watch(() => waveController.value.isLoading, (val) => {
-  if (val) { scrollAnimationsHandler() }
+watch(waveTemplate, (val) => {
+  if (!val) { scrollAnimationsHandler() }
 })
 
 onMounted(() => {

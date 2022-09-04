@@ -8,34 +8,12 @@ ul.menu-icon(
 </template>
 
 <script setup lang="ts">
-import { LOADING } from '@/constants'
+const { mobileMenu, toggleMenu } = useMobileMenu()
 
-const { handleWaveActivation } = useWaveController()
-const { isResponsiveMd } = useWindowWidth()
-
-const waveController = useState<IWaveController>('wave-controller')
-const mobileMenu = ref<boolean>(false)
-const isDisable = ref<boolean>(false)
-// const emit = defineEmits<{(e: 'open-mobile-menu', mobileMenu: boolean): void}>()
-
-const getIconModifiers = computed(() => [{ 'menu-icon--open': mobileMenu.value, 'menu-icon--is-disabled': isDisable.value }])
-
-const toggleMenu = () : void => {
-  mobileMenu.value = !mobileMenu.value
-  isDisable.value = true
-  handleWaveActivation({ value: mobileMenu.value, isLoading: false })
-
-  setTimeout(() => {
-    isDisable.value = false
-  }, LOADING.WAVE_DURATION)
-  // emit('open-mobile-menu', mobileMenu.value)
-}
-
-watch(isResponsiveMd, (val) => {
-  if (val && waveController.value.isActive && !waveController.value.isLoading) {
-    toggleMenu()
-  }
-})
+const getIconModifiers = computed(() => [{
+  'menu-icon--open': mobileMenu.value.isOpen,
+  'menu-icon--is-disabled': mobileMenu.value.isDisable
+}])
 </script>
 
 <style lang="scss" scoped>

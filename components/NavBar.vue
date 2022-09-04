@@ -1,5 +1,5 @@
 <template lang="pug">
-.nav-bar(:class="{ 'nav-bar--visible': navBarMenuVisible }")
+.nav-bar
   .nav-bar__inner
     .nav-bar__logo-box(
       ref="navBarLogoBox"
@@ -27,9 +27,6 @@ const { app } = AppSetup()
 const { $globalUtils } = useNuxtApp()
 const { isResponsiveSm, isResponsiveMd } = useWindowWidth()
 
-const waveTemplate = useState<boolean>('wave-template')
-const waveController = useState<IWaveController>('wave-controller')
-
 const pagesList = [
   {
     name: 'home',
@@ -51,13 +48,8 @@ const pagesList = [
 
 const navBarLogoBox = ref<HTMLElement | null>(null)
 
-const navBarMenuVisible = computed<boolean>(() => !waveController.value.isLoading && waveTemplate.value)
-
 const linkDisableHandle = (title: string) : boolean => route.meta.title === $globalUtils.capitalizeString(title)
 
-watch(waveTemplate, (val) => {
-  if (val) { (navBarLogoBox.value as HTMLElement).style.opacity = '1' }
-})
 </script>
 
 <style lang="scss" scoped>
