@@ -2,7 +2,7 @@
 <template lang="pug">
 .ds-link(:class="getClassModifiers")
   span.ds-icon-arrow-up(v-if="arrowIcon")
-  NuxtLink(:to="to") {{ name }}
+  NuxtLink(:to="to") {{ $t(name) }}
 </template>
 
 <script setup lang="ts">

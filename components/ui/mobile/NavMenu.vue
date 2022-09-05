@@ -4,37 +4,20 @@
     li(
       v-for="item in pagesList"
       :key="item.name"
-      @click="handleNavigation(item.link)") {{ item.name }}
+      @click="handleNavigation(item.link)") {{ $t(`pages.${item.name}`) }}
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
 const emit = defineEmits<{(e: 'handle-mobile-menu'): void}>()
 
-const pagesList = [
-  {
-    name: 'Home',
-    link: '/'
-  },
-  {
-    name: 'Servizi e terapie',
-    link: '/terapies'
-  },
-  {
-    name: 'Lo studio',
-    link: ''
-  },
-  {
-    name: 'Contatti',
-    link: ''
-  }
-]
-
 const handleNavigation = (link: string): void => {
   if (route.path === link) {
     emit('handle-mobile-menu')
   } else { navigateTo({ path: link }) }
 }
+
+const { data: pagesList } = useFetch<IStringItem[]>('/api/pages')
 </script>
 
 <style lang="scss" scoped>
@@ -44,10 +27,16 @@ const handleNavigation = (link: string): void => {
   transform: translateY(-50%);
   width: 100%;
   padding: $space-200;
+  @include mediaSm {
+    padding: $space-400;
+  }
   &__list {
     display: grid;
     row-gap: $space-200;
     width: fit-content;
+    @include mediaSm {
+      row-gap: $space-300;
+    }
     &::after {
       content: "";
       height: $border-size-200;
@@ -60,6 +49,9 @@ const handleNavigation = (link: string): void => {
       @include txt-title-400;
       @include link-primary;
       cursor: pointer;
+      @include mediaSm {
+        @include txt-title-500;
+      }
       &:last-child {
         @include link-tertiary;
       }

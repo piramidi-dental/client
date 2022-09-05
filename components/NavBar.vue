@@ -2,7 +2,6 @@
 .nav-bar
   .nav-bar__inner
     .nav-bar__logo-box(
-      ref="navBarLogoBox"
       :class="{ 'nav-bar__logo-box--disable': linkDisableHandle('home') }"
       @click="navigateTo({ path: '/' })")
       img(v-if="isResponsiveSm" src="/images/client_logo-circle-bw.svg" alt="client logo")
@@ -10,11 +9,10 @@
     UiMobileIconMenu(v-if="!isResponsiveMd")
     .nav-bar__list(v-else)
       UiDsLink(
-        v-for="(item, index) in pagesList"
+        v-for="item in pagesList"
         :key="item.name"
-        v-show="index !== 0"
         :disable="linkDisableHandle(item.name)"
-        :name="item.name"
+        :name="`pages.${item.name}`"
         size="small"
         :to="item.link")
 </template>
@@ -27,29 +25,9 @@ const { app } = AppSetup()
 const { $globalUtils } = useNuxtApp()
 const { isResponsiveSm, isResponsiveMd } = useWindowWidth()
 
-const pagesList = [
-  {
-    name: 'home',
-    link: '/'
-  },
-  {
-    name: 'terapies',
-    link: '/terapies'
-  },
-  {
-    name: 'clinic',
-    link: ''
-  },
-  {
-    name: 'contacts',
-    link: ''
-  }
-]
-
-const navBarLogoBox = ref<HTMLElement | null>(null)
-
 const linkDisableHandle = (title: string) : boolean => route.meta.title === $globalUtils.capitalizeString(title)
 
+const { data: pagesList } = useFetch<IStringItem[]>('/api/pages?toFilter=home')
 </script>
 
 <style lang="scss" scoped>
@@ -73,6 +51,9 @@ const linkDisableHandle = (title: string) : boolean => route.meta.title === $glo
     justify-content: space-between;
     align-items: center;
     padding: $space-200;
+    @include mediaSm {
+      padding: $space-200 $space-400;
+    }
     @include mediaMd {
       padding: $space-200 0;
       margin: 0 auto;
