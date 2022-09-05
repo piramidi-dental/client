@@ -75,20 +75,15 @@ const getClassModifiers = computed(() => [
   }
 
   &--primary {
-    color: $color-white;
+    @include link-primary;
   }
 
   &--secondary {
-    color: $color-secondary;
+    @include link-secondary;
   }
 
-  &--primary,
-  &--secondary {
-    &:hover,
-    &:focus,
-    &:active {
-      color: $color-tertiary;
-    }
+  &--tertiary {
+    @include link-tertiary;
   }
 }
 </style>

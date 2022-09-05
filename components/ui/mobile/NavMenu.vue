@@ -58,9 +58,10 @@ const handleNavigation = (link: string): void => {
     }
     li {
       @include txt-title-400;
-      color: $color-white;
+      @include link-primary;
+      cursor: pointer;
       &:last-child {
-        color: $color-tertiary;
+        @include link-tertiary;
       }
     }
   }

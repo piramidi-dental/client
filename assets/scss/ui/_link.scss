@@ -1,0 +1,32 @@
+
+$color-transition: color 0.3s ease-out;
+
+@mixin link-primary {
+  color: $color-white;
+  transition: $color-transition;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color-tertiary;
+  }
+}
+
+@mixin link-secondary {
+  color: $color-secondary;
+  transition: $color-transition;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color-tertiary;
+  }
+}
+
+@mixin link-tertiary {
+  color: $color-tertiary;
+  transition: $color-transition;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color-primary;
+  }
+}

@@ -106,7 +106,7 @@ const linkDisableHandle = (title: string) : boolean => route.meta.title === $glo
         height: 100%;
         margin: 0 $space-200;
       }
-      ::v-deep .router-link-active {
+      ::v-deep(.router-link-active) {
         color: $color-tertiary;
       }
     }
