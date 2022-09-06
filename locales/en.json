@@ -1,4 +1,9 @@
 
 {
-  "welcome": "Welcome"
+  "pages": {
+    "home": "Home",
+    "terapies": "Services and therapies",
+    "clinic": "The clinic",
+    "contacts": "Contacts"
+  }
 }

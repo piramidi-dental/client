@@ -1,6 +1,6 @@
 <template lang="pug">
 ul.menu-icon(
-  :class="{ 'menu-icon--open': mobileMenu }"
+  :class="getIconModifiers"
   @click="toggleMenu")
   li
   li
@@ -8,13 +8,12 @@ ul.menu-icon(
 </template>
 
 <script setup lang="ts">
-const mobileMenu = ref<boolean>(false)
-const emit = defineEmits<{(e: 'open-mobile-menu', mobileMenu: boolean): void}>()
+const { mobileMenu, toggleMenu } = useMobileMenu()
 
-const toggleMenu = () : void => {
-  mobileMenu.value = !mobileMenu.value
-  emit('open-mobile-menu', mobileMenu.value)
-}
+const getIconModifiers = computed(() => [{
+  'menu-icon--open': mobileMenu.value.isOpen,
+  'menu-icon--is-disabled': mobileMenu.value.isDisable
+}])
 </script>
 
 <style lang="scss" scoped>
@@ -25,11 +24,14 @@ const toggleMenu = () : void => {
   justify-content: space-around;
   width: $space-400;
   height: $space-400;
+  &--is-disabled {
+    pointer-events: none;
+  }
   li {
     width: $space-400;
     height: $space-050;
     background: $color-white;
-    transition: all 0.3s linear;
+    transition: all 0.5s linear;
     transform-origin: 1px;
   }
   li:nth-child(odd) {

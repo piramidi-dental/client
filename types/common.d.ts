@@ -11,7 +11,6 @@ declare interface IStringNumberItem {
   [key: string]: string | number
 }
 
-declare interface ILoading {
-  isActive: boolean,
-  text: string
+declare interface IBooleanItem {
+  [key: string]: boolean
 }

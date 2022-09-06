@@ -1,4 +1,9 @@
 
 {
-  "welcome": "Benvenuto"
+  "pages": {
+    "home": "Home",
+    "terapies": "Servizi e terapie",
+    "clinic": "Lo studio",
+    "contacts": "Contatti"
+  }
 }

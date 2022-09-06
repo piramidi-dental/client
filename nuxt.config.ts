@@ -57,6 +57,7 @@ export default defineNuxtConfig({
             @import "@/assets/scss/utils/index.scss";
             @import "@/assets/scss/common/_var.scss";
             @import "@/assets/scss/common/_export.scss";
+            @import "@/assets/scss/ui/index.scss";
           `
         }
       }

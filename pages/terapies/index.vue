@@ -26,7 +26,7 @@ definePageMeta({
 
 // const restaurants = ref<object[]>([])
 // const restaurant = ref<object>({})
-const { setLoadingText, handleLoadingActivation } = useLoading()
+const { setLoadingText, handleWaveActivation } = useWaveController()
 
 const retriveData = async () => {
   try {
@@ -59,11 +59,10 @@ const navigateToHome = () => {
 }
 
 const mockAction = async () => {
-  handleLoadingActivation(true)
-  setLoadingText('Caricando...')
+  handleWaveActivation({ isActive: true, loadingText: 'Caricando...' })
 
   await usePageDelay()
-  handleLoadingActivation(false)
+  handleWaveActivation({ isActive: false })
 }
 
 // await usePageDelay()
@@ -74,5 +73,7 @@ await retriveRestaurant()
 <style lang="scss" scoped>
 .terapies {
   min-height: 100vmax;
+  padding-top: rem(56);
+  background-color: white;
 }
 </style>
