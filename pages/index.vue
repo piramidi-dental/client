@@ -3,7 +3,6 @@
   .home-page__dental-tool(ref="dentalTool")
     img(src="/images/dental-tool.svg" alt="dental-tool")
   section.home-page__main(ref="mainSection")
-    //- p {{ $t('welcome') }}
   section.home-page__terapies
     div(style="background-color: red; width: 100%; height: 200px;")
     button(@click="navigateToTerapies") Terapies

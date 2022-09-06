@@ -12,9 +12,7 @@
 
 <script setup lang="ts">
 import { AppSetup } from '@/utils/app'
-// import { IApp } from '@/types/app'
 
-// const app = useState<IApp>('app')
 const locale = useState<string>('locale.setting')
 const bodyList = useState<string[]>('body-list')
 

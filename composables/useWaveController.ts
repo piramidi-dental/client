@@ -1,5 +1,4 @@
 
-// import { LOADING } from '@/constants'
 type IWavetypes = 'loading' | 'menu'
 
 interface IWaveController {
