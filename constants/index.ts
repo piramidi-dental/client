@@ -9,6 +9,11 @@ export const LOADING = Object.freeze({
   WAVE_DURATION: <number>500
 })
 
+export const WAVE_TYPE = Object.freeze({
+  LOADING: 'loading',
+  MENU: 'menu'
+})
+
 export const RESPONSIVE = Object.freeze({
   XS: <number>576,
   SM: <number>768,
@@ -18,4 +23,8 @@ export const RESPONSIVE = Object.freeze({
 export const NAV_HEADER = Object.freeze({
   MOBILE: <number>64,
   NORMAL: <number>84
+})
+
+export const TRANSITION = Object.freeze({
+  FADE: 'fade'
 })

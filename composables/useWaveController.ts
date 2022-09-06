@@ -1,11 +1,5 @@
 
-type IWavetypes = 'loading' | 'menu'
-
-interface IWaveController {
-  isActive: boolean,
-  type?: IWavetypes,
-  loadingText?: string
-}
+import { IWavetypes, IWaveController } from '@/types/wave'
 
 export default () => {
   const waveController = useState('wave-controller', () => ({
