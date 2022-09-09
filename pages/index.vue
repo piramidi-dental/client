@@ -3,15 +3,15 @@
   .home-page__dental-tool(ref="dentalTool")
     img(src="/images/dental-tool.svg" alt="dental-tool")
   section.home-page__main(ref="mainSection")
+    p {{ clinicsList }}
   section.home-page__terapies
     div(style="background-color: red; width: 100%; height: 200px;")
     button(@click="navigateToTerapies") Terapies
-  footer
 
 </template>
 
 <script setup lang="ts">
-import { createError } from 'h3'
+import type { IClinic } from '@/types/contacts'
 import {
   DEFAULT_VALUES,
   LOADING,
@@ -36,6 +36,7 @@ const { windowWidth } = useWindowWidth()
 const { parallax, stylesEffect } = useScrollmagic()
 
 const waveTemplate = useState<boolean>('wave-template')
+const clinicsList = useState<IClinic[]>('clinics-list')
 
 const pageIsMounted = ref<boolean>(false)
 const dentalTool = ref<HTMLElement | null>(null)
@@ -95,7 +96,7 @@ const retriveRestaurants = async () => {
       throw createError({})
     }
 
-    console.log(restaurants.value)
+    // console.log(restaurants.value)
   } catch (error) {
     throwError(error as Error)
   }
@@ -109,7 +110,7 @@ const retriveRestaurant = async () => {
       throw createError({})
     }
 
-    console.log(restaurant.value)
+    // console.log(restaurant.value)
   } catch (error) {
     throwError(error as Error)
   }
@@ -161,9 +162,5 @@ await retriveRestaurant()
     height: rem(1380);
     background-color: $color-white;
   }
-}
-footer {
-  height: 100vmax;
-  background-color: $color-secondary;
 }
 </style>

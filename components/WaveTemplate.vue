@@ -13,14 +13,13 @@
 </template>
 
 <script setup lang="ts">
+import type { IWaveTypes } from '@/types/wave'
 import {
   LOADING,
   DEFAULT_VALUES,
   TRANSITION,
   WAVE_TYPE
 } from '@/constants'
-
-import { IWavetypes } from '@/types/wave'
 
 const nuxtApp = useNuxtApp()
 const { $gsap, $globalUtils } = useNuxtApp()
@@ -32,8 +31,6 @@ const { setWaveType, waveController } = useWaveController()
 const SVG_SHAPE = 'M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z'
 const OVER_FLOW_CLASS = 'overflow-hidden'
 const DEF_FINISH_TIMEOUT_VALUE = 500
-const LOADING_SPINNER = 'LoadingSpinner'
-const MOBILE_MENU = 'MobileMenu'
 
 const waveTemplate = useState<boolean>('wave-template')
 
@@ -44,7 +41,7 @@ const tweenControllerNavBar = ref<GSAPTimeline | null>(null)
 const appIsMounted = ref<boolean>(false)
 const finishTimeout = ref<number>(DEF_FINISH_TIMEOUT_VALUE)
 const componentTransition = ref<string>('')
-const dynamicComponent = shallowRef(resolveComponent(LOADING_SPINNER))
+const dynamicComponent = shallowRef(resolveComponent('LoadingSpinner'))
 const stylesColors = reactive<IStringItem>({ softDark: '', hardDark: '' })
 
 const svgFillColor = computed<string>(() => appIsMounted.value ? svgColor('hardDark') : svgColor('softDark'))
@@ -204,7 +201,7 @@ const navBarAnimation = () => {
 }
 
 const setLoadingConfig = () => {
-  dynamicComponent.value = resolveComponent(LOADING_SPINNER)
+  dynamicComponent.value = resolveComponent('LoadingSpinner')
   finishTimeout.value = DEF_FINISH_TIMEOUT_VALUE
 }
 
@@ -227,7 +224,7 @@ watch(() => waveController.value.isActive, (val: boolean) => {
   if (waveController.value.type === WAVE_TYPE.LOADING) {
     setLoadingConfig()
   } else {
-    dynamicComponent.value = resolveComponent(MOBILE_MENU)
+    dynamicComponent.value = resolveComponent('MobileMenu')
     finishTimeout.value = 0
     $gsap.to('.nav-bar__logo-box', { opacity: 1, duration: 0 })
     animationActionsHandler([tweenControllerNavBar.value, 'play'])
@@ -238,7 +235,7 @@ watch(() => waveController.value.isActive, (val: boolean) => {
 
 nuxtApp.hook('page:start', () => {
   setLoadingConfig()
-  setWaveType((WAVE_TYPE.LOADING as IWavetypes))
+  setWaveType((WAVE_TYPE.LOADING as IWaveTypes))
 
   if (mobileMenu.value.isOpen) {
     componentTransition.value = TRANSITION.FADE

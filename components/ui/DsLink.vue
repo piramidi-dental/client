@@ -2,7 +2,7 @@
 <template lang="pug">
 .ds-link(:class="getClassModifiers")
   span.ds-icon-arrow-up(v-if="arrowIcon")
-  NuxtLink(:to="to") {{ $t(name) }}
+  NuxtLink(:to="to" :target="target") {{ name }}
 </template>
 
 <script setup lang="ts">
@@ -18,7 +18,10 @@ const linkProps = defineProps({
   type: {
     type: String,
     required: false,
-    default: 'primary'
+    default: 'primary',
+    validator: (value: string) => [
+      'primary', 'secondary', 'tertiary'
+    ].includes(value)
   },
   size: {
     type: String,
@@ -35,6 +38,11 @@ const linkProps = defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  target: {
+    type: String,
+    required: false,
+    default: ''
   }
 })
 
@@ -68,8 +76,16 @@ const getClassModifiers = computed(() => [
     &-small {
       @include txt-body-600;
       column-gap: $space-100;
+      [class^='ds-icon-'],
+      [class*=' ds-icon-'] {
+        font-size: $icon-size-200;
+      }
       @include mediaSm {
         @include txt-title-300;
+        [class^='ds-icon-'],
+        [class*=' ds-icon-'] {
+          font-size: $icon-size-300;
+        }
       }
     }
   }

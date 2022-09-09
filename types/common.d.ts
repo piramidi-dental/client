@@ -14,3 +14,24 @@ declare interface IStringNumberItem {
 declare interface IBooleanItem {
   [key: string]: boolean
 }
+
+/*
+  API
+*/
+
+declare interface IApiBase {
+  id: number,
+  attributes: {
+    createdAt: string,
+    publishedAt: string,
+    updatedAt: string
+  }
+}
+
+declare interface IApiObject {
+  data: IApiBase
+}
+
+declare interface IApiList {
+  data: IApiBase[]
+}

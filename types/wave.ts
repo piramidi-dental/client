@@ -1,13 +1,13 @@
 
-type IWavetypes = 'loading' | 'menu'
+type IWaveTypes = 'loading' | 'menu'
 
-interface IWaveController {
+type IWaveController = {
   isActive: boolean,
-  type?: IWavetypes,
+  type?: IWaveTypes,
   loadingText?: string
 }
 
 export {
-  IWavetypes,
+  IWaveTypes,
   IWaveController
 }

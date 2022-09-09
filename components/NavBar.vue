@@ -12,7 +12,7 @@
         v-for="item in pagesList"
         :key="item.name"
         :disable="linkDisableHandle(item.name)"
-        :name="`pages.${item.name}`"
+        :name="$t(`pages.${item.name}`)"
         size="small"
         :to="item.link")
 </template>

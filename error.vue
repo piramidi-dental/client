@@ -14,7 +14,7 @@ useHead({
   title: 'Error'
 })
 
-console.log(props.error)
+// console.log(props.error)
 
 const handleError = () => clearError({ redirect: '/' })
 </script>
