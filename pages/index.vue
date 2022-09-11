@@ -145,7 +145,7 @@ await retriveRestaurant()
     left: $space-200;
     img {
       height: 100%;
-      filter: drop-shadow($shadow-200);
+      filter: drop-shadow($shadow-300);
     }
     @include mediaSm {
       left: $space-400;
@@ -153,7 +153,7 @@ await retriveRestaurant()
   }
   &__main {
     height: calc(100vmax + #{$-mobile-header-height});
-    background-color: $color-secondary;
+    background-color: $color-secondary-hard-dark;
     // @include mediaSm {
     //   height: calc(100vmax + #{$-tablet-header-height});
     // }

@@ -56,6 +56,8 @@ const getClassModifiers = computed(() => [
 
 <style lang="scss" scoped>
 .ds-link {
+  width: fit-content;
+
   &--has-icon {
     display: flex;
     align-items: center;

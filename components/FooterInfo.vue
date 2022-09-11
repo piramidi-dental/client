@@ -7,27 +7,13 @@
       :name="getContactEmail"
       size="small"
       target="_blank")
-    .footer-info__clinic(
-      v-for="clinic in clinicsList"
-      :key="`${clinic.id}_${clinic.attributes.name}`")
-      p {{ clinic.attributes.name }}
-      div(v-html="clinic.attributes.address")
-      ul
-        li(v-for="item in phonesList" :key="item")
-          UiDsLink(
-            v-if="clinic.attributes[item]"
-            :to="`tel:${clinic.attributes[item]}`"
-            size="small"
-            :name="$phoneFormatter[item](clinic.attributes[item])")
-      UiDsLink(
-        :to="clinic.attributes.map"
-        :name="$t('contacts.viewMap')"
-        type="tertiary"
-        size="small"
-        target="_blank"
-        arrow-icon)
+    ul.footer-info__clinics
+      li(
+        v-for="clinic in clinicsList"
+        :key="`${clinic.id}_${clinic.attributes.name}`")
+        ClinicItem(:clinic-attr="clinic.attributes")
     .footer-info__opening-hours(v-html="getOpeningHours")
-    UiDsLink(
+    UiDsLink.footer-info__contacts-link(
       to="/contacts"
       arrow-icon
       type="tertiary"
@@ -35,12 +21,12 @@
 </template>
 
 <script setup lang="ts">
-import type { IClinic, IContactAttr, IContact, IClinicPhone } from '@/types/contacts'
+import type { IClinic, IContactAttr, IContact } from '@/types/contacts'
 
-const { $apiPopulation, $phoneFormatter } = useNuxtApp()
+const { $apiPopulation } = useNuxtApp()
+
 const clinicsList = useState<IClinic[]>('clinics-list', () => [])
 const contactInfo = ref<IContactAttr>()
-const phonesList:IClinicPhone[] = ['phone', 'mobile']
 
 const getContactEmail = computed(() => (contactInfo.value as IContactAttr).email)
 const getOpeningHours = computed(() => (contactInfo.value as IContactAttr).openingHours)
@@ -79,30 +65,67 @@ await retriveClinicsData()
   background-color: $color-secondary-hard-dark;
   display: flex;
   place-items: center;
+  @include mediaSm {
+    padding: $space-400;
+  }
   @include mediaMd {
     min-height: 100vmin;
   }
   &__inner {
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    align-content: start;
     row-gap: $space-300;
+    @include mediaSm {
+      row-gap: $space-400;
+    }
+    @include mediaMd {
+      margin: 0 auto;
+      max-width: $breakpoint-500;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: repeat(3, auto) 1fr;
+      row-gap: $space-200;
+      > *:not(&__clinics) {
+        grid-column: 2;
+      }
+    }
   }
   &__title {
     @include txt-title-500;
     color: $color-white;
   }
-  &__email {
-    color: $color-white;
-    @include txt-body-600;
-  }
-  &__clinic {
-    @include txt-body-600;
-    color: $color-white;
+  &__clinics {
+    @include mediaMd {
+      grid-column: 1;
+      grid-row: 1 / span 4;
+    }
+
+    li {
+      @include txt-body-600;
+      color: $color-white;
+      @include mediaSm {
+        @include txt-title-300;
+      }
+    }
+
+    li + li {
+      margin-top: $space-300;
+      @include mediaSm {
+        margin-top: $space-400;
+      }
+    }
   }
   &__opening-hours{
     color: $color-neutral;
-    @include txt-body-500
+    @include txt-body-500;
+    @include mediaSm {
+      @include txt-body-600;
+    }
+  }
+  &__contacts-link {
+    @include mediaMd {
+      align-self: end;
+    }
   }
 }
 </style>
