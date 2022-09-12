@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import { AppSetup } from '@/utils/app'
 
+const { app } = AppSetup()
 const locale = useState<string>('locale.setting')
 const bodyList = useState<string[]>('body-list')
 
@@ -26,5 +27,4 @@ useHead({
   }
 })
 
-const { app } = AppSetup()
 </script>

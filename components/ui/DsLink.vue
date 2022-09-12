@@ -1,8 +1,11 @@
 
 <template lang="pug">
-.ds-link(:class="getClassModifiers")
+NuxtLink.ds-link(
+  :to="to"
+  :class="getClassModifiers"
+  :target="target")
   span.ds-icon-arrow-up(v-if="arrowIcon")
-  NuxtLink(:to="to" :target="target") {{ name }}
+  | {{ name }}
 </template>
 
 <script setup lang="ts">

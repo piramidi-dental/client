@@ -14,3 +14,17 @@ declare interface IStringNumberItem {
 declare interface IBooleanItem {
   [key: string]: boolean
 }
+
+/*
+  Error
+ */
+
+declare interface IRequestError extends Error {
+  data: {
+    error: {
+      status: number,
+      message: string,
+      name: string
+    }
+  }
+}
