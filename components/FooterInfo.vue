@@ -36,7 +36,7 @@ const retriveClinicsData = async () => {
     const { data: contact, error } = await useCustomFetch(`/api/contact?${$apiPopulation.query}`, { key: 'contact' })
 
     if (error.value) {
-      throw createError({})
+      throw useRequestError(error.value as IRequestError)
     }
 
     contactInfo.value = (contact.value as IContact).data.attributes

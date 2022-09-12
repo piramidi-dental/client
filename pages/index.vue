@@ -93,7 +93,7 @@ const retriveRestaurants = async () => {
     const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
 
     if (error.value) {
-      throw createError({})
+      throw useRequestError(error.value as IRequestError)
     }
 
     // console.log(restaurants.value)
@@ -107,7 +107,7 @@ const retriveRestaurant = async () => {
     const { data: restaurant, error } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
 
     if (error.value) {
-      throw createError({})
+      throw useRequestError(error.value as IRequestError)
     }
 
     // console.log(restaurant.value)

@@ -25,16 +25,15 @@ definePageMeta({
 
 // const restaurants = ref<object[]>([])
 // const restaurant = ref<object>({})
-const { setLoadingText, handleWaveActivation } = useWaveController()
+const { handleWaveActivation } = useWaveController()
 
 const retriveData = async () => {
   try {
-    const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
-    if (error.value) {
-      throw createError({})
-    }
+    const { data: restaurants, error } = await useCustomFetch('/api/restaurantes', { key: 'restaurants' })
 
-    // console.log(restaurants.value)
+    if (error.value) {
+      throw useRequestError(error.value as IRequestError)
+    }
   } catch (error) {
     throwError(error as Error)
   }
@@ -45,7 +44,7 @@ const retriveRestaurant = async () => {
     const { data: restaurant, error } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
 
     if (error.value) {
-      throw createError({})
+      throw useRequestError(error.value as IRequestError)
     }
     // console.log(restaurant.value)
   } catch (error) {
