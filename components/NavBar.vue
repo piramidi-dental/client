@@ -6,13 +6,13 @@
       @click="navigateTo({ path: '/' })")
       img(v-if="isResponsiveSm" src="/images/client_logo-circle-bw.svg" alt="client logo")
       h4.nav-bar__title {{ app.name }}
-    UiMobileIconMenu(v-if="!isResponsiveMd")
+    UiIconMenu(v-if="!isResponsiveMd")
     .nav-bar__list(v-else)
       UiDsLink(
         v-for="item in pagesList"
         :key="item.name"
         :disable="linkDisableHandle(item.name)"
-        :name="`pages.${item.name}`"
+        :name="$t(`pages.${item.name}`)"
         size="small"
         :to="item.link")
 </template>

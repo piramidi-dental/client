@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 // import { useRestaurantsQuery, useRestaurantQuery } from '@/generated/operations'
-import { createError } from 'h3'
 import { LOADING } from '@/constants'
 
 useHead({
@@ -35,7 +34,7 @@ const retriveData = async () => {
       throw createError({})
     }
 
-    console.log(restaurants.value)
+    // console.log(restaurants.value)
   } catch (error) {
     throwError(error as Error)
   }
@@ -48,7 +47,7 @@ const retriveRestaurant = async () => {
     if (error.value) {
       throw createError({})
     }
-    console.log(restaurant.value)
+    // console.log(restaurant.value)
   } catch (error) {
     throwError(error as Error)
   }

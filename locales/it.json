@@ -5,5 +5,12 @@
     "terapies": "Servizi e terapie",
     "clinic": "Lo studio",
     "contacts": "Contatti"
+  },
+  "contacts": {
+    "viewMap": "Vai alla mappa",
+    "toContact": "Vai a Contatti"
+  },
+  "footer": {
+    "talk": "Parliamo!"
   }
 }

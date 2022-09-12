@@ -1,4 +1,5 @@
 <template lang="pug">
 div
-  <slot />
+  slot
+  FooterInfo
 </template>

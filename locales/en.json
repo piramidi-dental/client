@@ -5,5 +5,12 @@
     "terapies": "Services and therapies",
     "clinic": "The clinic",
     "contacts": "Contacts"
+  },
+  "contacts": {
+    "viewMap": "View map",
+    "toContact": "Go to Contact"
+  },
+  "footer": {
+    "talk": "Let's talk!"
   }
 }
