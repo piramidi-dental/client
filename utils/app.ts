@@ -29,5 +29,6 @@ const AppSetup = () => {
 }
 
 export {
+  IApp,
   AppSetup
 }

@@ -8,7 +8,7 @@ interface IMobileMenu {
 
 export default () => {
   const { handleWaveActivation } = useWaveController()
-  const { isResponsiveMd } = useWindowWidth()
+  const { isResponsiveMd } = useMediaResponsive()
   const { waveController } = useWaveController()
 
   const mobileMenu = useState<IMobileMenu>('mobile-menu', () => ({

@@ -14,6 +14,8 @@
 import { AppSetup } from '@/utils/app'
 
 const { app } = AppSetup()
+useWindowWidth()
+
 const locale = useState<string>('locale.setting')
 const bodyList = useState<string[]>('body-list')
 

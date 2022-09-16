@@ -9,13 +9,16 @@
 // import { useRestaurantsQuery, useRestaurantQuery } from '@/generated/operations'
 import { LOADING } from '@/constants'
 
+const { t } = useLang()
+const { handleWaveActivation } = useWaveController()
+
 useHead({
-  title: 'Servizi e terapie'
+  title: t('pages.terapies')
 })
 
 definePageMeta({
   title: 'Terapies',
-  loadingText: 'Servizi e terapie',
+  loadingText: 'terapies',
   pageTransition: {
     mode: 'default',
     duration: LOADING.ANIMATION_DELAY
@@ -25,7 +28,6 @@ definePageMeta({
 
 // const restaurants = ref<object[]>([])
 // const restaurant = ref<object>({})
-const { handleWaveActivation } = useWaveController()
 
 const retriveData = async () => {
   try {
@@ -70,7 +72,7 @@ await retriveRestaurant()
 
 <style lang="scss" scoped>
 .terapies {
-  min-height: 100vmax;
+  @include viewport-height;
   padding-top: rem(56);
   background-color: white;
 }

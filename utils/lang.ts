@@ -22,17 +22,26 @@ export function LanguageManager () {
   // composable
   const { locale } = useI18n()
   const localeUserSetting = useCookie('locale')
+  const availableIso = Object.keys(availableLocales)
 
   // methods
   const getSystemLocale = (): string => {
     try {
-      return window ? window.navigator.language.substring(0, 2) : 'it'
+      let systemLocale = 'it'
+      if (window) {
+        const windowLanguage = window.navigator.language.substring(0, 2)
+        if (availableIso.includes(windowLanguage)) {
+          systemLocale = windowLanguage
+        }
+      }
+      return systemLocale
     } catch (error) {
       return 'it'
     }
   }
-  const getUserLocale = (): string =>
-    localeUserSetting.value || getSystemLocale()
+  const getUserLocale = (): string => {
+    return availableIso.includes(localeUserSetting.value) ? localeUserSetting.value : getSystemLocale()
+  }
 
   // state
   const localeSetting = useState<string>('locale.setting', () =>

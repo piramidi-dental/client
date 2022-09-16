@@ -1,5 +1,5 @@
 
-$color-transition: color 0.3s ease-out;
+$color-transition: color $transition-300;
 
 @mixin link-primary {
   color: $color-white;

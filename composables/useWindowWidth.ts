@@ -1,15 +1,12 @@
 
-import { RESPONSIVE } from '@/constants'
-
 export default () => {
   const windowWidth = useState<number>('window-width', () => 0)
 
-  const isResponsiveXs = computed(() => windowWidth.value >= RESPONSIVE.XS)
-  const isResponsiveSm = computed(() => windowWidth.value >= RESPONSIVE.SM)
-  const isResponsiveMd = computed(() => windowWidth.value >= RESPONSIVE.MD)
-
   const setWindowWidth = () => {
     windowWidth.value = <number>window.innerWidth
+
+    const vh = <number>window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
   }
 
   useEventListener('resize', setWindowWidth)
@@ -17,9 +14,6 @@ export default () => {
   onMounted(setWindowWidth)
 
   return {
-    windowWidth,
-    isResponsiveXs,
-    isResponsiveSm,
-    isResponsiveMd
+    windowWidth
   }
 }

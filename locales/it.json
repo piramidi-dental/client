@@ -12,5 +12,10 @@
   },
   "footer": {
     "talk": "Parliamo!"
+  },
+  "error": {
+    "title": "Qualcosa è andato storto!",
+    "message": "Messaggio di errore:",
+    "toHome": "Torna alla Home"
   }
 }
