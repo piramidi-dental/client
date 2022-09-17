@@ -31,7 +31,7 @@ definePageMeta({
 
 const retriveData = async () => {
   try {
-    const { data: restaurants, error } = await useCustomFetch('/api/restaurantes', { key: 'restaurants' })
+    const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
 
     if (error.value) {
       throw useRequestError(error.value as IRequestError)
