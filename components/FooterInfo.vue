@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import type { IClinic, IContactAttr, IContact } from '@/types/contacts'
 
-const { $apiPopulation } = useNuxtApp()
+const { $apiParameters } = useNuxtApp()
 
 const clinicsList = useState<IClinic[]>('clinics-list', () => [])
 const contactInfo = ref<IContactAttr>()
@@ -33,7 +33,7 @@ const getOpeningHours = computed(() => (contactInfo.value as IContactAttr).openi
 
 const retriveClinicsData = async () => {
   try {
-    const { data: contact, error } = await useCustomFetch(`/api/contact?${$apiPopulation.query}`, { key: 'contact' })
+    const { data: contact, error } = await useCustomFetch(`/api/contact?${$apiParameters.population}`, { key: 'contact' })
 
     if (error.value) {
       throw useRequestError(error.value as IRequestError)

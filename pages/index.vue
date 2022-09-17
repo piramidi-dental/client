@@ -3,7 +3,9 @@
   .home-page__dental-tool(ref="dentalTool")
     img(src="/images/dental-tool.svg" alt="dental-tool")
   section.home-page__main(ref="mainSection")
-    p {{ clinicsList }}
+    ul
+      li(v-for="clinic in clinicsListAttr" :key="clinic.id")
+        p {{ clinic.name }}
   section.home-page__terapies
     div(style="background-color: red; width: 100%; height: 200px;")
     button(@click="navigateToTerapies") Terapies
@@ -20,6 +22,7 @@ import {
 
 const { t } = useLang()
 const { parallax, stylesEffect } = useScrollmagic()
+const coverPage = await useCoverPage('home')
 
 useHead({
   title: t('pages.home')
@@ -43,9 +46,7 @@ const pageIsMounted = ref<boolean>(false)
 const dentalTool = ref<HTMLElement | null>(null)
 const mainSection = ref<HTMLElement | null>(null)
 const scrollEffects = ref<(HTMLElement | void)[]>([])
-
-const restaurants = ref<(object | void)[]>([])
-const restaurant = ref<object>({})
+const clinicsListAttr = ref()
 
 const scrollAnimationsHandler = () : void => {
   resetAnimation()
@@ -89,34 +90,6 @@ const resetAnimation = () => {
   for (const effect of scrollEffects.value) { if (effect) { effect.remove() } }
 }
 
-const retriveRestaurants = async () => {
-  try {
-    const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
-
-    if (error.value) {
-      throw useRequestError(error.value as IRequestError)
-    }
-
-    // console.log(restaurants.value)
-  } catch (error) {
-    throwError(error as Error)
-  }
-}
-
-const retriveRestaurant = async () => {
-  try {
-    const { data: restaurant, error } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
-
-    if (error.value) {
-      throw useRequestError(error.value as IRequestError)
-    }
-
-    // console.log(restaurant.value)
-  } catch (error) {
-    throwError(error as Error)
-  }
-}
-
 const navigateToTerapies = () => {
   navigateTo({ path: '/terapies' })
 }
@@ -128,14 +101,15 @@ watch(waveTemplate, (val) => {
   if (!val) { scrollAnimationsHandler() }
 })
 
+console.log(coverPage)
+
 onMounted(() => {
   pageIsMounted.value = true
+  clinicsListAttr.value = [...clinicsList.value].map(clinic => clinic.attributes)
   scrollAnimationsHandler()
 })
 onUnmounted(resetAnimation)
 
-await retriveRestaurants()
-await retriveRestaurant()
 </script>
 
 <style lang="scss" scoped>

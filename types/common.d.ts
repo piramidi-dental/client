@@ -15,6 +15,10 @@ declare interface IBooleanItem {
   [key: string]: boolean
 }
 
+declare interface IStringDeep {
+  [key: string]: { [key: string]: string }
+}
+
 /*
   Error
  */

@@ -17,8 +17,12 @@ export default defineNuxtPlugin(() => {
     })(0)).join(' '))
   }
 
-  const apiPopulation = {
-    query: qs.stringify({ populate: '*' }, { encodeValuesOnly: true })
+  const apiParameters = {
+    population: qs.stringify({ populate: '*' }, { encodeValuesOnly: true }),
+    filters: (filters: IStringDeep) => qs.stringify({
+      populate: '*',
+      filters
+    }, { encodeValuesOnly: true })
   }
 
   const phoneFormatter = {
@@ -29,7 +33,7 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       globalUtils,
-      apiPopulation,
+      apiParameters,
       phoneFormatter
     }
   }
