@@ -1,6 +1,6 @@
 <template lang="pug">
-.nav-menu
-  ul.nav-menu__list
+.mobile-menu
+  ul.mobile-menu__list
     li(
       v-for="item in pagesList"
       :key="item.name"
@@ -9,11 +9,11 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const emit = defineEmits<{(e: 'handle-mobile-menu'): void}>()
+const mobileMenuEmit = defineEmits(['handle-mobile-menu'])
 
 const handleNavigation = (link: string): void => {
   if (route.path === link) {
-    emit('handle-mobile-menu')
+    mobileMenuEmit('handle-mobile-menu')
   } else { navigateTo({ path: link }) }
 }
 
@@ -21,7 +21,7 @@ const { data: pagesList } = useFetch<IStringItem[]>('/api/pages')
 </script>
 
 <style lang="scss" scoped>
-.nav-menu {
+.mobile-menu {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

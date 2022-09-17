@@ -18,13 +18,16 @@ import {
   NAV_HEADER
 } from '@/constants'
 
+const { t } = useLang()
+const { parallax, stylesEffect } = useScrollmagic()
+
 useHead({
-  title: 'Home'
+  title: t('pages.home')
 })
 
 definePageMeta({
   title: 'Home',
-  loadingText: 'Home',
+  loadingText: 'home',
   pageTransition: {
     mode: 'default',
     duration: LOADING.ANIMATION_DELAY
@@ -32,11 +35,9 @@ definePageMeta({
   middleware: ['loading-text']
 })
 
-const { windowWidth } = useWindowWidth()
-const { parallax, stylesEffect } = useScrollmagic()
-
 const waveTemplate = useState<boolean>('wave-template')
 const clinicsList = useState<IClinic[]>('clinics-list')
+const windowWidth = useState<number>('window-width')
 
 const pageIsMounted = ref<boolean>(false)
 const dentalTool = ref<HTMLElement | null>(null)
@@ -141,7 +142,7 @@ await retriveRestaurant()
 .home-page {
   &__dental-tool {
     position: absolute;
-    height: 130vmax;
+    height: calc(#{$-viewport-height} + 30%);
     left: $space-200;
     img {
       height: 100%;
@@ -152,7 +153,7 @@ await retriveRestaurant()
     }
   }
   &__main {
-    height: calc(100vmax + #{$-mobile-header-height});
+    height: calc(#{$-viewport-height} + #{$-mobile-header-height});
     background-color: $color-secondary-hard-dark;
     // @include mediaSm {
     //   height: calc(100vmax + #{$-tablet-header-height});

@@ -1,6 +1,15 @@
+
 /* 
  * Sizes
 */
 
 $-mobile-header-height: rem(64);
 $-header-height: rem(84);
+
+$-viewport-height: calc(var(--vh, 1vh) * 100);
+
+/* 
+ * Transition
+*/
+
+$transition-300: 0.3s ease-out;

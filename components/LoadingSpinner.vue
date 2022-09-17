@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { AppSetup } from '@/utils/app'
+import type { IApp } from '@/utils/app'
 
 const props = defineProps({
   appIsMounted: {
@@ -16,10 +16,15 @@ const props = defineProps({
   }
 })
 
-const { app } = AppSetup()
+const { t } = useLang()
 const { waveController } = useWaveController()
 
-const animationText = computed<string>(() => props.appIsMounted ? waveController.value.loadingText : app.name)
+const app = useState<IApp>('app')
+
+const animationText = computed<string>(() =>
+  props.appIsMounted
+    ? t(`pages.${waveController.value.loadingText}`)
+    : app.value.name)
 
 </script>
 

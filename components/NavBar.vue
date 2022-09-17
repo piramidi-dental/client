@@ -18,12 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import { AppSetup } from '@/utils/app'
+import type { IApp } from '@/utils/app'
 
 const route = useRoute()
-const { app } = AppSetup()
 const { $globalUtils } = useNuxtApp()
-const { isResponsiveSm, isResponsiveMd } = useWindowWidth()
+const { isResponsiveSm, isResponsiveMd } = useMediaResponsive()
+
+const app = useState<IApp>('app')
 
 const linkDisableHandle = (title: string) : boolean => route.meta.title === $globalUtils.capitalizeString(title)
 
@@ -87,8 +88,9 @@ const { data: pagesList } = useFetch<IStringItem[]>('/api/pages?toFilter=home')
         height: 100%;
         margin: 0 $space-200;
       }
-      ::v-deep(.router-link-active) {
-        color: $color-tertiary;
+      &.router-link-active {
+        color: $color-contrasting;
+        font-weight: 500;
       }
     }
   }

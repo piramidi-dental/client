@@ -24,7 +24,7 @@ import {
 const nuxtApp = useNuxtApp()
 const { $gsap } = useNuxtApp()
 const { addRemoveBodyClass } = useBodyClass()
-const { isResponsiveSm } = useWindowWidth()
+const { isResponsiveSm } = useMediaResponsive()
 const { mobileMenu, toggleMenu } = useMobileMenu()
 const { setWaveType, waveController } = useWaveController()
 

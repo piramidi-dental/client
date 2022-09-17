@@ -60,16 +60,13 @@ await retriveClinicsData()
 
 <style lang="scss" scoped>
 .footer-info {
-  min-height: 100vmax;
+  @include viewport-height;
   padding: $space-200;
   background-color: $color-secondary-hard-dark;
   display: flex;
   place-items: center;
   @include mediaSm {
     padding: $space-400;
-  }
-  @include mediaMd {
-    min-height: 100vmin;
   }
   &__inner {
     width: 100%;
