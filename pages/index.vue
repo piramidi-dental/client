@@ -16,10 +16,10 @@
               size="normal"
               has-icon
               type="neutral")
+  section.home-page__cover-box
+    img(:src="getCoverImage.url" :alt="getCoverImage.alt")
   section.home-page__terapies
-    div(style="background-color: red; width: 100%; height: 200px;")
-    button(@click="navigateToTerapies") Terapies
-
+    p Cosa facciamo
 </template>
 
 <script setup lang="ts">
@@ -33,6 +33,7 @@ import {
 const { t } = useLang()
 const { parallax, stylesEffect } = useScrollmagic()
 const coverPage = await useCoverPage('home')
+const { $composeImageUri } = useNuxtApp()
 
 useHead({
   title: t('pages.home')
@@ -57,6 +58,14 @@ const dentalTool = ref<HTMLElement | null>(null)
 const mainSection = ref<HTMLElement | null>(null)
 const scrollEffects = ref<(HTMLElement | void)[]>([])
 const clinicsListAttr = ref()
+
+const getCoverImage = computed<IStringItem>(() => {
+  const _coverPage = (coverPage as IStringNumberNullItem)
+  return {
+    url: $composeImageUri(_coverPage.url as string),
+    alt: (_coverPage.alternativeText as string)
+  }
+})
 
 const scrollAnimationsHandler = () : void => {
   resetAnimation()
@@ -100,10 +109,6 @@ const resetAnimation = () => {
   for (const effect of scrollEffects.value) { if (effect) { effect.remove() } }
 }
 
-const navigateToTerapies = () => {
-  navigateTo({ path: '/terapies' })
-}
-
 watch(windowWidth, () => {
   if (pageIsMounted.value && !waveTemplate.value) { scrollAnimationsHandler() }
 })
@@ -130,6 +135,7 @@ onUnmounted(resetAnimation)
     position: absolute;
     height: calc(#{$-viewport-height} + 30%);
     left: $space-200;
+    z-index: 1;
     img {
       height: 100%;
       filter: drop-shadow($shadow-300);
@@ -184,9 +190,22 @@ onUnmounted(resetAnimation)
       }
     }
   }
-  &__terapies {
-    height: rem(1380);
+  &__cover-box {
+    width: 100%;
+    height: rem(280);
+    padding: $space-200;
     background-color: $color-white;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      filter: drop-shadow($shadow-200);
+    }
+  }
+  &__terapies {
+    background-color: $color-white;
+    padding: $space-400 $space-200 $space-500;
   }
 }
 </style>

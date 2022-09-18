@@ -30,11 +30,17 @@ export default defineNuxtPlugin(() => {
     mobile: (value: string) : string => globalUtils.stringSplitter(value, [3, 2, 2, 3])
   }
 
+  const composeImageUri = (url: string): string => {
+    const { apiBase: baseURL } = useRuntimeConfig()
+    return baseURL + url
+  }
+
   return {
     provide: {
       globalUtils,
       apiParameters,
-      phoneFormatter
+      phoneFormatter,
+      composeImageUri
     }
   }
 })

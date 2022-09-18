@@ -15,6 +15,10 @@ declare interface IBooleanItem {
   [key: string]: boolean
 }
 
+declare interface IStringNumberNullItem {
+  [key: string]: string | number | null
+}
+
 declare interface IStringDeep {
   [key: string]: { [key: string]: string }
 }
