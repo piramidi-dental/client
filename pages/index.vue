@@ -2,7 +2,7 @@
 .home-page
   .home-page__dental-tool(ref="dentalTool")
     img(src="/images/dental-tool.svg" alt="dental-tool")
-  section.home-page__main(ref="mainSection")
+  section.home-page__main
     .home-page__info-box
       .home-page__image-box
         img(src="/images/client_logo.svg" alt="client logo")
@@ -13,7 +13,7 @@
             h3 {{ clinic.name }}
             ClinicPhonesList(
               :clinic-attr="clinic"
-              size="normal"
+              :size="getPhoneListSize"
               has-icon
               type="neutral")
   section.home-page__cover-box
@@ -33,6 +33,7 @@ import {
 const { t } = useLang()
 const { parallax, stylesEffect } = useScrollmagic()
 const coverPage = await useCoverPage('home')
+const { isResponsiveSm } = useMediaResponsive()
 const { $composeImageUri } = useNuxtApp()
 
 useHead({
@@ -55,7 +56,6 @@ const windowWidth = useState<number>('window-width')
 
 const pageIsMounted = ref<boolean>(false)
 const dentalTool = ref<HTMLElement | null>(null)
-const mainSection = ref<HTMLElement | null>(null)
 const scrollEffects = ref<(HTMLElement | void)[]>([])
 const clinicsListAttr = ref()
 
@@ -66,42 +66,43 @@ const getCoverImage = computed<IStringItem>(() => {
     alt: (_coverPage.alternativeText as string)
   }
 })
+const getPhoneListSize = computed(() => isResponsiveSm.value ? 'small' : 'normal')
 
 const scrollAnimationsHandler = () : void => {
   resetAnimation()
 
   nextTick(() => {
-    if (dentalTool.value && mainSection.value) {
-      const _dentalToolHeight:number = dentalTool.value.offsetHeight
-      const _dentalToolTop:number = DEFAULT_VALUES.PADDING_200 + DEFAULT_VALUES.PADDING_400
-      const _mainHeight:number = mainSection.value.offsetHeight - NAV_HEADER.MOBILE
-      const _toValue:number = (_dentalToolHeight - _mainHeight) + _dentalToolTop
+    const _headerSize = NAV_HEADER[isResponsiveSm.value ? 'NORMAL' : 'MOBILE']
 
-      const plxOption = ({
-        dataTween: {
-          fn: 'fromTo',
-          el: '.home-page__dental-tool',
-          from: { y: _dentalToolTop, duration: 1, ease: 'linear' },
-          to: { y: -_toValue, duration: 1, ease: 'linear' }
-        }
-      })
+    const _dentalToolHeight:number = (dentalTool.value as HTMLElement).offsetHeight
+    const _dentalToolTop:number = _headerSize - DEFAULT_VALUES.PADDING_200
+    const _windowHeight:number = window.innerHeight
+    const _toValue:number = (_dentalToolHeight - _windowHeight) + _dentalToolTop
 
-      const stlOption = ({
-        dataTween: {
-          fn: 'fromTo',
-          el: '.nav-bar__logo-box',
-          from: { opacity: 0, ease: 'linear' },
-          to: { opacity: 1, ease: 'linear' }
-        },
-        offset: _mainHeight - NAV_HEADER.MOBILE,
-        duration: NAV_HEADER.MOBILE
-      })
+    const plxOption = ({
+      dataTween: {
+        fn: 'fromTo',
+        el: '.home-page__dental-tool',
+        from: { y: _dentalToolTop, duration: 1, ease: 'linear' },
+        to: { y: -_toValue, duration: 1, ease: 'linear' }
+      }
+    })
 
-      scrollEffects.value = [
-        parallax(plxOption),
-        stylesEffect(stlOption)
-      ]
-    }
+    const stlOption = ({
+      dataTween: {
+        fn: 'fromTo',
+        el: '.nav-bar__logo-box',
+        from: { opacity: 0, ease: 'linear' },
+        to: { opacity: 1, ease: 'linear' }
+      },
+      offset: _windowHeight - _headerSize,
+      duration: _headerSize
+    })
+
+    scrollEffects.value = [
+      parallax(plxOption),
+      stylesEffect(stlOption)
+    ]
   })
 }
 
@@ -116,8 +117,6 @@ watch(waveTemplate, (val) => {
   if (!val) { scrollAnimationsHandler() }
 })
 
-console.log(coverPage)
-
 onMounted(() => {
   pageIsMounted.value = true
   clinicsListAttr.value = [...clinicsList.value].map(clinic => clinic.attributes)
@@ -130,6 +129,14 @@ onUnmounted(resetAnimation)
 <style lang="scss" scoped>
 .home-page {
   $self: &;
+
+  $--mobile-main-height: calc(#{$-viewport-height} + #{$-mobile-header-height});
+  $--mobile-main-right-padding: calc(#{$-mobile-header-height} + #{$space-200});
+  $--mobile-main-bottom-padding: calc(#{$-mobile-header-height} + #{$space-500});
+
+  $--tablet-main-height: calc(((#{$-viewport-height} / 3) * 2) + #{$-header-height});
+  $--tablet-main-left-padding: calc(#{$space-1000} + #{$space-400});
+  $--tablet-cover-img-height: #{$-viewport-height} / 3;
 
   &__dental-tool {
     position: absolute;
@@ -145,11 +152,15 @@ onUnmounted(resetAnimation)
     }
   }
   &__main {
-    height: calc(#{$-viewport-height} + #{$-mobile-header-height});
+    height: $--mobile-main-height;
     background-color: $color-secondary-hard-dark;
-    padding: calc(#{$-mobile-header-height} + #{$space-200}) $space-200 calc(#{$-mobile-header-height} + #{$space-500}) $space-900;
+    padding: $--mobile-main-right-padding $space-200 $--mobile-main-bottom-padding $space-900;
     display: flex;
     place-items: center;
+    @include mediaSm {
+      height: $--tablet-main-height;
+      padding: $-header-height $space-400 $space-400 $--tablet-main-left-padding;
+    }
     #{$self}__info-box {
       max-height: 100%;
       width: 100%;
@@ -165,7 +176,11 @@ onUnmounted(resetAnimation)
       }
     }
     #{$self}__clinic-list {
-      li {
+      @include mediaSm {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      > li {
         display: flex;
         column-gap: $space-200;
         .ds-icon-location {
@@ -174,18 +189,24 @@ onUnmounted(resetAnimation)
           margin-top: $space-100;
         }
       }
-      li + li {
+      > li + li {
         margin-top: $space-200;
+        @include mediaSm {
+          margin: 0 0 0 $space-200;
+        }
       }
       &-info {
         display: grid;
         row-gap: $space-100;
+        align-content: start;
         h3 {
           @include txt-title-300;
           color: $color-white;
         }
-        ::v-deep(ul) li + li {
-          margin-top: $space-100;
+        ::v-deep(ul) {
+          li + li {
+            margin-top: $space-100;
+          }
         }
       }
     }
@@ -195,6 +216,10 @@ onUnmounted(resetAnimation)
     height: rem(280);
     padding: $space-200;
     background-color: $color-white;
+    @include mediaSm {
+      padding: $space-200 0 $space-200 $space-1000;
+      height: $--tablet-cover-img-height;
+    }
     img {
       height: 100%;
       width: 100%;
@@ -206,6 +231,7 @@ onUnmounted(resetAnimation)
   &__terapies {
     background-color: $color-white;
     padding: $space-400 $space-200 $space-500;
+    height: 1500px;
   }
 }
 </style>
