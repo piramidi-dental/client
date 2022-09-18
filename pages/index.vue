@@ -3,9 +3,19 @@
   .home-page__dental-tool(ref="dentalTool")
     img(src="/images/dental-tool.svg" alt="dental-tool")
   section.home-page__main(ref="mainSection")
-    ul
-      li(v-for="clinic in clinicsListAttr" :key="clinic.id")
-        p {{ clinic.name }}
+    .home-page__info-box
+      .home-page__image-box
+        img(src="/images/client_logo.svg" alt="client logo")
+      ul.home-page__clinic-list
+        li(v-for="clinic in clinicsListAttr" :key="clinic.id")
+          span.ds-icon-location
+          .home-page__clinic-list-info
+            h3 {{ clinic.name }}
+            ClinicPhonesList(
+              :clinic-attr="clinic"
+              size="normal"
+              has-icon
+              type="neutral")
   section.home-page__terapies
     div(style="background-color: red; width: 100%; height: 200px;")
     button(@click="navigateToTerapies") Terapies
@@ -114,6 +124,8 @@ onUnmounted(resetAnimation)
 
 <style lang="scss" scoped>
 .home-page {
+  $self: &;
+
   &__dental-tool {
     position: absolute;
     height: calc(#{$-viewport-height} + 30%);
@@ -129,9 +141,48 @@ onUnmounted(resetAnimation)
   &__main {
     height: calc(#{$-viewport-height} + #{$-mobile-header-height});
     background-color: $color-secondary-hard-dark;
-    // @include mediaSm {
-    //   height: calc(100vmax + #{$-tablet-header-height});
-    // }
+    padding: calc(#{$-mobile-header-height} + #{$space-200}) $space-200 calc(#{$-mobile-header-height} + #{$space-500}) $space-900;
+    display: flex;
+    place-items: center;
+    #{$self}__info-box {
+      max-height: 100%;
+      width: 100%;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      row-gap: $space-400;
+    }
+    #{$self}__image-box {
+      text-align: center;
+      overflow: hidden;
+      img {
+        height: 100%;
+      }
+    }
+    #{$self}__clinic-list {
+      li {
+        display: flex;
+        column-gap: $space-200;
+        .ds-icon-location {
+          color: $color-tertiary;
+          font-size: $icon-size-400;
+          margin-top: $space-100;
+        }
+      }
+      li + li {
+        margin-top: $space-200;
+      }
+      &-info {
+        display: grid;
+        row-gap: $space-100;
+        h3 {
+          @include txt-title-300;
+          color: $color-white;
+        }
+        ::v-deep(ul) li + li {
+          margin-top: $space-100;
+        }
+      }
+    }
   }
   &__terapies {
     height: rem(1380);

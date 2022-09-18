@@ -30,3 +30,13 @@ $color-transition: color $transition-300;
     color: $color-contrasting;
   }
 }
+
+@mixin link-neutral {
+  color: $color-neutral;
+  transition: $color-transition;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color-contrasting;
+  }
+}
