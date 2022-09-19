@@ -1,0 +1,19 @@
+
+/* 
+  home page cover var
+ */
+
+$--dental-tool-height: calc(#{$-viewport-height} + (#{$-viewport-height} / 3));
+
+$--mobile-cover-image-height: rem(280);
+$--mobile-cover-info-height: calc(#{$-viewport-height} + #{$-mobile-header-height});
+$--mobile-cover-height: calc(#{$--mobile-cover-info-height} + #{$--mobile-cover-image-height});
+$--mobile-cover-right-padding: calc(#{$-mobile-header-height} + #{$space-200});
+$--mobile-cover-bottom-padding: calc(#{$-mobile-header-height} + #{$space-500});
+
+$--tablet-cover-height: calc(#{$-viewport-height} + #{$-header-height});
+$--tablet-cover-info-height: calc((#{$--tablet-cover-height} / 3) * 2);
+$--tablet-cover-left-padding: calc(#{$space-1000} + #{$space-400});
+$--tablet-cover-image-height: #{$--tablet-cover-height} / 3;
+
+// $--desktop-cover-top-padding: calc(#{$space-200} + #{$-header-height});
