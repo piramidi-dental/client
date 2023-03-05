@@ -16,6 +16,7 @@
   "error": {
     "title": "Something went wrong!",
     "message": "Error message:",
-    "toHome": "Back to Home"
+    "toHome": "Back to Home",
+    "formatNotAvailable": "Screen format not supported, try changing device orientation"
   }
 }

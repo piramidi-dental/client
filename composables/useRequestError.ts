@@ -1,8 +1,6 @@
 
-import { createError } from 'h3'
-
 export default (error: IRequestError) => {
-  const dataError = error.data.error
+  const dataError = error.error
   return createError({
     statusCode: dataError.status,
     statusMessage: dataError.message,

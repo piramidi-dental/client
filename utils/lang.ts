@@ -39,9 +39,11 @@ export function LanguageManager () {
       return 'it'
     }
   }
-  const getUserLocale = (): string => {
-    return availableIso.includes(localeUserSetting.value) ? localeUserSetting.value : getSystemLocale()
-  }
+
+  const getUserLocale = (): string =>
+    localeUserSetting.value && availableIso.includes(localeUserSetting.value)
+      ? localeUserSetting.value
+      : getSystemLocale()
 
   // state
   const localeSetting = useState<string>('locale.setting', () =>

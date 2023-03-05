@@ -16,6 +16,7 @@
   "error": {
     "title": "Qualcosa è andato storto!",
     "message": "Messaggio di errore:",
-    "toHome": "Torna alla Home"
+    "toHome": "Torna alla Home",
+    "formatNotAvailable": "Formato schermo non supportato, prova a cambiare l'orientamento del dispositivo"
   }
 }

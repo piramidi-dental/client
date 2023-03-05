@@ -28,3 +28,20 @@ export const NAV_HEADER = Object.freeze({
 export const TRANSITION = Object.freeze({
   FADE: 'fade'
 })
+
+export const PHONES_TYPE = Object.freeze({
+  PHONE: 'phone',
+  MOBILE: 'mobile'
+})
+
+export const DS_LINK_TYPE = Object.freeze({
+  PRIMARY: 'primary',
+  SECONDARY: 'secondary',
+  TERTIARY: 'tertiary',
+  NEUTRAL: 'neutral'
+})
+
+export const DS_LINK_SIZE = Object.freeze({
+  SMALL: 'small',
+  NORMAL: 'normal'
+})

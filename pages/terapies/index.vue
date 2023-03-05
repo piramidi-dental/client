@@ -9,6 +9,7 @@
 // import { useRestaurantsQuery, useRestaurantQuery } from '@/generated/operations'
 import { LOADING } from '@/constants'
 
+const { find, findOne } = useStrapi4()
 const { t } = useLang()
 const { handleWaveActivation } = useWaveController()
 
@@ -31,26 +32,25 @@ definePageMeta({
 
 const retriveData = async () => {
   try {
-    const { data: restaurants, error } = await useCustomFetch('/api/restaurants', { key: 'restaurants' })
+    const { data: restaurants, error } = await useAsyncData('restaurants', () => find('restaurants'))
 
     if (error.value) {
       throw useRequestError(error.value as IRequestError)
     }
   } catch (error) {
-    throwError(error as Error)
+    showError(error as IRequestError)
   }
 }
 
 const retriveRestaurant = async () => {
   try {
-    const { data: restaurant, error } = await useCustomFetch(`/api/restaurants/${1}`, { key: 'restaurant' })
+    const { data: restaurant, error } = await useAsyncData('restaurant', () => findOne('restaurants', 1))
 
     if (error.value) {
       throw useRequestError(error.value as IRequestError)
     }
-    // console.log(restaurant.value)
   } catch (error) {
-    throwError(error as Error)
+    showError(error as IRequestError)
   }
 }
 

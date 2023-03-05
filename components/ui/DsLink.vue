@@ -9,6 +9,8 @@ NuxtLink.ds-link(
 </template>
 
 <script setup lang="ts">
+import { DS_LINK_TYPE, DS_LINK_SIZE } from '@/constants'
+
 const linkProps = defineProps({
   to: {
     type: String,
@@ -21,16 +23,14 @@ const linkProps = defineProps({
   type: {
     type: String,
     required: false,
-    default: 'primary',
-    validator: (value: string) => [
-      'primary', 'secondary', 'tertiary'
-    ].includes(value)
+    default: DS_LINK_TYPE.PRIMARY,
+    validator: (value: string) => (Object.values(DS_LINK_TYPE) as string[]).includes(value)
   },
   size: {
     type: String,
     required: false,
-    default: 'normal',
-    validator: (value: string) => ['small', 'normal'].includes(value)
+    default: DS_LINK_SIZE.NORMAL,
+    validator: (value: string) => (Object.values(DS_LINK_SIZE) as string[]).includes(value)
   },
   arrowIcon: {
     type: Boolean,
@@ -105,6 +105,10 @@ const getClassModifiers = computed(() => [
 
   &--tertiary {
     @include link-tertiary;
+  }
+
+  &--neutral {
+    @include link-neutral;
   }
 }
 </style>

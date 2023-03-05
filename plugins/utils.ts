@@ -1,6 +1,4 @@
 
-import * as qs from 'qs'
-
 export default defineNuxtPlugin(() => {
   const globalUtils = {
     kebabToDashesConverter: (value: string) : string => value.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`),
@@ -17,8 +15,9 @@ export default defineNuxtPlugin(() => {
     })(0)).join(' '))
   }
 
-  const apiPopulation = {
-    query: qs.stringify({ populate: '*' }, { encodeValuesOnly: true })
+  const apiParameters = {
+    population: { populate: '*' },
+    filters: (key: string, value: string) => ({ filters: { [key]: value } })
   }
 
   const phoneFormatter = {
@@ -26,11 +25,17 @@ export default defineNuxtPlugin(() => {
     mobile: (value: string) : string => globalUtils.stringSplitter(value, [3, 2, 2, 3])
   }
 
+  const composeImageUri = (url: string): string => {
+    const { strapi: { url: baseURL } } = useRuntimeConfig()
+    return baseURL + url
+  }
+
   return {
     provide: {
       globalUtils,
-      apiPopulation,
-      phoneFormatter
+      apiParameters,
+      phoneFormatter,
+      composeImageUri
     }
   }
 })
