@@ -24,6 +24,7 @@
 import type { IClinic, IContactAttr, IContact } from '@/types/contacts'
 
 const { $apiParameters } = useNuxtApp()
+const { find } = useStrapi4()
 
 const clinicsList = useState<IClinic[]>('clinics-list', () => [])
 const contactInfo = ref<IContactAttr>()
@@ -33,7 +34,7 @@ const getOpeningHours = computed(() => (contactInfo.value as IContactAttr).openi
 
 const retriveClinicsData = async () => {
   try {
-    const { data: contact, error } = await useCustomFetch(`/api/contact?${$apiParameters.population}`, { key: 'contact' })
+    const { data: contact, error } = await useAsyncData('contact', () => find<IContact>('contact', $apiParameters.population))
 
     if (error.value) {
       throw useRequestError(error.value as IRequestError)
@@ -51,7 +52,7 @@ const retriveClinicsData = async () => {
       }
     ))
   } catch (error) {
-    throwError(error as Error)
+    showError(error as IRequestError)
   }
 }
 
@@ -78,7 +79,7 @@ await retriveClinicsData()
     }
     @include mediaMd {
       margin: 0 auto;
-      max-width: $breakpoint-500;
+      max-width: $breakpoint-700;
       grid-template-columns: 1fr auto;
       grid-template-rows: repeat(3, auto) 1fr;
       row-gap: $space-200;

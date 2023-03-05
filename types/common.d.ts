@@ -28,11 +28,9 @@ declare interface IStringDeep {
  */
 
 declare interface IRequestError extends Error {
-  data: {
-    error: {
-      status: number,
-      message: string,
-      name: string
-    }
+  error: {
+    status: number,
+    message: string,
+    name: string
   }
 }

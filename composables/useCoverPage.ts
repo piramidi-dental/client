@@ -16,9 +16,12 @@ interface ICoverPage {
 export default async (activePage: string) => {
   try {
     const { $apiParameters } = useNuxtApp()
-    const opt = { name: { $eq: activePage } }
+    const { findOne } = useStrapi4()
 
-    const { data: page, error } = await useCustomFetch(`/api/pages?${$apiParameters.filters(opt)}`, { key: 'pages' })
+    const { data: page, error } = await useAsyncData('pages', () => findOne<ICoverPage>('pages', {
+      ...$apiParameters.population,
+      ...$apiParameters.filters('name', activePage)
+    }))
 
     if (error.value) {
       throw useRequestError(error.value as IRequestError)
@@ -26,6 +29,6 @@ export default async (activePage: string) => {
 
     return (page.value as ICoverPage).data[0].attributes.cover.data.attributes
   } catch (error) {
-    throwError(error as Error)
+    showError(error as IRequestError)
   }
 }

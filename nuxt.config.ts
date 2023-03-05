@@ -1,14 +1,6 @@
-import { defineNuxtConfig } from 'nuxt'
-import { IntlifyModuleOptions } from '@intlify/nuxt3'
+
 import eslintPlugin from 'vite-plugin-eslint'
 
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    intlify?: IntlifyModuleOptions
-  }
-}
-
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   app: {
     head: {
@@ -25,12 +17,15 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: ''
+      strapi: {
+        url: '' // can be overridden by NUXT_PUBLIC_STRAPI_URL environment variable
+      }
     }
   },
 
-  buildModules: [
-    '@intlify/nuxt3'
+  modules: [
+    '@intlify/nuxt3',
+    '@nuxtjs/strapi'
   ],
 
   intlify: {

@@ -58,7 +58,7 @@ const { data: pagesList } = useFetch<IStringItem[]>('/api/pages?toFilter=home')
     @include mediaMd {
       padding: $space-200 0;
       margin: 0 auto;
-      max-width: $breakpoint-500
+      max-width: $breakpoint-700
     }
   }
   &__logo-box {

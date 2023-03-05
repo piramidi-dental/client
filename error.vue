@@ -5,16 +5,20 @@
       img(src="/images/client_logo-circle-bw.svg" alt="client logo")
       h4 {{ app.name }}
     .error-view__body
-      img(src="/icons/error.svg" alt="error")
-      .error-view__title-box
-          h1.error-view__title {{ errorCode }}
-          h2.error-view__message {{ $t('error.title') }}
-      p.error-view__status-message {{ $t('error.message') }}
-        | {{ ` ${errorMessage}` }}
-      UiDsButton(
-        v-if="errorRoute.path !== '/'"
-        :text="$t('error.toHome')"
-        @click="handleError")
+      template(v-if="isMobilePortrait")
+        .error-view__title-box
+          h1.error-view__message {{ $t('error.formatNotAvailable') }}
+      template(v-else)
+        img(src="/icons/error.svg" alt="error")
+        .error-view__title-box
+            h1.error-view__title {{ error.statusCode }}
+            h2.error-view__message {{ $t('error.title') }}
+        p.error-view__status-message {{ $t('error.message') }}
+          | {{ ` ${error.statusMessage}` }}
+        UiDsButton(
+          v-if="errorRoute.path !== '/'"
+          :text="$t('error.toHome')"
+          @click="handleError")
 </template>
 
 <script setup lang="ts">
@@ -29,16 +33,18 @@ const error = useError()
 const errorRoute = useRoute()
 useWindowWidth()
 
-const errorCode = computed(() => error.value?.statusCode)
-const errorMessage = computed(() => error.value?.statusMessage)
+const isMobilePortrait = useState<boolean>('mobile-portrait')
 
 const handleError = () => { clearError({ redirect: '/' }) }
 </script>
 
 <style lang="scss" scoped>
 .error-view {
+  $self: &;
+
   background-color: $color-secondary-hard-dark;
   @include viewport-height;
+
   &__inner {
     display: grid;
     grid-template-rows: auto 1fr;
@@ -96,10 +102,10 @@ const handleError = () => { clearError({ redirect: '/' }) }
   }
   &__title-box {
     color: $color-white;
-    h1 {
+    #{$self}__title {
       @include txt-title-500;
     }
-    h2 {
+    #{$self}__message {
       @include txt-title-400;
     }
   }
