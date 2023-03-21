@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 // import { useRestaurantsQuery, useRestaurantQuery } from '@/generated/operations'
-import { LOADING } from '@/constants'
+import { Loading } from '@/types/enums'
 
 const { find, findOne } = useStrapi4()
 const { t } = useLang()
@@ -22,7 +22,7 @@ definePageMeta({
   loadingText: 'terapies',
   pageTransition: {
     mode: 'default',
-    duration: LOADING.ANIMATION_DELAY
+    duration: Loading.AnimationDelay
   },
   middleware: ['loading-text']
 })

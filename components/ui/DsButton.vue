@@ -5,7 +5,7 @@ button.ds-button(@click="callbackHandler")
 </template>
 
 <script setup lang="ts">
-const buttonProps = defineProps({
+defineProps({
   text: {
     type: String,
     required: true

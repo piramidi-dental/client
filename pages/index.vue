@@ -23,17 +23,17 @@
                 type="neutral")
       .home-page__cover-image(v-if="!isResponsiveMd")
         img(:src="getCoverImage.url" :alt="getCoverImage.alt")
-    section.home-page__terapies
-      p Cosa facciamo
+  section.home-page__terapies
+    TerapiesDentalTreatments
 </template>
 
 <script setup lang="ts">
 import type { IClinic } from '@/types/contacts'
 import {
-  DEFAULT_VALUES,
-  LOADING,
-  NAV_HEADER
-} from '@/constants'
+  DefaultValues,
+  Loading,
+  NavHeader
+} from '@/types/enums'
 
 const { t } = useLang()
 const { parallax, stylesEffect } = useScrollmagic()
@@ -50,7 +50,7 @@ definePageMeta({
   loadingText: 'home',
   pageTransition: {
     mode: 'default',
-    duration: LOADING.ANIMATION_DELAY
+    duration: Loading.AnimationDelay
   },
   middleware: ['loading-text']
 })
@@ -77,12 +77,12 @@ const scrollAnimationsHandler = () : void => {
   resetAnimation()
 
   nextTick(() => {
-    const _headerSize = NAV_HEADER[isResponsiveSm.value ? 'NORMAL' : 'MOBILE']
+    const _headerSize = NavHeader[isResponsiveSm.value ? 'Normal' : 'Mobile']
     const _windowHeight:number = window.innerHeight
 
     if (!isResponsiveMd.value) {
       const _dentalToolHeight:number = (dentalTool.value as HTMLElement).offsetHeight
-      const _dentalToolTop:number = _headerSize - DEFAULT_VALUES.PADDING_200
+      const _dentalToolTop:number = _headerSize - DefaultValues.Padding200
       const _toValue:number = (_dentalToolHeight - _windowHeight) + _dentalToolTop
 
       const plxOption = ({
@@ -281,8 +281,7 @@ onUnmounted(resetAnimation)
 
   &__terapies {
     background-color: $color-white;
-    padding: $space-400 $space-200 $space-500;
-    height: 1500px;
+    padding: calc(#{$space-400} - #{$space-200}) $space-200 $space-900;
   }
 }
 </style>

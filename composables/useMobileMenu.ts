@@ -1,5 +1,5 @@
 
-import { LOADING } from '@/constants'
+import { Loading } from '@/types/enums'
 
 interface IMobileMenu {
   isOpen: boolean,
@@ -23,7 +23,7 @@ export default () => {
 
     setTimeout(() => {
       mobileMenu.value.isDisable = false
-    }, LOADING.WAVE_DURATION)
+    }, Loading.WaveDuration)
   }
 
   watch(isResponsiveMd, (val) => {

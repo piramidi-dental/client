@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-const clinicProps = defineProps({
+defineProps({
   clinicAttr: {
     type: Object,
     required: true

@@ -3,6 +3,13 @@
   overflow: hidden;
 }
 
+.pages {
+  &__subtitle {
+    @include txt-title-400;
+    color: $color-primary;
+  }
+}
+
 a:-webkit-any-link {
   color: inherit;
 }

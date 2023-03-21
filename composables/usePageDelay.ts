@@ -1,6 +1,6 @@
 
-import { LOADING } from '@/constants'
+import { Loading } from '@/types/enums'
 
 export default async () => {
-  await new Promise(resolve => setTimeout(resolve, LOADING.ANIMATION_DELAY))
+  await new Promise(resolve => setTimeout(resolve, Loading.AnimationDelay))
 }

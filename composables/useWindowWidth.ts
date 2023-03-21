@@ -1,5 +1,5 @@
 
-import { RESPONSIVE } from '@/constants'
+import { Responsive } from '@/types/enums'
 
 export default () => {
   const windowWidth = useState<number>('window-width', () => 0)
@@ -13,7 +13,7 @@ export default () => {
   }
 
   const checkMobilePortrait = () => {
-    if (screen.availHeight < RESPONSIVE.SM && (screen.orientation.type.match(/\w+/)?.includes('landscape') as boolean)) {
+    if (screen.availHeight < Responsive.Sm && (screen.orientation.type.match(/\w+/)?.includes('landscape') as boolean)) {
       isMobilePortrait.value = true
       showError('')
     } else if (isMobilePortrait.value) {
