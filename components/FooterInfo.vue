@@ -21,26 +21,26 @@
 </template>
 
 <script setup lang="ts">
-import type { IClinic, IContactAttr, IContact } from '@/types/contacts'
+import type { Clinic, ContactAttr, Contact } from '@/types/contacts'
 
 const { $apiParameters } = useNuxtApp()
 const { find } = useStrapi4()
 
-const clinicsList = useState<IClinic[]>('clinics-list', () => [])
-const contactInfo = ref<IContactAttr>()
+const clinicsList = useState<Clinic[]>('clinics-list', () => [])
+const contactInfo = ref<ContactAttr>()
 
-const getContactEmail = computed(() => (contactInfo.value as IContactAttr).email)
-const getOpeningHours = computed(() => (contactInfo.value as IContactAttr).openingHours)
+const getContactEmail = computed(() => (contactInfo.value as ContactAttr).email)
+const getOpeningHours = computed(() => (contactInfo.value as ContactAttr).openingHours)
 
 const retriveClinicsData = async () => {
   try {
-    const { data: contact, error } = await useAsyncData('contact', () => find<IContact>('contact', $apiParameters.population))
+    const { data: contact, error } = await useAsyncData('contact', () => find<Contact>('contact', $apiParameters.population))
 
     if (error.value) {
       throw useRequestError(error.value as IRequestError)
     }
 
-    contactInfo.value = (contact.value as IContact).data.attributes
+    contactInfo.value = (contact.value as Contact).data.attributes
     clinicsList.value = contactInfo.value.clinics.data
     clinicsList.value = clinicsList.value.map(clinic => (
       {

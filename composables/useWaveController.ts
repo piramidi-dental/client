@@ -1,5 +1,5 @@
 
-import type { IWaveTypes, IWaveController } from '@/types/wave'
+import type { WaveTypes, WaveController } from '@/types/wave'
 
 export default () => {
   const waveController = useState('wave-controller', () => ({
@@ -12,11 +12,11 @@ export default () => {
     waveController.value.loadingText = text
   }
 
-  const setWaveType = (type: IWaveTypes) => {
+  const setWaveType = (type: WaveTypes) => {
     waveController.value.type = type
   }
 
-  const handleWaveActivation = (data: IWaveController) => {
+  const handleWaveActivation = (data: WaveController) => {
     const { isActive, type = 'loading', loadingText = waveController.value.loadingText } = data
 
     waveController.value = {

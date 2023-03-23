@@ -1,10 +1,16 @@
 
 {
+  "links": {
+    "goTo": "Go to"
+  },
   "pages": {
     "home": "Home",
     "terapies": "Services and therapies",
     "clinic": "The clinic",
     "contacts": "Contacts"
+  },
+  "home": {
+    "whatWeDo": "What we do"
   },
   "contacts": {
     "viewMap": "View map",

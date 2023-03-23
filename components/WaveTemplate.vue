@@ -13,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import type { IWaveTypes } from '@/types/wave'
+import type { WaveTypes } from '@/types/wave'
 import {
-  LOADING,
-  DEFAULT_VALUES,
-  TRANSITION,
-  WAVE_TYPE
-} from '@/constants'
+  Loading,
+  DefaultValues,
+  Transition,
+  WaveType
+} from '@/types/enums'
 
 const nuxtApp = useNuxtApp()
 const { $gsap } = useNuxtApp()
@@ -48,7 +48,7 @@ const componentTransition = ref<string>('')
 const dynamicComponent = shallowRef(resolveComponent('LoadingSpinner'))
 const secondaryColor = ref<string>('transparent')
 
-const getWaveHeight = computed<string>(() => `${(!isResponsiveSm.value ? WAVE_HEIGHT.MOBILE : WAVE_HEIGHT.TABLET) / DEFAULT_VALUES.REM}rem`)
+const getWaveHeight = computed<string>(() => `${(!isResponsiveSm.value ? WAVE_HEIGHT.MOBILE : WAVE_HEIGHT.TABLET) / DefaultValues.Rem}rem`)
 
 const setStyledColors = () : void => {
   const style = getComputedStyle(document.body)
@@ -86,8 +86,8 @@ const useLoadingIndicator = (opts: {
   }
 
   const finish = () => {
-    const _diffDate = LOADING.ANIMATION_DELAY - ((new Date()).getTime() - dateStart.value.getTime())
-    const _timeoutValue = _diffDate > 0 && waveController.value.type === WAVE_TYPE.LOADING ? _diffDate : 0
+    const _diffDate = Loading.AnimationDelay - ((new Date()).getTime() - dateStart.value.getTime())
+    const _timeoutValue = _diffDate > 0 && waveController.value.type === WaveType.Loading ? _diffDate : 0
 
     setTimeout(() => {
       progress.value = 100
@@ -145,14 +145,14 @@ const handleAnimationComplete = () => {
     addRemoveBodyClass(OVER_FLOW_CLASS, true)
     waveTemplate.value = false
     if (!appIsMounted.value) { appIsMounted.value = true }
-    if (waveController.value.type === WAVE_TYPE.MENU) {
+    if (waveController.value.type === WaveType.Menu) {
       animationActionsHandler([tweenControllerNavBar.value, 'reverse'])
     }
     if (mobileMenu.value.isOpen) {
       toggleMenu()
       componentTransition.value = ''
     }
-  }, LOADING.WAVE_DURATION)
+  }, Loading.WaveDuration)
 }
 
 const animationHandler = () : void => {
@@ -216,7 +216,7 @@ onMounted(async () => {
 onBeforeUnmount(indicator.clear)
 
 watch(() => waveController.value.isActive, (val: boolean) => {
-  if (waveController.value.type === WAVE_TYPE.LOADING) {
+  if (waveController.value.type === WaveType.Loading) {
     setLoadingConfig()
   } else {
     dynamicComponent.value = resolveComponent('MobileMenu')
@@ -230,10 +230,10 @@ watch(() => waveController.value.isActive, (val: boolean) => {
 
 nuxtApp.hook('page:start', () => {
   setLoadingConfig()
-  setWaveType((WAVE_TYPE.LOADING as IWaveTypes))
+  setWaveType((WaveType.Loading as WaveTypes))
 
   if (mobileMenu.value.isOpen) {
-    componentTransition.value = TRANSITION.FADE
+    componentTransition.value = Transition.Fade
     animationActionsHandler([tweenControllerNavBar.value, 'reverse'])
   }
 

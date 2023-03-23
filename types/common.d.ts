@@ -34,3 +34,9 @@ declare interface IRequestError extends Error {
     name: string
   }
 }
+
+/*
+ Components
+ */
+
+declare type componentType = 'list' | 'accordeon' | 'table'

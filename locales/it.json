@@ -1,10 +1,16 @@
 
 {
+  "links": {
+    "goTo": "Vai a"
+  },
   "pages": {
     "home": "Home",
     "terapies": "Servizi e terapie",
     "clinic": "Lo studio",
     "contacts": "Contatti"
+  },
+  "home": {
+    "whatWeDo": "Cosa facciamo"
   },
   "contacts": {
     "viewMap": "Vai alla mappa",

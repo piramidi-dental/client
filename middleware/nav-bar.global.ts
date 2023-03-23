@@ -1,5 +1,5 @@
 
-import { LOADING } from '@/constants'
+import { Loading } from '@/types/enums'
 
 export default defineNuxtRouteMiddleware((to, from) => {
   if (
@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if (logoBox) {
       setTimeout(() => {
         logoBox.style.opacity = '1'
-      }, LOADING.WAVE_DURATION)
+      }, Loading.WaveDuration)
     }
   }
 })

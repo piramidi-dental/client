@@ -18,10 +18,10 @@ ul
 </template>
 
 <script setup lang="ts">
-import type { IClinicPhone } from '@/types/contacts'
-import { PHONES_TYPE, DS_LINK_TYPE, DS_LINK_SIZE } from '@/constants'
+import type { ClinicPhone } from '@/types/contacts'
+import { PhonesType, DsLinkType, DsLinkSize } from '@/types/enums'
 
-const PhonesProps = defineProps({
+defineProps({
   clinicAttr: {
     type: Object,
     required: true
@@ -36,22 +36,22 @@ const PhonesProps = defineProps({
   size: {
     type: String,
     required: false,
-    default: DS_LINK_SIZE.SMALL,
-    validator: (value: string) => (Object.values(DS_LINK_SIZE) as string[]).includes(value)
+    default: DsLinkSize.Small,
+    validator: (value: string) => (Object.values(DsLinkSize) as string[]).includes(value)
   },
 
   type: {
     type: String,
     required: false,
-    default: DS_LINK_TYPE.PRIMARY,
-    validator: (value: string) => (Object.values(DS_LINK_TYPE) as string[]).includes(value)
+    default: DsLinkType.Primary,
+    validator: (value: string) => (Object.values(DsLinkType) as string[]).includes(value)
   }
 })
 
 const { $phoneFormatter } = useNuxtApp()
-const phonesList = (Object.values(PHONES_TYPE) as IClinicPhone[])
+const phonesList = (Object.values(PhonesType) as ClinicPhone[])
 
-const isMobile = (value: string) => value === PHONES_TYPE.MOBILE
+const isMobile = (value: string) => value === PhonesType.Mobile
 const phoneLink = (value: string) => isMobile(value) ? 'https://wa.me/' : 'tel:'
 </script>
 

@@ -9,9 +9,9 @@ NuxtLink.ds-link(
 </template>
 
 <script setup lang="ts">
-import { DS_LINK_TYPE, DS_LINK_SIZE } from '@/constants'
+import { DsLinkType, DsLinkSize } from '@/types/enums'
 
-const linkProps = defineProps({
+const props = defineProps({
   to: {
     type: String,
     required: true
@@ -23,14 +23,14 @@ const linkProps = defineProps({
   type: {
     type: String,
     required: false,
-    default: DS_LINK_TYPE.PRIMARY,
-    validator: (value: string) => (Object.values(DS_LINK_TYPE) as string[]).includes(value)
+    default: DsLinkType.Primary,
+    validator: (value: string) => (Object.values(DsLinkType) as string[]).includes(value)
   },
   size: {
     type: String,
     required: false,
-    default: DS_LINK_SIZE.NORMAL,
-    validator: (value: string) => (Object.values(DS_LINK_SIZE) as string[]).includes(value)
+    default: DsLinkSize.Normal,
+    validator: (value: string) => (Object.values(DsLinkSize) as string[]).includes(value)
   },
   arrowIcon: {
     type: Boolean,
@@ -50,10 +50,10 @@ const linkProps = defineProps({
 })
 
 const getClassModifiers = computed(() => [
-  `ds-link--${linkProps.type}`,
-  `ds-link--size-${linkProps.size}`,
-  { 'ds-link--disable': linkProps.disable },
-  { 'ds-link--has-icon': linkProps.arrowIcon }
+  `ds-link--${props.type}`,
+  `ds-link--size-${props.size}`,
+  { 'ds-link--disable': props.disable },
+  { 'ds-link--has-icon': props.arrowIcon }
 ])
 </script>
 

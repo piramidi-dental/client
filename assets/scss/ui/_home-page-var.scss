@@ -14,6 +14,6 @@ $--mobile-cover-bottom-padding: calc(#{$-mobile-header-height} + #{$space-500});
 $--tablet-cover-height: calc(#{$-viewport-height} + #{$-header-height});
 $--tablet-cover-info-height: calc((#{$--tablet-cover-height} / 3) * 2);
 $--tablet-cover-left-padding: calc(#{$space-1000} + #{$space-400});
-$--tablet-cover-image-height: #{$--tablet-cover-height} / 3;
+$--tablet-cover-image-height: calc(#{$--tablet-cover-height} / 3);
 
 $--desktop-cover-top-padding: calc(#{$space-200} + #{$-header-height});
