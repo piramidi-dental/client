@@ -4,6 +4,15 @@
 }
 
 .pages {
+  &__title {
+    @include txt-title-400;
+    color: $color-primary;
+
+    @include mediaSm {
+      @include txt-title-500;
+    }
+  }
+
   &__subtitle {
     @include txt-title-400;
     color: $color-primary;

@@ -10,20 +10,17 @@ const treatmentList = ref<ITreatmentAttr>()
 
 const getTreatmentTitle = computed<string>(() =>
   route.meta.title === 'Home'
-    ? 'Cosa facciamo'
-    : (treatmentList.value as ITreatmentAttr)?.title ?? ''
+    ? ''
+    : (treatmentList.value as ITreatmentAttr).title ?? ''
 )
-const getTreatmentComponent = computed(() => {
-  const componentType: componentType = (treatmentList.value as ITreatmentAttr).componentType
-  const components = {
-    accordeon: '',
-    list: '',
-    table: resolveComponent('UiDsTable')
-  }
 
-  return components[componentType]
+const getTreatmentInfo = computed(() => {
+  const list = treatmentList.value as ITreatmentAttr
+  return {
+    data: list.treatments.data as ITreatments[],
+    type: list.componentType as componentType
+  }
 })
-const getTreatmentList = computed<ITreatments[]>(() => (treatmentList.value as ITreatmentAttr)?.treatments?.data ?? [])
 
 const retriveTreatmentsList = async () => {
   try {
@@ -33,17 +30,16 @@ const retriveTreatmentsList = async () => {
       throw useRequestError(error.value as IRequestError)
     }
 
-    treatmentList.value = (treatments.value as ITreatmentList).data.attributes
+    treatmentList.value = (treatments.value as ITreatmentList).data.attributes as ITreatmentAttr
   } catch (error) {
     showError(error as IRequestError)
   }
 }
 
-retriveTreatmentsList()
+await retriveTreatmentsList()
 </script>
 
 <template lang="pug">
 h2.pages__subtitle {{ getTreatmentTitle }}
-client-only
-  component(v-if="treatmentList" :is="getTreatmentComponent" :table-data="getTreatmentList")
+SharedDynamicComponent(:component-data="getTreatmentInfo.data" :component-type="getTreatmentInfo.type")
 </template>

@@ -24,7 +24,15 @@
       .home-page__cover-image(v-if="!isResponsiveMd")
         img(:src="getCoverImage.url" :alt="getCoverImage.alt")
   section.home-page__terapies
-    TerapiesDentalTreatments
+    .home-page__terapies-inner
+      h2.pages__title.home-page__terapies-title {{ t('home.whatWeDo') }}
+      TerapiesDentalTreatments
+      .home-page__terapies-link
+        UiDsLink(
+          :name="`${t('links.goTo')} ${t('pages.terapies')}`"
+          to="/terapies"
+          arrow-icon
+          :type="DsLinkType.Secondary")
 </template>
 
 <script setup lang="ts">
@@ -32,7 +40,8 @@ import type { IClinic } from '@/types/contacts'
 import {
   DefaultValues,
   Loading,
-  NavHeader
+  NavHeader,
+  DsLinkType
 } from '@/types/enums'
 
 const { t } = useLang()
@@ -198,11 +207,9 @@ onUnmounted(resetAnimation)
         height: 100%;
         width: 100%;
         @include mediaMd {
-          display: grid;
+          display: flex;
           width: auto;
           overflow: hidden;
-          grid-template-columns: 2fr 1fr;
-          height: auto;
         }
       }
       &-logo {
@@ -210,11 +217,15 @@ onUnmounted(resetAnimation)
         width: 100%;
         @include mediaMd {
           z-index: 0;
-          margin-left: -30%;
+          transform: translateX(-30%);
         }
         img {
           height: 100%;
           width: 100%;
+
+          @include mediaMd {
+            width: auto;
+          }
         }
       }
     }
@@ -228,6 +239,11 @@ onUnmounted(resetAnimation)
         height: $--tablet-cover-image-height;
         padding: $space-200 0 $space-200 $space-1000;
       }
+      @include mediaMd {
+        height: 100%;
+        padding: 0;
+        transform: translateX(10%);
+      }
       img {
         height: 100%;
         width: 100%;
@@ -235,6 +251,11 @@ onUnmounted(resetAnimation)
         object-position: right top;
         transform: scaleX(-1);
         border-radius: $radius-200;
+
+        @include mediaMd {
+          width: auto;
+          object-position: center center;
+        }
       }
     }
 
@@ -282,6 +303,31 @@ onUnmounted(resetAnimation)
   &__terapies {
     background-color: $color-white;
     padding: calc(#{$space-400} - #{$space-200}) $space-200 $space-900;
+    @include mediaSm {
+      padding: $space-400 $space-400 $space-900;
+    }
+    @include mediaMd {
+      padding: $space-600 $space-400 $space-1000;
+    }
+    &-inner {
+      @include mediaMd {
+        margin: 0 auto;
+        max-width: $breakpoint-700;
+      }
+    }
+    &-title {
+      @include mediaSm {
+        padding-bottom: $space-200;
+      }
+      @include mediaMd {
+        padding-bottom: $space-400;
+      }
+    }
+    &-link {
+      padding-top: $space-400;
+      display: flex;
+      justify-content: center;
+    }
   }
 }
 </style>
