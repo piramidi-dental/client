@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IClinic } from '@/types/contacts'
+import type { Clinic } from '@/types/contacts'
 import {
   DefaultValues,
   Loading,
@@ -65,7 +65,7 @@ definePageMeta({
 })
 
 const waveTemplate = useState<boolean>('wave-template')
-const clinicsList = useState<IClinic[]>('clinics-list')
+const clinicsList = useState<Clinic[]>('clinics-list')
 const windowWidth = useState<number>('window-width')
 
 const pageIsMounted = ref<boolean>(false)

@@ -1,5 +1,5 @@
 
-interface ITreatments {
+type Treatments = {
   id: number,
   attributes: {
     name: string,
@@ -7,24 +7,24 @@ interface ITreatments {
   }
 }
 
-interface ITreatmentAttr {
+type TreatmentAttr = {
   title: string,
   description?: string | null,
   componentType: componentType,
   treatments: {
-    data: ITreatments[]
+    data: Treatments[]
   }
 }
 
-interface ITreatmentList {
+type TreatmentList = {
   data: {
     id: number,
-    attributes: ITreatmentAttr
+    attributes: TreatmentAttr
   }
 }
 
 export {
-  ITreatmentList,
-  ITreatmentAttr,
-  ITreatments
+  TreatmentList,
+  TreatmentAttr,
+  Treatments
 }

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IWaveTypes } from '@/types/wave'
+import type { WaveTypes } from '@/types/wave'
 import {
   Loading,
   DefaultValues,
@@ -230,7 +230,7 @@ watch(() => waveController.value.isActive, (val: boolean) => {
 
 nuxtApp.hook('page:start', () => {
   setLoadingConfig()
-  setWaveType((WaveType.Loading as IWaveTypes))
+  setWaveType((WaveType.Loading as WaveTypes))
 
   if (mobileMenu.value.isOpen) {
     componentTransition.value = Transition.Fade

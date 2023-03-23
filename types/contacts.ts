@@ -1,7 +1,7 @@
 
-type IClinicPhone = 'phone' | 'mobile'
+type ClinicPhone = 'phone' | 'mobile'
 
-type IClinic = {
+type Clinic = {
   id: number,
   attributes: {
     address: string,
@@ -12,24 +12,24 @@ type IClinic = {
   }
 }
 
-type IContactAttr = {
+type ContactAttr = {
   clinics: {
-    data: IClinic[]
+    data: Clinic[]
   },
   email: string,
   openingHours: string
 }
 
-type IContact = {
+type Contact = {
   data: {
     id: number,
-    attributes: IContactAttr
+    attributes: ContactAttr
   }
 }
 
 export {
-  IClinicPhone,
-  IClinic,
-  IContactAttr,
-  IContact
+  ClinicPhone,
+  Clinic,
+  ContactAttr,
+  Contact
 }

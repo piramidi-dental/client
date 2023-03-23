@@ -18,7 +18,7 @@ ul
 </template>
 
 <script setup lang="ts">
-import type { IClinicPhone } from '@/types/contacts'
+import type { ClinicPhone } from '@/types/contacts'
 import { PhonesType, DsLinkType, DsLinkSize } from '@/types/enums'
 
 defineProps({
@@ -49,7 +49,7 @@ defineProps({
 })
 
 const { $phoneFormatter } = useNuxtApp()
-const phonesList = (Object.values(PhonesType) as IClinicPhone[])
+const phonesList = (Object.values(PhonesType) as ClinicPhone[])
 
 const isMobile = (value: string) => value === PhonesType.Mobile
 const phoneLink = (value: string) => isMobile(value) ? 'https://wa.me/' : 'tel:'
