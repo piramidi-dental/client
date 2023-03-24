@@ -1,10 +1,10 @@
 <template lang="pug">
-ul.menu-icon(
+.menu-icon(
   :class="getIconModifiers"
   @click="toggleMenu")
-  li
-  li
-  li
+  div
+  div
+  div
 </template>
 
 <script setup lang="ts">
@@ -27,28 +27,28 @@ const getIconModifiers = computed(() => [{
   &--is-disabled {
     pointer-events: none;
   }
-  li {
+  > div {
     width: $space-400;
     height: $space-050;
     background: $color-white;
     transition: all 0.5s linear;
     transform-origin: 1px;
   }
-  li:nth-child(odd) {
+  > div:nth-child(odd) {
     transform: rotate(0);
   }
-  li:nth-child(even) {
+  > div:nth-child(even) {
     opacity: 1;
     transform: translateX(0);
   }
   &--open {
-    li:first-child {
+    > div:first-child {
       transform: rotate(45deg);
     }
-    li:nth-child(2) {
+    > div:nth-child(2) {
       opacity: 0;
     }
-    li:nth-child(3) {
+    > div:nth-child(3) {
       transform: rotate(-45deg);
     }
   }

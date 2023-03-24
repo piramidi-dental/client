@@ -7,8 +7,8 @@ export default defineEventHandler((event) => {
       link: '/'
     },
     {
-      name: 'terapies',
-      link: '/terapies'
+      name: 'therapies',
+      link: '/therapies'
     },
     {
       name: 'clinic',

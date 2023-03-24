@@ -2,7 +2,7 @@
 .footer-info
   .footer-info__inner
     h2.footer-info__title {{ $t('footer.talk') }}
-    UiDsLink(
+    ui-ds-link(
       :to="`mailto:${getContactEmail}`"
       :name="getContactEmail"
       size="small"
@@ -11,9 +11,9 @@
       li(
         v-for="clinic in clinicsList"
         :key="`${clinic.id}_${clinic.attributes.name}`")
-        ClinicItem(:clinic-attr="clinic.attributes")
+        clinic-item(:clinic-attr="clinic.attributes")
     .footer-info__opening-hours(v-html="getOpeningHours")
-    UiDsLink.footer-info__contacts-link(
+    ui-ds-link.footer-info__contacts-link(
       to="/contacts"
       arrow-icon
       type="tertiary"

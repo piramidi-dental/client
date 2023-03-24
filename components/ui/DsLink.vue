@@ -1,6 +1,6 @@
 
 <template lang="pug">
-NuxtLink.ds-link(
+nuxt-link.ds-link(
   :to="to"
   :class="getClassModifiers"
   :target="target")

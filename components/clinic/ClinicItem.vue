@@ -2,8 +2,8 @@
 .clinic-item
   h4 {{ clinicAttr.name }}
   div(v-html="clinicAttr.address")
-  ClinicPhonesList(:clinic-attr="clinicAttr")
-  UiDsLink(
+  clinic-phones-list(:clinic-attr="clinicAttr")
+  ui-ds-link(
     :to="clinicAttr.map"
     :name="$t('contacts.viewMap')"
     type="tertiary"

@@ -4,7 +4,7 @@ ul
     div(
       v-if="clinicAttr[item]"
       :class="{ 'clinic-item__mobile': isMobile(item) }")
-      UiDsLink(
+      ui-ds-link(
         :to="`${phoneLink(item)}+39${clinicAttr[item]}`"
         :size="size"
         :name="$phoneFormatter[item](clinicAttr[item])"
