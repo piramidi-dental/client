@@ -39,7 +39,6 @@
 import type { Clinic } from '@/types/contacts'
 import {
   DefaultValues,
-  Loading,
   NavHeader,
   DsLinkType
 } from '@/types/enums'
@@ -55,13 +54,7 @@ useHead({
 })
 
 definePageMeta({
-  title: 'Home',
-  loadingText: 'home',
-  pageTransition: {
-    mode: 'default',
-    duration: Loading.AnimationDelay
-  },
-  middleware: ['loading-text']
+  title: 'home'
 })
 
 const waveTemplate = useState<boolean>('wave-template')
@@ -95,7 +88,7 @@ const scrollAnimationsHandler = () : void => {
       const plxOption = ({
         dataTween: {
           fn: 'fromTo',
-          el: '.home-page__dental-tool',
+          el: (dentalTool.value as HTMLElement),
           from: { y: _dentalToolTop, duration: 1, ease: 'linear' },
           to: { y: -_toValue, duration: 1, ease: 'linear' }
         }

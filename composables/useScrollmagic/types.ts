@@ -16,7 +16,7 @@ interface FromTo {
 interface tweenOpt extends BasicOpt {
   dataTween: {
     fn: string,
-    el: string,
+    el: string | HTMLElement,
     from?: FromTo
     to: FromTo
   }

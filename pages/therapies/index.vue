@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Loading, TherapiesSections } from '@/types/enums'
+import { TherapiesSections } from '@/types/enums'
 
 const { t } = useLang()
 const coverPage = await useCoverPage('therapies')
@@ -11,13 +11,7 @@ useHead({
 })
 
 definePageMeta({
-  title: 'Therapies',
-  loadingText: 'therapies',
-  pageTransition: {
-    mode: 'default',
-    duration: Loading.AnimationDelay
-  },
-  middleware: ['loading-text']
+  title: 'therapies'
 })
 
 const getCoverImage = computed(() => ({
@@ -36,10 +30,9 @@ const getCoverImage = computed(() => ({
 
 <template lang="pug">
 .therapies
-  header
-    .pages__cover-image
-      img(:src="getCoverImage.url" :alt="getCoverImage.alt")
-  main.therapies__main
+  .pages__cover-image
+    img(:src="getCoverImage.url" :alt="getCoverImage.alt")
+  .therapies__body
     h2.pages__title {{ t('pages.therapies') }}
     section-list(
       v-for="item in Object.values(TherapiesSections)"
@@ -51,7 +44,8 @@ const getCoverImage = computed(() => ({
 <style lang="scss" scoped>
 .therapies {
   background-color: $color-white;
-  &__main {
+  overflow: hidden;
+  &__body {
     padding: $space-400 $space-200 $space-900;
   }
 }

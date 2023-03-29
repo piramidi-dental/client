@@ -27,7 +27,7 @@ const getComponentType = computed(() => {
   const type = (dataList.value as ListAttributes).componentType as componentType
 
   return {
-    accordeon: resolveComponent('UiDsAccordeon'),
+    accordion: resolveComponent('UiDsAccordion'),
     list: '',
     table: resolveComponent('UiDsTable')
   }[type]

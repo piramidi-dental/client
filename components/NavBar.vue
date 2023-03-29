@@ -26,7 +26,7 @@ const { isResponsiveSm, isResponsiveMd } = useMediaResponsive()
 
 const app = useState<IApp>('app')
 
-const linkDisableHandle = (title: string) : boolean => route.meta.title === $globalUtils.capitalizeString(title)
+const linkDisableHandle = (title: string) : boolean => route.meta.title === title
 
 const { data: pagesList } = useFetch<IStringItem[]>('/api/pages?toFilter=home')
 </script>

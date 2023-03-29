@@ -1,0 +1,29 @@
+
+.ds-component {
+  @include mediaMd {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &__row {
+    padding: $space-150 0;
+    border-bottom: $border-size-200 solid $color-hard-neutral;
+
+    @include mediaSm {
+      padding: $space-200 0;
+    }
+    &-title {
+      @include txt-title-300;
+      @include mediaSm {
+        @include txt-title-400;
+      }
+    }
+    &-description {
+      @include txt-title-200;
+      color: $color-neutral;
+      @include mediaSm {
+        @include txt-title-300;
+        padding-top: $space-100;
+      }
+    }
+  }
+}
