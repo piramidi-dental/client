@@ -261,7 +261,7 @@ onUnmounted(resetAnimation)
         .ds-icon-location {
           color: $color-tertiary;
           font-size: $icon-size-400;
-          margin-top: $space-100;
+          margin-top: $space-050;
         }
       }
       > li + li {
@@ -317,6 +317,14 @@ onUnmounted(resetAnimation)
       padding-top: $space-400;
       display: flex;
       justify-content: center;
+
+      @include mediaSm {
+        padding-top: $space-500;
+      }
+
+      @include mediaMd {
+        padding-top: $space-600;
+      }
     }
   }
 }

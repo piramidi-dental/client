@@ -4,7 +4,7 @@ nuxt-link.ds-link(
   :to="to"
   :class="getClassModifiers"
   :target="target")
-  span.ds-icon-arrow-up(v-if="arrowIcon")
+  span.ds-icon-arrow-up-right(v-if="arrowIcon")
   | {{ name }}
 </template>
 
@@ -74,8 +74,20 @@ const getClassModifiers = computed(() => [
     &-normal {
       @include txt-title-300;
       column-gap: $space-150;
+
+      [class^='ds-icon-'],
+      [class*=' ds-icon-'] {
+        font-weight: 700;
+      }
+
       @include mediaSm {
         @include txt-title-400;
+
+        [class^='ds-icon-'],
+        [class*=' ds-icon-'] {
+          font-weight: 700;
+          font-size: $icon-size-400;
+        }
       }
     }
     &-small {

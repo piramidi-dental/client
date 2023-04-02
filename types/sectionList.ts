@@ -5,7 +5,8 @@ type ListItem = {
   id: number,
   attributes: {
     name: string,
-    description?: string | null
+    description?: string | null,
+    uuid: string
   }
 }
 

@@ -1,9 +1,5 @@
 
 .ds-component {
-  @include mediaMd {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
   &__row {
     padding: $space-150 0;
     border-bottom: $border-size-200 solid $color-hard-neutral;

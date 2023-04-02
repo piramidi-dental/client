@@ -1,25 +1,3 @@
-<template lang="pug">
-.footer-info
-  .footer-info__inner
-    h2.footer-info__title {{ $t('footer.talk') }}
-    ui-ds-link(
-      :to="`mailto:${getContactEmail}`"
-      :name="getContactEmail"
-      size="small"
-      target="_blank")
-    ul.footer-info__clinics
-      li(
-        v-for="clinic in clinicsList"
-        :key="`${clinic.id}_${clinic.attributes.name}`")
-        clinic-item(:clinic-attr="clinic.attributes")
-    .footer-info__opening-hours(v-html="getOpeningHours")
-    ui-ds-link.footer-info__contacts-link(
-      to="/contacts"
-      arrow-icon
-      type="tertiary"
-      :name="$t('contacts.toContact')")
-</template>
-
 <script setup lang="ts">
 import type { Clinic, ContactAttr, Contact } from '@/types/contacts'
 
@@ -58,6 +36,28 @@ const retriveClinicsData = async () => {
 
 await retriveClinicsData()
 </script>
+
+<template lang="pug">
+.footer-info
+  .footer-info__inner
+    h2.footer-info__title {{ $t('footer.talk') }}
+    ui-ds-link(
+      :to="`mailto:${getContactEmail}`"
+      :name="getContactEmail"
+      size="small"
+      target="_blank")
+    ul.footer-info__clinics
+      li(
+        v-for="clinic in clinicsList"
+        :key="`${clinic.id}_${clinic.attributes.name}`")
+        clinic-item(:clinic-attr="clinic.attributes")
+    p.footer-info__opening-hours(v-html="getOpeningHours")
+    ui-ds-link.footer-info__contacts-link(
+      to="/contacts"
+      arrow-icon
+      type="tertiary"
+      :name="$t('contacts.toContact')")
+</template>
 
 <style lang="scss" scoped>
 .footer-info {
@@ -114,6 +114,7 @@ await retriveClinicsData()
     }
   }
   &__opening-hours{
+    white-space: pre;
     color: $color-neutral;
     @include txt-body-500;
     @include mediaSm {

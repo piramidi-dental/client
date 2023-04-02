@@ -11,12 +11,12 @@ const props = defineProps({
   }
 })
 
-const accordionData = ref<accordionItem[]>(props.componentData.map(item => ({ ...item as ListItem, isOpen: false })))
+const accordionData: accordionItem[] = props.componentData.map(item => ({ ...item as ListItem, isOpen: false }))
 
-const toggleOpenPanel = (id: number) => {
-  const selectedItem = accordionData.value.find(el => el.id === id) as accordionItem
-  const panel = document.getElementById(`panel-${id}`)
-  const description = (document.getElementById(`panel-description-${id}`))
+const toggleOpenPanel = (uuid: string) => {
+  const selectedItem = accordionData.find(el => el.attributes.uuid === uuid) as accordionItem
+  const panel = document.getElementById(`panel-${uuid}`)
+  const description = document.getElementById(`panel-description-${uuid}`)
 
   if (panel) {
     panel.style.maxHeight = selectedItem.isOpen ? '0' : `${(description?.offsetHeight as number) / 16}rem`
@@ -28,20 +28,20 @@ const toggleOpenPanel = (id: number) => {
 
 <template lang="pug">
 .ds-accordion.ds-component
-  .ds-accordion__row.ds-component__row(v-for="item in accordionData" :key="item.id")
+  .ds-accordion__row.ds-component__row(v-for="item in accordionData" :key="item.uuid")
     h3
       button.ds-accordion__row-btn(
         type="button"
-        :id="`btn-${item.id}`"
+        :id="`btn-${item.attributes.uuid}`"
         :aria-expanded="`${item.isOpen}`"
-        :aria-controls="`panel-${item.id}`"
-        @click="toggleOpenPanel(item.id)")
+        :aria-controls="`panel-${item.attributes.uuid}`"
+        @click="toggleOpenPanel(item.attributes.uuid)")
         span.ds-component__row-title {{ item.attributes.name }}
     .ds-accordion__row-panel(
-      :id="`panel-${item.id}`"
+      :id="`panel-${item.attributes.uuid}`"
       role="region"
-      :aria-labelledby="`btn-${item.id}`")
-      p.ds-component__row-description(:id="`panel-description-${item.id}`") {{ item.attributes.description }}
+      :aria-labelledby="`btn-${item.attributes.uuid}`")
+      p.ds-component__row-description(:id="`panel-description-${item.attributes.uuid}`") {{ item.attributes.description }}
 </template>
 
 <style lang="scss" scoped>

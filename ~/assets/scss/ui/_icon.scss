@@ -1,0 +1,29 @@
+@font-face {font-family: "ds-icon";
+  src: url('fonts/icons/ds-icon.eot?t=1680428043159'); /* IE9*/
+  src: url('fonts/icons/ds-icon.eot?t=1680428043159#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url("fonts/icons/ds-icon.woff2?t=1680428043159") format("woff2"),
+  url("fonts/icons/ds-icon.woff?t=1680428043159") format("woff"),
+  url('fonts/icons/ds-icon.ttf?t=1680428043159') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('fonts/icons/ds-icon.svg?t=1680428043159#ds-icon') format('svg'); /* iOS 4.1- */
+}
+
+[class^="ds-icon-"], [class*=" ds-icon-"] {
+  font-family: 'ds-icon' !important;
+  font-size: 24px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ds-icon-arrow-up-right-large:before { content: "\ea01"; }
+.ds-icon-chevron-down:before { content: "\ea02"; }
+.ds-icon-error:before { content: "\ea03"; }
+.ds-icon-location:before { content: "\ea04"; }
+.ds-icon-send:before { content: "\ea05"; }
+
+$ds-icon-arrow-up-right-large: "\ea01";
+$ds-icon-chevron-down: "\ea02";
+$ds-icon-error: "\ea03";
+$ds-icon-location: "\ea04";
+$ds-icon-send: "\ea05";
+
