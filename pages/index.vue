@@ -15,7 +15,7 @@
           li(v-for="clinic in clinicsListAttr" :key="clinic.id")
             span.ds-icon-location
             .home-page__clinic-list-info
-              h3 {{ clinic.name }}
+              h3 {{ `${t('home.clinic')} ${clinic.name}` }}
               clinic-phones-list(
                 :clinic-attr="clinic"
                 :size="getPhoneListSize"
@@ -178,9 +178,8 @@ onUnmounted(resetAnimation)
       @include mediaMd {
         @include viewport-height;
         padding: $--desktop-cover-top-padding 0 $space-400;
-        max-width: $breakpoint-700;
+        max-width: $breakpoint-400;
         margin: 0 auto;
-        grid-template-rows: 1fr auto;
       }
     }
 
@@ -255,6 +254,10 @@ onUnmounted(resetAnimation)
       @include mediaSm {
         grid-template-columns: repeat(2, 1fr);
       }
+      @include mediaMd {
+        display: flex;
+        justify-content: space-around;
+      }
       > li {
         display: flex;
         column-gap: $space-200;
@@ -263,6 +266,9 @@ onUnmounted(resetAnimation)
           font-size: $icon-size-400;
           margin-top: $space-050;
         }
+        @include mediaMd {
+          max-width: rem(360);
+        }
       }
       > li + li {
         margin-top: $space-200;
@@ -270,7 +276,7 @@ onUnmounted(resetAnimation)
           margin: 0 0 0 $space-200;
         }
         @include mediaMd {
-          margin-left: $space-300;
+          margin: 0;
         }
       }
       &-info {
@@ -302,7 +308,7 @@ onUnmounted(resetAnimation)
     &-inner {
       @include mediaMd {
         margin: 0 auto;
-        max-width: $breakpoint-700;
+        max-width: $breakpoint-400;
       }
     }
     &-title {

@@ -10,7 +10,8 @@
     "contacts": "Contacts"
   },
   "home": {
-    "whatWeDo": "What we do"
+    "whatWeDo": "What we do",
+    "clinic": "Clinic"
   },
   "contacts": {
     "viewMap": "View map",

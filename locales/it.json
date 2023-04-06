@@ -10,7 +10,8 @@
     "contacts": "Contatti"
   },
   "home": {
-    "whatWeDo": "Cosa facciamo"
+    "whatWeDo": "Cosa facciamo",
+    "clinic": "Studio"
   },
   "contacts": {
     "viewMap": "Vai alla mappa",

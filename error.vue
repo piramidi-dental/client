@@ -49,7 +49,7 @@ const handleError = () => { clearError({ redirect: '/' }) }
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100%;
-    max-width: $breakpoint-500;
+    max-width: $breakpoint-400;
     margin: 0 auto;
   }
   img {

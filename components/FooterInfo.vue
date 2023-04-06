@@ -79,7 +79,7 @@ await retriveClinicsData()
     }
     @include mediaMd {
       margin: 0 auto;
-      max-width: $breakpoint-700;
+      max-width: $breakpoint-400;
       grid-template-columns: 1fr auto;
       grid-template-rows: repeat(3, auto) 1fr;
       row-gap: $space-200;
