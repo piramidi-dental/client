@@ -287,7 +287,7 @@ onUnmounted(resetAnimation)
           @include txt-title-300;
           color: $color-white;
         }
-        ::v-deep(ul) {
+        :deep(ul) {
           li + li {
             margin-top: $space-100;
           }

@@ -2,8 +2,6 @@
 import { TherapiesSections } from '@/types/enums'
 
 const { t } = useLang()
-const coverPage = await useCoverPage('therapies')
-const { $composeImageUri } = useNuxtApp()
 // const { handleWaveActivation } = useWaveController()
 
 useHead({
@@ -13,11 +11,6 @@ useHead({
 definePageMeta({
   title: 'therapies'
 })
-
-const getCoverImage = computed(() => ({
-  url: $composeImageUri(coverPage?.url as string),
-  alt: coverPage?.alternativeText
-}))
 
 // const mockAction = async () => {
 //   handleWaveActivation({ isActive: true, loadingText: 'Caricando...' })
@@ -30,23 +23,39 @@ const getCoverImage = computed(() => ({
 
 <template lang="pug">
 .therapies
-  .pages__cover-image
-    img(:src="getCoverImage.url" :alt="getCoverImage.alt")
-  .therapies__body
-    h2.pages__title {{ t('pages.therapies') }}
-    section-list(
-      v-for="item in Object.values(TherapiesSections)"
-      :key="item"
-      :section-name="item"
-      is-title-visible)
+  page-cover
+    .therapies__sections
+      div(v-for="item in Object.values(TherapiesSections)" :key="item")
+        section-list(
+          :section-name="item"
+          is-title-visible)
 </template>
 
 <style lang="scss" scoped>
 .therapies {
-  background-color: $color-white;
-  overflow: hidden;
-  &__body {
-    padding: $space-400 $space-200 $space-900;
+  &__sections {
+    padding-top: $space-200;
+    display: flex;
+    flex-direction: column;
+    row-gap: $space-600;
+
+    @include mediaSm {
+      padding-top: $space-500;
+      row-gap: $space-900;
+    }
+
+    @include mediaMd {
+      padding-top: $space-600;
+      row-gap: $space-600;
+    }
+
+    :deep(.pages__subtitle) {
+      margin-bottom: $space-200;
+
+      @include mediaSm {
+        margin-bottom: $space-300;
+      }
+    }
   }
 }
 </style>

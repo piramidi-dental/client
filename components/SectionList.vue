@@ -52,6 +52,6 @@ await findData()
 </script>
 
 <template lang="pug">
-h2.pages__subtitle(v-if="props.isTitleVisible && dataList.title") {{ dataList.title }}
+h3.pages__subtitle(v-if="props.isTitleVisible && dataList.title") {{ dataList.title }}
 component(:is="getComponentType" :component-data="getSectionData")
 </template>

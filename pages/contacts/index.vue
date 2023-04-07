@@ -11,6 +11,9 @@ definePageMeta({
 </script>
 
 <template lang="pug">
-.contacts
-  h1 contacts
+page-cover
 </template>
+
+<style lang="scss" scoped>
+// .clinic {}
+</style>
