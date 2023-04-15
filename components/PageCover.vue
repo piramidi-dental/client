@@ -6,6 +6,10 @@ const { $composeImageUri } = useNuxtApp()
 const pageName = route.meta.title as string
 const coverPage = await useCoverPage(pageName)
 
+useHead({
+  title: t(`pages.${pageName}`)
+})
+
 const getCoverImage = computed(() => ({
   url: $composeImageUri(coverPage?.url as string),
   alt: coverPage?.alternativeText
@@ -28,11 +32,7 @@ const getCoverImage = computed(() => ({
   overflow: hidden;
 
   &__header {
-    height: calc(#{$-mobile-cover-image} + #{$-mobile-header-height});
-
-    @include mediaSm {
-      height: calc(#{$-cover-image} + #{$-header-height});
-    }
+    text-align: center;
 
     &::before {
       content: "";
@@ -47,12 +47,13 @@ const getCoverImage = computed(() => ({
     }
 
     img {
-      height: $-mobile-cover-image;
       width: 100%;
+      height: 100vw;
+      max-height: calc(#{$-viewport-height} / 3);
       object-fit: cover;
 
-      @include mediaSm {
-        height: $-cover-image;
+      @include mediaMd {
+        max-width: $breakpoint-400;
       }
     }
   }

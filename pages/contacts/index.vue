@@ -1,10 +1,4 @@
 <script setup lang="ts">
-const { t } = useLang()
-
-useHead({
-  title: t('pages.contacts')
-})
-
 definePageMeta({
   title: 'contacts'
 })

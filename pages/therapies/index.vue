@@ -1,24 +1,9 @@
 <script setup lang="ts">
 import { TherapiesSections } from '@/types/enums'
 
-const { t } = useLang()
-// const { handleWaveActivation } = useWaveController()
-
-useHead({
-  title: t('pages.therapies')
-})
-
 definePageMeta({
   title: 'therapies'
 })
-
-// const mockAction = async () => {
-//   handleWaveActivation({ isActive: true, loadingText: 'Caricando...' })
-
-//   await usePageDelay()
-//   handleWaveActivation({ isActive: false })
-// }
-
 </script>
 
 <template lang="pug">
