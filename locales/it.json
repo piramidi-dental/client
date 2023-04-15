@@ -5,12 +5,13 @@
   },
   "pages": {
     "home": "Home",
-    "terapies": "Servizi e terapie",
+    "therapies": "Servizi e terapie",
     "clinic": "Lo studio",
     "contacts": "Contatti"
   },
   "home": {
-    "whatWeDo": "Cosa facciamo"
+    "whatWeDo": "Cosa facciamo",
+    "clinic": "Studio"
   },
   "contacts": {
     "viewMap": "Vai alla mappa",

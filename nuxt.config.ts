@@ -1,5 +1,6 @@
 
 import eslintPlugin from 'vite-plugin-eslint'
+import { Loading } from './types/enums'
 
 export default defineNuxtConfig({
   app: {
@@ -12,6 +13,10 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
       ]
+    },
+    pageTransition: {
+      mode: 'out-in',
+      duration: Loading.AnimationDelay
     }
   },
 

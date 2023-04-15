@@ -15,22 +15,22 @@
           li(v-for="clinic in clinicsListAttr" :key="clinic.id")
             span.ds-icon-location
             .home-page__clinic-list-info
-              h3 {{ clinic.name }}
-              ClinicPhonesList(
+              h3 {{ `${t('home.clinic')} ${clinic.name}` }}
+              clinic-phones-list(
                 :clinic-attr="clinic"
                 :size="getPhoneListSize"
                 has-icon
                 type="neutral")
       .home-page__cover-image(v-if="!isResponsiveMd")
         img(:src="getCoverImage.url" :alt="getCoverImage.alt")
-  section.home-page__terapies
-    .home-page__terapies-inner
-      h2.pages__title.home-page__terapies-title {{ t('home.whatWeDo') }}
-      TerapiesDentalTreatments
-      .home-page__terapies-link
-        UiDsLink(
-          :name="`${t('links.goTo')} ${t('pages.terapies')}`"
-          to="/terapies"
+  section.home-page__therapies
+    .home-page__therapies-inner
+      h2.pages__title.home-page__therapies-title {{ t('home.whatWeDo') }}
+      section-list(section-name="treatment")
+      .home-page__therapies-link
+        ui-ds-link(
+          :name="`${t('links.goTo')} ${t('pages.therapies')}`"
+          to="/therapies"
           arrow-icon
           :type="DsLinkType.Secondary")
 </template>
@@ -39,7 +39,6 @@
 import type { Clinic } from '@/types/contacts'
 import {
   DefaultValues,
-  Loading,
   NavHeader,
   DsLinkType
 } from '@/types/enums'
@@ -55,13 +54,7 @@ useHead({
 })
 
 definePageMeta({
-  title: 'Home',
-  loadingText: 'home',
-  pageTransition: {
-    mode: 'default',
-    duration: Loading.AnimationDelay
-  },
-  middleware: ['loading-text']
+  title: 'home'
 })
 
 const waveTemplate = useState<boolean>('wave-template')
@@ -73,13 +66,11 @@ const dentalTool = ref<HTMLElement | null>(null)
 const scrollEffects = ref<(HTMLElement | void)[]>([])
 const clinicsListAttr = ref()
 
-const getCoverImage = computed<IStringItem>(() => {
-  const _coverPage = (coverPage as IStringNumberNullItem)
-  return {
-    url: $composeImageUri(_coverPage.url as string),
-    alt: (_coverPage.alternativeText as string)
-  }
-})
+const getCoverImage = computed(() => ({
+  url: $composeImageUri(coverPage?.url as string),
+  alt: coverPage?.alternativeText
+}))
+
 const getPhoneListSize = computed(() => isResponsiveSm.value ? 'small' : 'normal')
 
 const scrollAnimationsHandler = () : void => {
@@ -97,7 +88,7 @@ const scrollAnimationsHandler = () : void => {
       const plxOption = ({
         dataTween: {
           fn: 'fromTo',
-          el: '.home-page__dental-tool',
+          el: (dentalTool.value as HTMLElement),
           from: { y: _dentalToolTop, duration: 1, ease: 'linear' },
           to: { y: -_toValue, duration: 1, ease: 'linear' }
         }
@@ -138,7 +129,6 @@ onMounted(() => {
   scrollAnimationsHandler()
 })
 onUnmounted(resetAnimation)
-
 </script>
 
 <style lang="scss" scoped>
@@ -188,9 +178,8 @@ onUnmounted(resetAnimation)
       @include mediaMd {
         @include viewport-height;
         padding: $--desktop-cover-top-padding 0 $space-400;
-        max-width: $breakpoint-700;
+        max-width: $breakpoint-400;
         margin: 0 auto;
-        grid-template-rows: 1fr auto;
       }
     }
 
@@ -265,13 +254,20 @@ onUnmounted(resetAnimation)
       @include mediaSm {
         grid-template-columns: repeat(2, 1fr);
       }
+      @include mediaMd {
+        display: flex;
+        justify-content: space-around;
+      }
       > li {
         display: flex;
         column-gap: $space-200;
         .ds-icon-location {
           color: $color-tertiary;
           font-size: $icon-size-400;
-          margin-top: $space-100;
+          margin-top: $space-050;
+        }
+        @include mediaMd {
+          max-width: rem(360);
         }
       }
       > li + li {
@@ -280,7 +276,7 @@ onUnmounted(resetAnimation)
           margin: 0 0 0 $space-200;
         }
         @include mediaMd {
-          margin-left: $space-300;
+          margin: 0;
         }
       }
       &-info {
@@ -291,7 +287,7 @@ onUnmounted(resetAnimation)
           @include txt-title-300;
           color: $color-white;
         }
-        ::v-deep(ul) {
+        :deep(ul) {
           li + li {
             margin-top: $space-100;
           }
@@ -300,7 +296,7 @@ onUnmounted(resetAnimation)
     }
   }
 
-  &__terapies {
+  &__therapies {
     background-color: $color-white;
     padding: calc(#{$space-400} - #{$space-200}) $space-200 $space-900;
     @include mediaSm {
@@ -312,7 +308,7 @@ onUnmounted(resetAnimation)
     &-inner {
       @include mediaMd {
         margin: 0 auto;
-        max-width: $breakpoint-700;
+        max-width: $breakpoint-400;
       }
     }
     &-title {
@@ -327,6 +323,14 @@ onUnmounted(resetAnimation)
       padding-top: $space-400;
       display: flex;
       justify-content: center;
+
+      @include mediaSm {
+        padding-top: $space-500;
+      }
+
+      @include mediaMd {
+        padding-top: $space-600;
+      }
     }
   }
 }

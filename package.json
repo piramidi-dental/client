@@ -4,7 +4,8 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "gen-icons": "svgtofont --sources public/icons --output assets/fonts/icons"
   },
   "devDependencies": {
     "@intlify/nuxt3": "^0.2.4",
@@ -22,6 +23,7 @@
     "sass-loader": "10",
     "scrollmagic": "^2.0.8",
     "scrollmagic-plugin-gsap": "^1.0.4",
+    "svgtofont": "^3.23.1",
     "typescript": "^4.7.4",
     "vite-plugin-eslint": "^1.6.1"
   }

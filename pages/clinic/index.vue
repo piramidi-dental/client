@@ -1,5 +1,13 @@
+<script setup lang="ts">
+definePageMeta({
+  title: 'clinic'
+})
+</script>
 
 <template lang="pug">
-.clinic
-  h1 clinic
+page-cover
 </template>
+
+<style lang="scss" scoped>
+// .clinic {}
+</style>

@@ -17,10 +17,10 @@ defineProps({
   }
 })
 
-const buttonEmit = defineEmits(['click'])
+const emit = defineEmits(['click'])
 
 const callbackHandler = () => {
-  buttonEmit('click')
+  emit('click')
 }
 </script>
 

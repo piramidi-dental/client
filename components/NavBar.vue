@@ -6,9 +6,9 @@
       @click="navigateTo({ path: '/' })")
       img(v-if="isResponsiveSm" src="/images/client_logo-circle-bw.svg" alt="client logo")
       h4.nav-bar__title {{ app.name }}
-    UiIconMenu(v-if="!isResponsiveMd")
+    ui-icon-menu(v-if="!isResponsiveMd")
     .nav-bar__list(v-else)
-      UiDsLink(
+      ui-ds-link(
         v-for="item in pagesList"
         :key="item.name"
         :disable="linkDisableHandle(item.name)"
@@ -26,7 +26,7 @@ const { isResponsiveSm, isResponsiveMd } = useMediaResponsive()
 
 const app = useState<IApp>('app')
 
-const linkDisableHandle = (title: string) : boolean => route.meta.title === $globalUtils.capitalizeString(title)
+const linkDisableHandle = (title: string) : boolean => route.meta.title === title
 
 const { data: pagesList } = useFetch<IStringItem[]>('/api/pages?toFilter=home')
 </script>
@@ -58,7 +58,7 @@ const { data: pagesList } = useFetch<IStringItem[]>('/api/pages?toFilter=home')
     @include mediaMd {
       padding: $space-200 0;
       margin: 0 auto;
-      max-width: $breakpoint-700
+      max-width: $breakpoint-400;
     }
   }
   &__logo-box {

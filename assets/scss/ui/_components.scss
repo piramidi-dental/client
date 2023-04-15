@@ -1,0 +1,20 @@
+
+.ds-component {
+  &__row {
+    padding: $space-200 0;
+    border-bottom: $border-size-200 solid $color-hard-neutral;
+    &-title {
+      @include txt-title-300;
+      @include mediaSm {
+        @include txt-title-400;
+      }
+    }
+    &-description {
+      @include txt-title-200;
+      color: $color-neutral;
+      @include mediaSm {
+        @include txt-title-300;
+      }
+    }
+  }
+}

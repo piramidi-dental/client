@@ -5,12 +5,13 @@
   },
   "pages": {
     "home": "Home",
-    "terapies": "Services and therapies",
+    "therapies": "Services and therapies",
     "clinic": "The clinic",
     "contacts": "Contacts"
   },
   "home": {
-    "whatWeDo": "What we do"
+    "whatWeDo": "What we do",
+    "clinic": "Clinic"
   },
   "contacts": {
     "viewMap": "View map",

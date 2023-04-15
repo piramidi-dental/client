@@ -1,0 +1,12 @@
+{
+  "fontName": "ds-icon",
+  "website": false,
+  "outSVGReact": false,
+  "css": {
+    "output": "./assets/scss/ui",
+    "fileName": "_icon",
+    "fontSize": "24px",
+    "cssPath": "./assets/fonts/icons/",
+    "include": "\\.(scss)$"
+  }
+}

@@ -39,4 +39,4 @@ declare interface IRequestError extends Error {
  Components
  */
 
-declare type componentType = 'list' | 'accordeon' | 'table'
+declare type componentType = 'list' | 'accordion' | 'table'
