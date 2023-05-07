@@ -9,7 +9,7 @@ definePageMeta({
 <template lang="pug">
 .therapies
   page-cover
-    .therapies__sections
+    .therapies__container
       div(v-for="item in Object.values(TherapiesSections)" :key="item")
         section-list(
           :section-name="item"
@@ -18,20 +18,15 @@ definePageMeta({
 
 <style lang="scss" scoped>
 .therapies {
-  &__sections {
+  &__container {
     padding-top: $space-200;
-    display: flex;
-    flex-direction: column;
-    row-gap: $space-600;
 
     @include mediaSm {
       padding-top: $space-500;
-      row-gap: $space-900;
     }
 
     @include mediaMd {
       padding-top: $space-600;
-      row-gap: $space-600;
     }
 
     :deep(.pages__subtitle) {

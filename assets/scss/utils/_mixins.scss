@@ -7,3 +7,12 @@
   height: 100vh;
   height: $-viewport-height;
 }
+
+/*
+ * Text
+*/
+
+@mixin text-space-wrap {
+  word-break: break-word;
+  white-space: pre-wrap;
+}

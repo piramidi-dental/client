@@ -51,3 +51,9 @@ export enum TherapiesSections {
   Specialisation = 'specialisation',
   Treatment = 'treatment'
 }
+
+export enum ClinicSections {
+  Doctor = 'doctor',
+  Assistant = 'assistant',
+  PatientBenefit = 'patient-benefit'
+}

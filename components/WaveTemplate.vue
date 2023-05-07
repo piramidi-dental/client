@@ -45,7 +45,7 @@ const tweenControllerNavBar = ref<GSAPTimeline | null>(null)
 const appIsMounted = ref<boolean>(false)
 const finishTimeout = ref<number>(DEF_FINISH_TIMEOUT_VALUE)
 const componentTransition = ref<string>('')
-const dynamicComponent = shallowRef(resolveComponent('LoadingSpinner'))
+const dynamicComponent = shallowRef(resolveComponent('loading-spinner'))
 const secondaryColor = ref<string>('transparent')
 
 const getWaveHeight = computed<string>(() => `${(!isResponsiveSm.value ? WAVE_HEIGHT.MOBILE : WAVE_HEIGHT.TABLET) / DefaultValues.Rem}rem`)
@@ -196,7 +196,7 @@ const navBarAnimation = () => {
 }
 
 const setLoadingConfig = () => {
-  dynamicComponent.value = resolveComponent('LoadingSpinner')
+  dynamicComponent.value = resolveComponent('loading-spinner')
   finishTimeout.value = DEF_FINISH_TIMEOUT_VALUE
 }
 
@@ -219,7 +219,7 @@ watch(() => waveController.value.isActive, (val: boolean) => {
   if (waveController.value.type === WaveType.Loading) {
     setLoadingConfig()
   } else {
-    dynamicComponent.value = resolveComponent('MobileMenu')
+    dynamicComponent.value = resolveComponent('mobile-menu')
     finishTimeout.value = 0
     $gsap.to('.nav-bar__logo-box', { opacity: 1, duration: 0 })
     animationActionsHandler([tweenControllerNavBar.value, 'play'])

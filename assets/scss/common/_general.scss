@@ -13,6 +13,14 @@
     @include txt-subtitle-400;
     color: $color-primary;
   }
+
+  &__description {
+    @include txt-title-150;
+    color: $color-neutral;
+    @include mediaSm {
+      @include txt-title-300;
+    }
+  }
 }
 
 a:-webkit-any-link {

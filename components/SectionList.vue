@@ -10,6 +10,11 @@ const props = defineProps({
   isTitleVisible: {
     type: Boolean,
     default: false
+  },
+
+  isDescriptionVisible: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -27,13 +32,13 @@ const getComponentType = computed(() => {
   const type = (dataList.value as ListAttributes).componentType as componentType
 
   return {
-    accordion: resolveComponent('UiDsAccordion'),
-    list: '',
-    table: resolveComponent('UiDsTable')
+    accordion: resolveComponent('ui-ds-accordion'),
+    list: resolveComponent('ui-ds-list'),
+    table: resolveComponent('ui-ds-table')
   }[type]
 })
 
-const findData = async () => {
+const retriveData = async () => {
   try {
     const listName = `${props.sectionName}-list`
     const { data: response, error } = await useAsyncData(listName, () => find<List>(listName, $apiParameters.population))
@@ -48,10 +53,11 @@ const findData = async () => {
   }
 }
 
-await findData()
+await retriveData()
 </script>
 
 <template lang="pug">
 h3.pages__subtitle(v-if="props.isTitleVisible && dataList.title") {{ dataList.title }}
+p.pages__description(v-if="props.isDescriptionVisible && dataList.description") {{ dataList.description }}
 component(:is="getComponentType" :component-data="getSectionData")
 </template>

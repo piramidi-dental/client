@@ -114,8 +114,8 @@ await retriveClinicsData()
     }
   }
   &__opening-hours{
-    white-space: pre;
     color: $color-neutral;
+    @include text-space-wrap;
     @include txt-body-500;
     @include mediaSm {
       @include txt-body-600;
