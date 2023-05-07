@@ -24,7 +24,7 @@ defineProps({
 <style lang="scss" scoped>
 .clinic-item {
   &__address {
-    white-space: pre;
+    @include text-space-wrap;
   }
 }
 </style>

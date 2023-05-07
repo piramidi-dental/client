@@ -73,6 +73,20 @@ const getCoverImage = computed(() => ({
         max-width: $breakpoint-400;
       }
     }
+
+    > div > :deep(div) {
+      display: flex;
+      flex-direction: column;
+      row-gap: $space-400;
+
+      @include mediaSm {
+        row-gap: $space-500;
+      }
+
+      @include mediaMd {
+        row-gap: $space-600;
+      }
+    }
   }
 }
 </style>
