@@ -8,7 +8,8 @@ type Clinic = {
     map: string,
     mobile: string,
     name: string,
-    phone: string
+    phone: string,
+    photo: string
   }
 }
 

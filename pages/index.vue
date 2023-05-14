@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import type { Clinic } from '@/types/contacts'
 import {
+  Pages,
   DefaultValues,
   NavHeader,
   DsLinkType
@@ -48,17 +49,17 @@ const { parallax, stylesEffect } = useScrollmagic()
 const coverPage = await useCoverPage('home')
 const { isResponsiveSm, isResponsiveMd } = useMediaResponsive()
 const { $composeImageUri } = useNuxtApp()
+const { retriveClinicsData, clinicsList } = useContacts()
 
 useHead({
   title: t('pages.home')
 })
 
 definePageMeta({
-  title: 'home'
+  title: Pages.Home
 })
 
 const waveTemplate = useState<boolean>('wave-template')
-const clinicsList = useState<Clinic[]>('clinics-list')
 const windowWidth = useState<number>('window-width')
 
 const pageIsMounted = ref<boolean>(false)
@@ -129,6 +130,8 @@ onMounted(() => {
   scrollAnimationsHandler()
 })
 onUnmounted(resetAnimation)
+
+if (!clinicsList.value.length) { await retriveClinicsData() }
 </script>
 
 <style lang="scss" scoped>

@@ -25,6 +25,13 @@ export enum NavHeader {
   Normal = 84
 }
 
+export enum Pages {
+  Home = 'home',
+  Therapies = 'therapies',
+  Clinc = 'clinic',
+  Contacts = 'contacts'
+}
+
 export enum Transition {
   Fade = 'fade'
 }
@@ -38,7 +45,7 @@ export enum DsLinkType {
   Primary = 'primary',
   Secondary = 'secondary',
   Tertiary = 'tertiary',
-  Neutral = 'neutral'
+  Negative = 'negative'
 }
 
 export enum DsLinkSize {
@@ -56,4 +63,9 @@ export enum ClinicSections {
   Doctor = 'doctor',
   Assistant = 'assistant',
   PatientBenefit = 'patient-benefit'
+}
+
+export enum ClinicsItemMode {
+  Card = 'card',
+  Footer = 'footer'
 }

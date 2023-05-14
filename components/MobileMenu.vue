@@ -47,7 +47,7 @@ const { data: pagesList } = useFetch<IStringItem[]>('/api/pages')
     }
     li {
       @include txt-title-400;
-      @include link-primary;
+      @include link-negative;
       cursor: pointer;
       @include mediaSm {
         @include txt-title-500;

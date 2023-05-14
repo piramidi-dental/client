@@ -43,7 +43,7 @@ defineProps({
   type: {
     type: String,
     required: false,
-    default: DsLinkType.Primary,
+    default: DsLinkType.Negative,
     validator: (value: string) => (Object.values(DsLinkType) as string[]).includes(value)
   }
 })

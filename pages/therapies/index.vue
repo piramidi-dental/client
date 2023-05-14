@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TherapiesSections } from '@/types/enums'
+import { Pages, TherapiesSections } from '@/types/enums'
 
 definePageMeta({
-  title: 'therapies'
+  title: Pages.Therapies
 })
 </script>
 

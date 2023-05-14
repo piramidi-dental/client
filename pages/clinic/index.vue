@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ClinicSections } from '@/types/enums'
+import { Pages, ClinicSections } from '@/types/enums'
 import type { ListAttributes, List } from '@/types/sectionList'
 import type { Doctors, DoctorListAttributes, Doctor } from '@/types/clinic'
 
 definePageMeta({
-  title: 'clinic'
+  title: Pages.Clinc
 })
 
 const { $apiParameters } = useNuxtApp()
@@ -12,15 +12,6 @@ const { find } = useStrapi4()
 
 const doctorsData = ref<DoctorListAttributes>()
 const benefitData = ref<ListAttributes>()
-
-const transformDoctorItems = (items: Doctor[]) => items.map(item => ({
-  ...item,
-  attributes: {
-    name: item.attributes.name,
-    description: item.attributes.roles,
-    text: item.attributes.experience
-  }
-}))
 
 const retriveDoctorData = async () => {
   try {
@@ -61,8 +52,11 @@ await Promise.all([retriveDoctorData(), retriveBenefitData()])
     .clinic__container
       p.pages__description {{ doctorsData.description }}
       ul.clinic__cards-list
-        li.clinic__card(v-for="doctor in transformDoctorItems(doctorsData.doctors.data)" :key="doctor.attributes.uuid")
-          ui-ds-card(:card-data="doctor.attributes")
+        li.clinic__card(v-for="doctor in doctorsData.doctors.data" :key="doctor.attributes.uuid")
+          ui-ds-card
+            h3.ds-card__title {{ doctor.attributes.name }}
+            p.ds-card__description {{ doctor.attributes.roles }}
+            p.ds-card__text {{ doctor.attributes.experience }}
       .clinic__assistants-list
         section-list(section-name="assistant" is-title-visible is-description-visible)
       .clinic__perks

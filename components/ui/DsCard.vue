@@ -1,20 +1,10 @@
-<script lang="ts" setup>
-defineProps({
-  cardData: {
-    type: Object,
-    required: true
-  }
-})
-</script>
 
 <template lang="pug">
 .ds-card
-  h3.ds-card__title {{ cardData.name }}
-  p.ds-card__description {{ cardData.description }}
-  p.ds-card__text {{ cardData.text }}
+  slot
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ds-card {
   padding: $space-100;
   border: $border-size-200 solid $color-hard-neutral;

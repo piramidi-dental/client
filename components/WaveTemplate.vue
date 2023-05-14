@@ -1,5 +1,5 @@
 <template lang="pug">
-.wave-template(ref="testRef" :class="{ 'wave-template--before-mount': !appIsMounted }")
+.wave-template(:class="{ 'wave-template--before-mount': !appIsMounted }")
   .wave-template__wrapper
     .wave-template__shape-divider
     svg.wave-template__svg(viewBox="0 0 1200 120" preserveAspectRatio="none")

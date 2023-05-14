@@ -23,7 +23,7 @@ const props = defineProps({
   type: {
     type: String,
     required: false,
-    default: DsLinkType.Primary,
+    default: DsLinkType.Negative,
     validator: (value: string) => (Object.values(DsLinkType) as string[]).includes(value)
   },
   size: {
@@ -119,8 +119,8 @@ const getClassModifiers = computed(() => [
     @include link-tertiary;
   }
 
-  &--neutral {
-    @include link-neutral;
+  &--negative {
+    @include link-negative;
   }
 }
 </style>

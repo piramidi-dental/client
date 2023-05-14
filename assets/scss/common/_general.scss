@@ -16,6 +16,7 @@
 
   &__description {
     @include txt-title-150;
+    @include text-space-wrap;
     color: $color-neutral;
     @include mediaSm {
       @include txt-title-300;

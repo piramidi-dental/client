@@ -2,7 +2,7 @@
 $color-transition: color $transition-300;
 
 @mixin link-primary {
-  color: $color-white;
+  color: $color-primary;
   transition: $color-transition;
   &:hover,
   &:focus,
@@ -31,8 +31,8 @@ $color-transition: color $transition-300;
   }
 }
 
-@mixin link-neutral {
-  color: $color-neutral;
+@mixin link-negative {
+  color: $color-white;
   transition: $color-transition;
   &:hover,
   &:focus,
